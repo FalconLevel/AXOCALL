@@ -39,7 +39,7 @@
                         <span class="toggle-icon"><i class="icon-menu"></i></span>
                     </div>
                 </div>
-                <div class="header-left">
+                {{-- <div class="header-left">
                     <div class="input-group icons">
                         <div class="input-group-prepend">
                             <span class="input-group-text bg-transparent border-0 pr-2 pr-sm-3" id="basic-addon1"><i class="mdi mdi-magnify"></i></span>
@@ -51,7 +51,7 @@
                             </form>
                         </div>
                     </div>
-                </div>
+                </div> --}}
                 <div class="header-right">
                     <ul class="clearfix">
                         <li class="icons dropdown"><a href="javascript:void(0)" data-toggle="dropdown">
@@ -212,3 +212,12 @@
         @include('partials.admin.sidebar')
 
         <div class="content-body">  
+            <div class="row page-titles mx-0">
+                <div class="col-6">
+                    <h1 class="module-title">{{ $title }}</h1>
+                    <p class="module-description">{{ $description }}</p>
+                </div>
+                <div class="col-6">
+                    <x-right-panel xtype='{{ $panel_type }}'/>
+                </div>
+            </div>

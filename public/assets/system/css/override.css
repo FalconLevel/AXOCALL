@@ -24,3 +24,22 @@
     -webkit-text-fill-color: transparent;
     background-image: var(--title-bg-image) !important;
 }
+
+.module-title {
+    font-weight: 900 !important;
+    font-size: 1.875rem !important;
+
+    opacity: 1 !important;
+    transform: none !important;
+    letter-spacing: -0.75px !important;
+    filter: drop-shadow(rgba(0, 0, 0, 0.05) 0px 1px 1px);
+
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-image: var(--title-bg-image) !important;
+}
+
+.form-control-xs {
+    height: 40px;
+}
