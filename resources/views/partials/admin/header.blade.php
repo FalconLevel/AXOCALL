@@ -11,11 +11,24 @@
     <title> AXOCALL - Secure Communication Platform </title>
 
     <link rel="shortcut icon" href="{{ asset('assets/axocall/icons/logo.svg') }}" type="image/x-icon">
+
+    <link
+      href="{{ asset('assets/system/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}"
+      rel="stylesheet"
+    />
     <link rel="stylesheet" href="{{ asset('assets/system/css/style.css') }}" type="text/css">
     <link rel="stylesheet" href="{{ asset('assets/system/css/override.css') }}" type="text/css">
 </head>
 
 <body class="h-100">
+
+    <div id="preloader">
+        <div class="loader">
+            <svg class="circular" viewBox="25 25 50 50">
+                <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10" />
+            </svg>
+        </div>
+    </div>
 
     <div id="main-wrapper">
 

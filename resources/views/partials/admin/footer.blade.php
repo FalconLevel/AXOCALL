@@ -11,6 +11,16 @@
     <script src="{{ asset('assets/system/js/settings.js') }}"></script>
     <script src="{{ asset('assets/system/js/gleek.js') }}"></script>
     <script src="{{ asset('assets/system/js/styleSwitcher.js') }}"></script>
+
+    <script src="{{ asset('assets/system/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/tables/js/datatable-init/datatable-basic.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets/system/plugins/tables/js/dataTables.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/tables/js/dataTables.responsive.min.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/tables/js/responsive.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/tables/js/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/tables/js/buttons.bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/tables/js/buttons.html5.min.js') }}"></script> --}}
     
 </body>
 </html>

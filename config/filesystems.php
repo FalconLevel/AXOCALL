@@ -59,7 +59,14 @@ return [
             'throw' => false,
             'report' => false,
         ],
-
+        'recordings' => [
+            'driver' => 'local',
+            'root' => public_path('assets/axocall/recordings'),
+            'url' => env('APP_URL').'/assets/axocall/recordings',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
     ],
 
     /*
