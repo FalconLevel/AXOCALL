@@ -116,25 +116,4 @@ class FetchTwilioRecordings extends Command
         }, explode('|', config('twilio.twilio.number')));
     }
     
-    // private function getTranscriptionDetails($recording_sid, $media_url)
-    // {
-    //     $transcription_url = $media_url.'.json';
-    //     $response = Http::withHeaders([
-    //         'Authorization' => 'Basic '.base64_encode(config('twilio.twilio.sid').':'.config('twilio.twilio.token')),
-    //     ])->get($media_url);
-        
-    //     if ($response->successful()) {
-    //         $file_name = $recording_sid.'.mp3';
-    //         $file_path = storage_path('app/recordings/'.$file_name);
-    //         $file_url = Storage::disk('recordings')->put($file_name, $response->body());
-            
-    //         return [
-    //             'recording_url' => $media_url,
-    //             'recording_filename' => $file_name,
-    //         ];
-    //     }
-        
-    //     return ['recording_url' => '', 'recording_filename' => ''];
-    // }
-
 }
