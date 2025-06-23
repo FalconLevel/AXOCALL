@@ -16,8 +16,10 @@
       href="{{ asset('assets/system/plugins/tables/css/datatable/dataTables.bootstrap4.min.css') }}"
       rel="stylesheet"
     />
-    <link rel="stylesheet" href="{{ asset('assets/system/css/style.css') }}" type="text/css">
-    <link rel="stylesheet" href="{{ asset('assets/system/css/override.css') }}" type="text/css">
+    <link href="{{ asset('assets/system/plugins/toastr/css/toastr.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/system/plugins/jquery-asColorPicker-master/css/asColorPicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/system/css/style.css') }}" type="text/css" rel="stylesheet">
+    <link href="{{ asset('assets/system/css/override.css') }}" type="text/css" rel="stylesheet">
 </head>
 
 <body class="h-100">
@@ -201,12 +203,12 @@
                                 <div class="dropdown-content-body">
                                     <ul>
                                         <li>
-                                            <a href="javascript:void()">
+                                            <a href="{{ route('maintenance.settings') }}">
                                                 <i class="icon-envelope-open"></i> <span>Settings</span>
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="app-profile.html"><i class="icon-user"></i> <span>Profile</span></a>
+                                            <a href="{{ route('maintenance.profile') }}"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>
                                         
                                         

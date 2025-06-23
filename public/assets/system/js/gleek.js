@@ -1,6 +1,5 @@
-
-(function($) {
-    "use strict"
+(function ($) {
+    "use strict";
 
     new quixSettings({
         version: "light", //2 options "light" and "dark"
@@ -11,11 +10,9 @@
         sidebarBg: "color_1", //have 10 options, "color_1" to "color_10"
         sidebarPosition: "static", //have two options, "static" and "fixed"
         headerPosition: "static", //have two options, "static" and "fixed"
-        containerLayout: "wide",  //"boxed" and  "wide". If layout "vertical" and containerLayout "boxed", sidebarStyle will automatically turn into "overlay".
-        direction: "ltr" //"ltr" = Left to Right; "rtl" = Right to Left
+        containerLayout: "wide", //"boxed" and  "wide". If layout "vertical" and containerLayout "boxed", sidebarStyle will automatically turn into "overlay".
+        direction: "ltr", //"ltr" = Left to Right; "rtl" = Right to Left
     });
-
-
 })(jQuery);
 
 // // data-sibebarbg="color_2"

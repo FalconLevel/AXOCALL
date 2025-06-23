@@ -48,3 +48,17 @@
     width: 18px !important;
     height: 18px !important;
 }
+
+.asColorPicker-color {
+    height: 100% !important;
+    background-color: #491515 !important;
+}
+
+.tag-labels {
+    opacity: 0.6 !important;
+    transition: opacity 0.2s ease-in-out !important;
+}
+
+.tag-labels:hover {
+    opacity: 1 !important;
+}

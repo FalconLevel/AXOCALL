@@ -48,4 +48,19 @@ class ModuleController extends Controller
         $this->data['panel_type'] = 'follow_ups';
         return view('pages.admin.follow_ups', $this->data);
     }
+
+    public function settings() {
+        $this->data['title'] = 'Application Settings';
+        $this->data['description'] = 'Customize and manage your AXOCALL system preferences.';
+        $this->data['panel_type'] = 'settings';
+        return view('pages.admin.maintenance.settings', $this->data);
+    }
+
+    public function profile() {
+        $this->data['title'] = 'Profile';
+        $this->data['description'] = 'Manage your profile and preferences.';
+        $this->data['panel_type'] = 'profile';
+        return view('pages.admin.maintenance.profile', $this->data);
+    }
+
 }
