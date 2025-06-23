@@ -55,10 +55,13 @@
 }
 
 .tag-labels {
-    opacity: 0.6 !important;
+    opacity: 0.7 !important;
     transition: opacity 0.2s ease-in-out !important;
+
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.4) !important;
 }
 
 .tag-labels:hover {
     opacity: 1 !important;
+    text-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;
 }

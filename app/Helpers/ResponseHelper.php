@@ -16,8 +16,8 @@ class ResponseHelper {
             case 'fetch-tag':
                 $html = '';
                 foreach ($data as $tag) {
-                    $html .= '<span class="mr-2 p-2 text-white label label-pill tag-labels" style="background-color: '.$tag['tag_color'].' !important;">'.
-                        $tag['tag_name'].' 
+                    $html .= '<span class="mr-2 p-2 text-white label label-pill tag-labels" style="background-color: '.$tag['tag_color'].' !important;">
+                    '.ucfirst(strtolower($tag['tag_name'])).' 
                         <a href="javascript:void(0)" class="text-white" data-trigger="delete-tag" data-id="'.$tag['id'].'">
                             <i class="fa fa-trash"></i></a>
                         </span>';
