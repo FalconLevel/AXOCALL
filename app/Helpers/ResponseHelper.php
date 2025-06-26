@@ -33,4 +33,8 @@ class ResponseHelper {
 
         return ['js' => $script];
     }
+
+    function contactResponse(array $data, string $message='', string $toast_type = 'success', string $title = 'System Info'): array {
+        return [];
+    }
 }

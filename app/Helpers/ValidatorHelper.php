@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Validator;
 
 class ValidatorHelper {
     const EXCLUDED_FIELDS = [
-        'ConfirmPassword'
+        'ConfirmPassword', 'PhoneNumbers', 'Tags'
     ];
     public function validate(string $type, Request $request): array {
         
@@ -49,6 +49,12 @@ class ValidatorHelper {
                 return [
                     'tag_name' => 'required|string|max:255',
                     'tag_color' => 'required|string|max:255',
+                ];
+            case 'contact_save':
+                return [
+                    'first_name' => 'required|string|max:255',
+                    'last_name' => 'required|string|max:255',
+                    'notes' => 'nullable|string|max:255',
                 ];
         }
     }

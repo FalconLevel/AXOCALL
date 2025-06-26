@@ -1,67 +1,69 @@
 @include('partials.admin.header')
 <div class="container-fluid">
-    <div class="row">
-        <div class="col-lg-3 col-sm-6">
+
+    <div class="dashboard-cards-row mb-4">
+        <div class="dashboard-card-col">
             <div class="card gradient-1">
                 <div class="card-body">
                     <h3 class="card-title text-white">Total Calls</h3>
                     <div class="d-inline-block">
                         <h2 class="text-white">4565</h2>
-                        <p class="text-white mb-0">As of Today</p>
+                        <p class="text-white mb-0"></p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-phone"></i></span>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6">
+        <div class="dashboard-card-col">
             <div class="card gradient-2">
                 <div class="card-body">
                     <h3 class="card-title text-white">Appointments Booked</h3>
                     <div class="d-inline-block">
                         <h2 class="text-white">0</h2>
-                        <p class="text-white mb-0">As of Today</p>
+                        <p class="text-white mb-0"></p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa-regular fa-calendar-check"></i></span>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6">
+        <div class="dashboard-card-col">
             <div class="card gradient-3">
                 <div class="card-body">
                     <h3 class="card-title text-white">Active Extensions</h3>
                     <div class="d-inline-block">
                         <h2 class="text-white">4565</h2>
-                        <p class="text-white mb-0">As of Today</p>
+                        <p class="text-white mb-0"></p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-users"></i></span>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6">
+        <div class="dashboard-card-col">
             <div class="card gradient-4">
                 <div class="card-body">
                     <h3 class="card-title text-white">Total SMS</h3>
                     <div class="d-inline-block">
                         <h2 class="text-white">99</h2>
-                        <p class="text-white mb-0">Jan - March 2019</p>
+                        <p class="text-white mb-0"></p>
                     </div>
                     <span class="float-right display-5 opacity-5"><i class="fa fa-envelope"></i></span>
                 </div>
             </div>
         </div>
-        <div class="col-lg-3 col-sm-6">
+        <div class="dashboard-card-col">
             <div class="card gradient-5">
                 <div class="card-body">
-                    <h3 class="card-title text-white">Total SMS</h3>
+                    <h3 class="card-title text-white">Follow Up Items</h3>
                     <div class="d-inline-block">
-                        <h2 class="text-white">99</h2>
-                        <p class="text-white mb-0">Jan - March 2019</p>
+                        <h2 class="text-white">123</h2>
+                        <p class="text-white mb-0"></p>
                     </div>
-                    <span class="float-right display-5 opacity-5"><i class="fa fa-envelope"></i></span>
+                    <span class="float-right display-5 opacity-5"><i class="fa-regular fa-flag"></i></span>
                 </div>
             </div>
         </div>
     </div>
+    
     <div class="row">
         <div class="col-lg-12">
             <div class="row">

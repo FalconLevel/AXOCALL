@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Communication;
+use App\Models\Contact;
 use Illuminate\Http\Request;
 
 class ModuleController extends Controller
@@ -12,7 +13,7 @@ class ModuleController extends Controller
         $this->data = [];
     }
 
-    public function dashboard(){
+    public function dashboard() {
         $this->data['title'] = 'Dashboard Overview';
         $this->data['description'] = "Welcome back! Here's what's happening with your communications.";
         $this->data['panel_type'] = 'dashboard';
@@ -28,21 +29,23 @@ class ModuleController extends Controller
         return view('pages.admin.communications', $this->data);
     }
 
-    public function contacts(){
+    public function contacts() {
         $this->data['title'] = 'Contacts';
         $this->data['description'] = 'Manage your contacts, extensions, and caller information.';
         $this->data['panel_type'] = 'contacts';
+        $this->data['tags'] = globalHelper()->getTags();
         return view('pages.admin.contacts', $this->data);
     }
 
-    public function extensions(){
+    public function extensions() {
         $this->data['title'] = 'Extensions';
         $this->data['description'] = 'Browse, add, or edit extensions in your directory.';
         $this->data['panel_type'] = 'extensions';
+        $this->data['contacts'] = Contact::all();
         return view('pages.admin.extensions', $this->data);
     }
 
-    public function follow_ups(){
+    public function follow_ups() {
         $this->data['title'] = 'Follow Ups';
         $this->data['description'] = 'Manage your flagged calls and SMS messages that need follow-up';
         $this->data['panel_type'] = 'follow_ups';

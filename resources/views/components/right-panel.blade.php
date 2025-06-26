@@ -23,7 +23,7 @@
 
         <li class="nav-item">
             {{-- <a href="#navpills-3" class="nav-link" data-toggle="tab" aria-expanded="true"> --}}
-                <button type="button" class="btn mb-1 btn-rounded btn-outline-danger">Export Report</button>
+                <button type="button" class="btn mb-1  btn-outline-danger">Export Report</button>
                 
             {{-- </a> --}}
         </li>
@@ -33,13 +33,13 @@
         <input type="text" class="form-control form-control-xs w-50" placeholder="Search Contact">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-rounded btn-outline-danger">
+                <button type="button" class="btn ml-1  btn-outline-danger">
                     <i class="fa fa-download"></i>
                     Export
                 </button>
             </li>
             <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-rounded btn-outline-primary">
+                <button type="button" class="btn ml-1  btn-outline-primary" data-trigger="modal"  data-modal="{{$xtype}}">
                     <i class="fa fa-user-plus"></i>
                     Add Contact
                 </button>
@@ -51,15 +51,15 @@
         <input type="text" class="form-control form-control-xs w-50" placeholder="Search Extensions">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-rounded btn-outline-danger">
+                <button type="button" class="btn ml-1  btn-outline-danger">
                     <i class="fa fa-download"></i>
                     Export
                 </button>
             </li>
             <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-rounded btn-outline-primary">
+                <button type="button" class="btn ml-1  btn-outline-primary" data-trigger="add-extension" data-modal="extension-modal">
                     <i class="fa fa-user-plus"></i>
-                    Add Contact
+                    Add Extension
                 </button>
             </li>
         </ul>
@@ -69,30 +69,25 @@
         <input type="text" class="form-control form-control-xs w-50" placeholder="Search Logs">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-rounded btn-outline-danger">
+                <button type="button" class="btn ml-1  btn-outline-danger">
                     <i class="fa fa-download"></i>
                     Export
                 </button>
             </li>
-            <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-rounded btn-outline-primary">
-                    <i class="fa fa-user-plus"></i>
-                    Add Contact
-                </button>
-            </li>
+            
         </ul>
     </div>
 @elseif($xtype == 'follow_ups')
     
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-rounded btn-outline-danger">
+                <button type="button" class="btn ml-1  btn-outline-danger">
                     <i class="fa fa-download"></i>
                     Active
                 </button>
             </li>
             <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-rounded btn-outline-primary">
+                <button type="button" class="btn ml-1  btn-outline-primary">
                     <i class="fa fa-user-plus"></i>
                     Archived
                 </button>

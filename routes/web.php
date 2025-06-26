@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Exec\ContactController;
+use App\Http\Controllers\Exec\ExtensionController;
 use App\Http\Controllers\Exec\TagController;
 use App\Http\Controllers\ModuleController;
 use Illuminate\Support\Facades\Route;
@@ -34,7 +36,22 @@ Route::group(['prefix' => 'executor'], function () {
 
     Route::group(['prefix' => 'communications'], function () {
         Route::post('/', [ModuleController::class, 'communications'])->name('executor.communications');
+    }); 
+
+    // Contacts routes using Exec\ContactController
+    Route::group(['prefix' => 'contacts'], function () {
+        Route::post('/all', [ContactController::class, 'all'])->name('executor.contacts.all');
+        Route::post('/save', [ContactController::class, 'save'])->name('executor.contacts.save');
+        Route::post('/update/{id}', [ContactController::class, 'update'])->name('executor.contacts.update');
+        Route::post('/delete/{id}', [ContactController::class, 'delete'])->name('executor.contacts.delete');
+        Route::post('/edit/{id}', [ContactController::class, 'edit'])->name('executor.contacts.edit');
     });
-    
-    
+
+    Route::group(['prefix' => 'extensions'], function () {
+        Route::post('/all', [ExtensionController::class, 'all'])->name('executor.extensions.all');
+        Route::post('/save', [ExtensionController::class, 'save'])->name('executor.extensions.save');
+        Route::post('/update/{id}', [ExtensionController::class, 'update'])->name('executor.extensions.update');
+        Route::post('/delete/{id}', [ExtensionController::class, 'delete'])->name('executor.extensions.delete');
+        Route::post('/edit/{id}', [ExtensionController::class, 'edit'])->name('executor.extensions.edit');
+    });
 });

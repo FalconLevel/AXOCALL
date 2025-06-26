@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\CommunicationController;
+use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -18,4 +19,24 @@ Route::prefix('tags')->group(function () {
     Route::post('/all', [TagController::class, 'all']);
     Route::post('/save', [TagController::class, 'save']);
     Route::post('/delete/{id}', [TagController::class, 'delete']);
+});
+
+Route::prefix('contacts')->group(function () {
+    Route::post('/all', [ContactController::class, 'all']);
+    Route::post('/save', [ContactController::class, 'save']);
+    Route::post('/edit/{id}', [ContactController::class, 'edit']);
+    Route::post('/update/{id}', [ContactController::class, 'update']);
+    Route::post('/delete/{id}', [ContactController::class, 'delete']);
+    Route::post('/{id}/phone-numbers', [ContactController::class, 'phoneNumbers']);
+});
+
+
+use App\Http\Controllers\Api\ExtensionController;
+
+Route::prefix('extensions')->group(function () {
+    Route::post('/all', [ExtensionController::class, 'all']);
+    Route::post('/save', [ExtensionController::class, 'save']);
+    Route::post('/edit/{id}', [ExtensionController::class, 'edit']);
+    Route::post('/update/{id}', [ExtensionController::class, 'update']);
+    Route::post('/delete/{id}', [ExtensionController::class, 'delete']);
 });

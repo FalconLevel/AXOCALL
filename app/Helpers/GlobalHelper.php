@@ -3,6 +3,7 @@
 declare(strict_types=1);
 namespace App\Helpers;
 
+use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
@@ -33,6 +34,16 @@ class GlobalHelper {
 
     public function logInfo(string $message): void {
         Log::channel('info')->info($message);
+    }
+
+    public function getTags(): array {
+        try {
+            $tags = Tag::orderBy('tag_name', 'asc')->get();
+            return $tags->toArray();
+        } catch (\Exception $e) {
+            $this->logInfo("Error fetching tags: " . $e->getMessage());
+            return [];
+        }
     }
 
 }

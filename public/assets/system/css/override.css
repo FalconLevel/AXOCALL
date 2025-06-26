@@ -65,3 +65,58 @@
     opacity: 1 !important;
     text-shadow: 0 0 10px rgba(0, 0, 0, 0.8) !important;
 }
+
+.text-label {
+    color: #313131 !important;
+}
+
+textarea {
+    resize: none !important;
+}
+
+.cursor-pointer {
+    cursor: pointer !important;
+}
+
+.cursor-pointer:hover {
+    opacity: 0.8 !important;
+}
+
+.phone-card {
+    border: 1px solid #e0e0e0 !important;
+    border-radius: 0.25rem !important;
+    padding: 0.8rem !important;
+    margin-bottom: 0.5rem !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+.modal-body {
+    max-height: 70vh !important;
+    overflow-y: auto !important;
+}
+
+.dashboard-cards-row {
+    display: flex;
+    flex-wrap: nowrap;
+    width: 100%;
+    gap: 24px;
+}
+.dashboard-cards-row > .dashboard-card-col {
+    flex: 1 1 0;
+    min-width: 0;
+}
+@media (max-width: 1200px) {
+    .dashboard-cards-row {
+        flex-wrap: wrap;
+    }
+    .dashboard-cards-row > .dashboard-card-col {
+        flex: 1 1 50%;
+        min-width: 250px;
+        margin-bottom: 16px;
+    }
+}
+@media (max-width: 768px) {
+    .dashboard-cards-row > .dashboard-card-col {
+        flex: 1 1 100%;
+    }
+}
