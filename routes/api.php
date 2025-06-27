@@ -43,3 +43,8 @@ Route::prefix('extensions')->group(function () {
     Route::post('/update/{id}', [ExtensionController::class, 'update']);
     Route::post('/delete/{id}', [ExtensionController::class, 'delete']);
 });
+
+Route::prefix('communications')->group(function () {
+    Route::post('/archive/{id}/{type}', [CommunicationController::class, 'archive']);
+    Route::post('/un-archive/{id}/{type}', [CommunicationController::class, 'unArchive']);
+});

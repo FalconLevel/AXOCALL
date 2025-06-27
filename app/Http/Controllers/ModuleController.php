@@ -51,6 +51,12 @@ class ModuleController extends Controller
         $this->data['title'] = 'Follow Ups';
         $this->data['description'] = 'Manage your flagged calls and SMS messages that need follow-up';
         $this->data['panel_type'] = 'follow_ups';
+        $this->data['communications'] = Communication::where('is_archived', 'yes')
+        ->orderBy('date_time', 'desc')->get();
+        
+        $this->data['messages'] = Message::where('is_archived', 'yes')
+        ->orderBy('date_sent', 'desc')->get();
+        
         return view('pages.admin.follow_ups', $this->data);
     }
 

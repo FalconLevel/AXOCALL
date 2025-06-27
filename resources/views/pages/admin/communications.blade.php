@@ -14,7 +14,6 @@
                 SMS Logs
             </a>
         </li>
-        
     </ul>
     <div class="tab-content br-n pn">
         <div id="call-logs" class="tab-pane active">
@@ -62,10 +61,21 @@
                                                         data-recording-url="{{ $communication->recording_url_axocall ? asset($communication->recording_url_axocall) : '' }}"
                                                     >
                                                         <i class="fa-regular fa-circle-play"></i>
-                                                    </a>
+                                                    </a>&nbsp;
+                                                    
                                                     
                                                 </td>
-                                                <td></td>
+                                                <td>
+                                                    @if($communication->is_archived == 'no' || $communication->is_archived == null)
+                                                        <a href="javascript:void(0)" class="text-secondary svg-icon" data-trigger="archive" data-id="{{ $communication->id }}" data-type="communication">
+                                                            <i class="fa-regular fa-flag"></i>
+                                                        </a>
+                                                    @else
+                                                        <a href="javascript:void(0)" class="text-success svg-icon">
+                                                            <i class="fa-regular fa-check-circle"></i>
+                                                        </a>
+                                                    @endif
+                                                </td>
                                                 
                                             </tr>
                                         @endforeach
@@ -113,13 +123,9 @@
                                                        data-message="{{ $message->message_body }}">
                                                         <i class="fa-regular fa-note-sticky"></i>
                                                     </a>&nbsp;
-                                                    <a href="javascript:void(0)" class="text-secondary svg-icon">
+                                                    <a href="javascript:void(0)" class="text-secondary svg-icon" data-trigger="archive" data-id="{{ $message->id }}" data-type="message">
                                                         <i class="fa-regular fa-flag"></i>
-                                                    </a>&nbsp;
-                                                    <a href="javascript:void(0)" class="text-primary svg-icon">
-                                                        <i class="fa-regular fa-eye"></i>
                                                     </a>
-                                                    
                                                 </td>
                                             </tr>
                                         @endforeach

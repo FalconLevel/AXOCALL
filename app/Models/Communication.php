@@ -29,6 +29,7 @@ class Communication extends Model
         'sentiment',
         'keywords',
         'is_booked',
+        'is_archived',
         'status',
         'modified_by'
     ];

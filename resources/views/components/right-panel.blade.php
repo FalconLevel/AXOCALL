@@ -81,16 +81,16 @@
     
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-outline-danger">
-                    <i class="fa fa-download"></i>
+                <a href="#active" class="nav-link active text-center" data-toggle="tab" aria-expanded="false">
+                    <i class="fa fa-clock"></i>
                     Active
-                </button>
+                </a>   
             </li>
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-outline-primary">
-                    <i class="fa fa-user-plus"></i>
+                <a href="#archived" class="nav-link text-center" data-toggle="tab" aria-expanded="false">
+                    <i class="fa fa-archive"></i>
                     Archived
-                </button>
+                </a>
             </li>
         </ul>
     

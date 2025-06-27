@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('status')->nullable();
             $table->string('error_message')->nullable();
             $table->string('error_code')->nullable();
+            $table->string('is_archived')->nullable();
             $table->timestamps();
         });
     }

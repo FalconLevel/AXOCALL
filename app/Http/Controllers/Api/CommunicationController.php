@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Communication;
+use App\Models\Message;
 use App\Services\SentimentAnalysisService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
@@ -254,4 +255,61 @@ class CommunicationController extends Controller {
             'data' => $stats
         ]);
     }
+
+    public function archive(string $id, string $type): JsonResponse
+    {
+        try {
+            if ($type == "communication") {
+                $communication = Communication::find($id);
+                $communication->update([
+                    'is_archived' => 'yes'
+                ]);
+            } elseif ($type == "message") {
+                $message = Message::find($id);
+                $message->update([
+                    'is_archived' => 'yes'
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => ucfirst($type) . ' archived successfully',
+                'data' => $communication ?? $message
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to archive ' . ucfirst($type) . ' ' . $id,
+                'error' => $e->getMessage()
+            ], 500);
+        } 
+    }
+
+    public function unArchive(string $id, string $type): JsonResponse
+    {
+        try {
+            if ($type == "communication") {
+                $communication = Communication::find($id);
+                $communication->update([
+                    'is_archived' => 'no'
+                ]);
+            } elseif ($type == "message") { 
+                $message = Message::find($id);
+                $message->update([
+                    'is_archived' => 'no'
+                ]);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => ucfirst($type) . ' unarchived successfully',
+                'data' => $communication ?? $message
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to unarchive ' . ucfirst($type) . ' ' . $id,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }       
 }
