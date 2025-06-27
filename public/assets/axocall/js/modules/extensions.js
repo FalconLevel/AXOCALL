@@ -60,6 +60,71 @@ function _renderExtensions(extensions) {
     });
     _init_extension_actions();
 }
+function _loadExtensionForEdit(extension) {
+    console.log(extension);
+    // Populate form fields with extension data
+    $("#edit_extension_id").val(extension.id);
+    $("#edit_contact_id").val(extension.contact_id);
+    $("#edit_extension_number").val(extension.extension_number);
+    $("#edit_expiration").val(extension.expiration);
+    $("#edit_notes").val(extension.notes);
+
+    // Load phone numbers for the selected contact
+    _loadPhoneNumbersForContact(extension.contact_id, extension.phone_id);
+
+    // Show contact info if available
+    if (extension.contact) {
+        $("#edit-contact-info-display").html(`
+            <strong>${extension.contact.first_name} ${extension.contact.last_name}</strong><br>
+            <small>${extension.phone.phone_number}</small>
+        `);
+        $("#edit-selected-contact-info").show();
+    }
+}
+
+function _loadPhoneNumbersForContact(contactId, selectedPhoneId = null) {
+    if (!contactId) {
+        $("#edit_phone_number")
+            .empty()
+            .append('<option value="">Select Phone Number</option>');
+        return;
+    }
+
+    $.ajax({
+        url: `/api/contacts/${contactId}/phones`,
+        method: "GET",
+        headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
+        success: function (res) {
+            if (res.status === "success") {
+                const phoneSelect = $("#edit_phone_number");
+                phoneSelect
+                    .empty()
+                    .append('<option value="">Select Phone Number</option>');
+
+                res.data.forEach(function (phone) {
+                    const isSelected =
+                        selectedPhoneId && phone.id == selectedPhoneId;
+                    phoneSelect.append(`
+                        <option value="${
+                            phone.phone_number
+                        }" data-phone-id="${phone.id}" ${isSelected ? "selected" : ""}>
+                            ${
+                                phone.phone_number
+                            } ${phone.phone_ext ? `(${phone.phone_ext})` : ""} ${phone.phone_type ? `- ${phone.phone_type}` : ""}
+                        </option>
+                    `);
+                });
+            }
+        },
+        error: function () {
+            _show_toastr(
+                "error",
+                "Failed to load phone numbers",
+                "System Error"
+            );
+        },
+    });
+}
 
 function _editExtension(id) {
     $.ajax({
@@ -68,12 +133,12 @@ function _editExtension(id) {
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
             if (res.status === "success" && res.data) {
-                _populateExtensionModal(res.data);
-                $("#extension-modal .modal-title").text("Edit Extension");
-                $('#extension-modal [data-trigger="save-extension"]')
+                _loadExtensionForEdit(res.data);
+                $("#extension-modal-edit .modal-title").text("Edit Extension");
+                $('#extension-modal-edit [data-trigger="update-extension"]')
                     .attr("data-mode", "edit")
                     .attr("data-id", id);
-                $("#extension-modal").modal("show");
+                $("#extension-modal-edit").modal("show");
             } else {
                 _show_toastr(
                     "error",
@@ -117,7 +182,7 @@ function _deleteExtension(id) {
 }
 
 function _populateExtensionModal(extension) {
-    let modal = $("#extension-modal");
+    let modal = $("#extension-modal-edit");
     modal
         .find('[data-key="extension_number"]')
         .val(extension.extension_number || "");
@@ -175,7 +240,7 @@ function _init_extension_actions() {
                                 res.message || "Extension saved successfully",
                                 "System Info"
                             );
-                            $("#extension-modal").modal("hide");
+                            $("#extension-modal-edit").modal("hide");
                             _fetchExtensions();
                         } else {
                             _show_toastr(

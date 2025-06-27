@@ -30,6 +30,8 @@
 </div>
 
 @include('components.modals')
+@include('components.contact-modal-edit')
 @include('partials.admin.footer')
 
 <script src="{{ asset('assets/axocall/js/modules/contacts.js') }}"></script>
+<script src="{{ asset('assets/axocall/js/modules/contact-edit.js') }}"></script>

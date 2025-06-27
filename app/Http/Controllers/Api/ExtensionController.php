@@ -66,7 +66,7 @@ class ExtensionController extends Controller
      */
     public function edit($id)
     {
-        $extension = Extension::with('contact')->find($id);
+        $extension = Extension::with('contact', 'phone')->find($id);
 
         if (!$extension) {
             return response()->json([

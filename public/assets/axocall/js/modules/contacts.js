@@ -9,9 +9,7 @@ function _fetchContacts() {
         method: "POST",
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
-            console.log(res);
             if (res.status === "success") {
-                console.log(res.data);
                 _renderContacts(res.data);
             } else {
                 _show_toastr(
@@ -83,12 +81,12 @@ function _editContact(id) {
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
             if (res.status === "success" && res.data) {
-                _populateContactModal(res.data);
-                $("#contacts-modal .modal-title").text("Edit Contact");
-                $('#contacts-modal [data-trigger="save-contact"]')
+                loadContactForEdit(id);
+                $("#contact-modal-edit .modal-title").text("Edit Contact");
+                $('#contact-modal-edit [data-trigger="save-contact"]')
                     .attr("data-mode", "edit")
                     .attr("data-id", id);
-                $("#contacts-modal").modal("show");
+                $("#contact-modal-edit").modal("show");
             } else {
                 _show_toastr(
                     "error",
@@ -133,24 +131,26 @@ function _deleteContact(id) {
 
 function _populateContactModal(contact) {
     let modal = $("#contacts-modal");
-    modal.find('[data-key="FirstName"]').val(contact.FirstName || "");
-    modal.find('[data-key="LastName"]').val(contact.LastName || "");
-    modal.find('[data-key="Notes"]').val(contact.Notes || "");
+    modal.find('[data-key="FirstName"]').val(contact.first_name || "");
+    modal.find('[data-key="LastName"]').val(contact.last_name || "");
+    modal.find('[data-key="Notes"]').val(contact.notes || "");
     // Phones
     let phoneContainer = modal.find(".phone-card-container");
-    phoneContainer.empty();
-    (contact.phoneNumbers || [{}]).forEach(function (phone, idx) {
-        let card = $(modal.find(".phone-card").first().clone());
-        card.find(".phone-number").val(phone.phone_number || "");
-        card.find(".phone-ext").val(phone.phone_ext || "");
-        card.find(".phone-type").val(phone.phone_type || "");
-        card.find(".phone-count").text(idx + 1);
-        card.find('[data-trigger="remove-phone"]').toggleClass(
-            "d-none",
-            (contact.phoneNumbers || []).length === 1
-        );
-        phoneContainer.append(card);
-    });
+
+    if (contact.phone_numbers && contact.phone_numbers.length > 0) {
+        (contact.phone_numbers || [{}]).forEach(function (phone, idx) {
+            let card = $(modal.find(".phone-card").first().clone());
+            card.find(".phone-number").val(phone.phone_number || "");
+            card.find(".phone-ext").val(phone.phone_ext || "");
+            card.find(".phone-type").val(phone.phone_type || "");
+            card.find(".phone-count").text(idx + 1);
+            card.find('[data-trigger="remove-phone"]').toggleClass(
+                "d-none",
+                (contact.phone_numbers || []).length === 1
+            );
+            phoneContainer.append(card);
+        });
+    }
     // Tags
     let selectedTags = modal.find(".selected-tags");
     let existingTags = modal.find(".existing-tags");

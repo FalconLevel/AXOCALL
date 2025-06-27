@@ -31,6 +31,7 @@
 </div>
 
 @include('components.extension-modal')
+@include('components.extension-modal-edit')
 @include('partials.admin.footer')
 
 <script src="{{ asset('assets/axocall/js/modules/extensions.js') }}"></script>

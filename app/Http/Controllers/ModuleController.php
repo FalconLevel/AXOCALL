@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Communication;
 use App\Models\Contact;
+use App\Models\Message;
 use Illuminate\Http\Request;
 
 class ModuleController extends Controller
@@ -25,6 +26,7 @@ class ModuleController extends Controller
         $this->data['description'] = 'Manage all your call logs and SMS messages in one place.';
         $this->data['panel_type'] = 'communications';
         $this->data['communications'] = Communication::orderBy('date_time', 'desc')->get();
+        $this->data['messages'] = Message::orderBy('date_sent', 'desc')->get();
 
         return view('pages.admin.communications', $this->data);
     }

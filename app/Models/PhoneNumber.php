@@ -13,4 +13,9 @@ class PhoneNumber extends Model
     {
         return $this->belongsTo(Contact::class, 'contact_id');
     }       
+
+    public function extension()
+    {
+        return $this->hasOne(Extension::class, 'phone_id');
+    }
 }

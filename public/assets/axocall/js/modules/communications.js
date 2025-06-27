@@ -19,4 +19,12 @@ function _initWidgets() {
             });
         }
     });
+
+    // Message body view functionality
+    $(".view-message").off();
+    $(".view-message").on("click", function () {
+        const messageBody = $(this).data("message");
+        $("#messageBodyText").text(messageBody);
+        $("#messageBodyModal").modal("show");
+    });
 }

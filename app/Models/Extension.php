@@ -17,6 +17,6 @@ class Extension extends Model
 
     public function phone()
     {
-        return $this->belongsTo(PhoneNumber::class, 'phone_id');
+        return $this->hasOne(PhoneNumber::class, 'id', 'phone_id');
     }
 }

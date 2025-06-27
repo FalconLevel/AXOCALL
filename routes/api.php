@@ -13,6 +13,9 @@ Route::get('/user', function (Request $request) {
 
 Route::prefix('communications')->group(function () {
     Route::get('/all', [CommunicationController::class, 'all']);
+    Route::get('/with-sentiment', [CommunicationController::class, 'withSentiment']);
+    Route::get('/stats', [CommunicationController::class, 'sentimentStats']);
+    Route::post('/analyze/{id}', [CommunicationController::class, 'analyze']);
 });
 
 Route::prefix('tags')->group(function () {

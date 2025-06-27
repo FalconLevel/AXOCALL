@@ -14,6 +14,13 @@ return [
     |
     */
 
+    'mailgun' => [
+        'domain' => env('MAILGUN_DOMAIN'),
+        'secret' => env('MAILGUN_SECRET'),
+        'endpoint' => env('MAILGUN_ENDPOINT', 'api.mailgun.net'),
+        'scheme' => 'https',
+    ],
+
     'postmark' => [
         'token' => env('POSTMARK_TOKEN'),
     ],
@@ -35,4 +42,12 @@ return [
         ],
     ],
 
+    'ai' => [
+        'endpoint' => env('AI_SERVICE_ENDPOINT'),
+        'key' => env('AI_SERVICE_KEY'),
+        'provider' => env('AI_SERVICE_PROVIDER', 'openai'), // openai, azure, google
+    ],
+    'google' => [
+        'speech_key' => env('GOOGLE_SPEECH_KEY'),
+    ],
 ];

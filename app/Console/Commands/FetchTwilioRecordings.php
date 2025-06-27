@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Console\Commands;
 
 use App\Models\Communication;
+use App\Services\SentimentAnalysisService;
+use App\Services\TranscriptionService;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\URL;
@@ -17,14 +19,16 @@ class FetchTwilioRecordings extends Command
     const OUTBOUND_CALL = 'outbound';
     
     private $twilio_client;
-    protected $signature = 'app:fetch-twilio-recordings';
+    private $sentimentService;
+    protected $signature = 'app:fetch-twilio-recordings {--analyze : Include sentiment analysis}';
     
     protected $description = 'Get recordings from Twilio';
 
-    public function __construct()
+    public function __construct(SentimentAnalysisService $sentimentService)
     {
         parent::__construct();
         $this->twilio_client = new Client(config('twilio.twilio.sid'), config('twilio.twilio.token'));
+        $this->sentimentService = $sentimentService;
     }
 
     /**
@@ -33,6 +37,8 @@ class FetchTwilioRecordings extends Command
     public function handle()
     {
         $access_numbers = $this->getAccessNumbers();
+        $includeAnalysis = $this->option('analyze');
+        
         //get calls by date range
         $calls = $this->twilio_client->calls->read([
             "startTimeAfter" => new \DateTime("2025-06-16T00:00:00Z"),
@@ -44,7 +50,7 @@ class FetchTwilioRecordings extends Command
             $recordings_details = $this->getRecordingDetails($call->sid);
             foreach ($recordings_details as $recording_detail) {
                 
-                $filtered_calls[] = array_merge($recording_detail, [
+                $callData = array_merge($recording_detail, [
                     'type' => $this->getCallType($call->fromFormatted),
                     'from' => $call->from,
                     'from_formatted' => $call->fromFormatted,
@@ -55,12 +61,34 @@ class FetchTwilioRecordings extends Command
                     'call_sid' => $call->sid,
                     'status' => $call->status,
                 ]);
+
+                // Add sentiment analysis if requested
+                if ($includeAnalysis) {
+                    $analysis = $this->sentimentService->analyzeCallRecording(
+                        $callData['transcriptions'] ?? '',
+                        $callData['type']
+                    );
+                    
+                    $callData = array_merge($callData, [
+                        'sentiment' => $analysis['sentiment'],
+                        'keywords' => $analysis['keywords'],
+                        'summary' => $analysis['summary'],
+                        'is_booked' => $analysis['is_booked'],
+                    ]);
+                }
+
+                $filtered_calls[] = $callData;
             }
         }
 
+        dd($filtered_calls);
         if ($filtered_calls) {
             Communication::upsert($filtered_calls, ['call_sid']);
-            echo "Recordings fetched successfully";
+            $message = "Recordings fetched successfully";
+            if ($includeAnalysis) {
+                $message .= " with sentiment analysis";
+            }
+            echo $message;
         } else {
             echo "No recordings found";
         }
@@ -72,7 +100,15 @@ class FetchTwilioRecordings extends Command
         if ($recordings) {
             foreach ($recordings as $recording) {
                 $media_details = $this->donwloadRecording($recording->mediaUrl, $recording->sid);
-                $filtered_recordings[] = array_merge($media_details, ['recording_sid' => $recording->sid]);
+                
+                // Get transcription for this recording
+                $transcription = $this->getTranscription($recording->sid);
+                
+                $filtered_recordings[] = array_merge($media_details, [
+                    'recording_sid' => $recording->sid,
+                    'transcription_sid' => $transcription['transcription_sid'] ?? null,
+                    'transcriptions' => $transcription['transcription_text'] ?? null,
+                ]);
             }
             return $filtered_recordings;
         }
@@ -81,8 +117,33 @@ class FetchTwilioRecordings extends Command
             'recording_url_twilio' => '',
             'recording_url_axocall' => '',
             'recording_filename' => '',
-            'recording_sid' => ''
+            'recording_sid' => '',
+            'transcription_sid' => null,
+            'transcriptions' => null,
         ]];
+    }
+
+    private function getTranscription(string $recording_sid): array {
+        try {
+            // For now, return empty transcription data
+            // Twilio transcriptions might not be available for all recordings
+            // This can be enhanced later with proper Twilio transcription API
+            return [
+                'transcription_sid' => null,
+                'transcription_text' => null,
+                'status' => null,
+                'confidence' => null,
+            ];
+        } catch (\Exception $e) {
+            echo "Error getting transcription for recording {$recording_sid}: " . $e->getMessage() . "\n";
+        }
+
+        return [
+            'transcription_sid' => null,
+            'transcription_text' => null,
+            'status' => null,
+            'confidence' => null,
+        ];
     }
 
     private function donwloadRecording(string $media_url, string $recording_sid): array {
@@ -95,11 +156,15 @@ class FetchTwilioRecordings extends Command
             $file_axocall_url ="assets/axocall/recordings/".$file_name;
             
             Storage::disk('recordings')->put($file_name, $response->body());
-            
+            $transcription = app(TranscriptionService::class)->transcribeRecording($file_axocall_url, $recording_sid);
+
+            print_r($transcription);
             return [
                 'recording_url_twilio' => $media_url,
                 'recording_url_axocall' => $file_axocall_url,
                 'recording_filename' => $file_name,
+                'transcription_sid' => $transcription['transcription_sid'] ?? null,
+                'transcriptions' => $transcription['transcription_text'] ?? null,
             ];
         }
         
