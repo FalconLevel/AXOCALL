@@ -81,7 +81,6 @@ class FetchTwilioRecordings extends Command
             }
         }
 
-        dd($filtered_calls);
         if ($filtered_calls) {
             Communication::upsert($filtered_calls, ['call_sid']);
             $message = "Recordings fetched successfully";
@@ -158,7 +157,6 @@ class FetchTwilioRecordings extends Command
             Storage::disk('recordings')->put($file_name, $response->body());
             $transcription = app(TranscriptionService::class)->transcribeRecording($file_axocall_url, $recording_sid);
 
-            print_r($transcription);
             return [
                 'recording_url_twilio' => $media_url,
                 'recording_url_axocall' => $file_axocall_url,
