@@ -25,8 +25,6 @@ return new class extends Migration
             $table->string('recording_url_twilio')->nullable();
             $table->string('recording_url_axocall')->nullable();
             $table->string('recording_filename')->nullable();
-            $table->longText('transcription_sid')->nullable();
-            $table->longText('transcriptions')->nullable();
             $table->longText('summary')->nullable();
             $table->longText('notes')->nullable();
             $table->string('sentiment')->nullable();

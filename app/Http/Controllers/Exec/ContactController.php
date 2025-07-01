@@ -32,7 +32,6 @@ class ContactController extends Controller
                     'email' => $contact['email'] ?? '',
                     'phone_numbers' => $phoneNumbers,
                     'tags' => $tags,
-                    // Add more fields as needed for your DataTable
                     'created_at' => $contact['created_at'] ?? '',
                     'updated_at' => $contact['updated_at'] ?? '',
                     'status' => $contact['status'] ?? '',
@@ -54,6 +53,7 @@ class ContactController extends Controller
     public function save(Request $request) {
         try {
             $response = apiHelper()->execute($request, '/api/contacts/save');
+            
             if (! $response['status']) {
                 return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
             }
@@ -63,13 +63,6 @@ class ContactController extends Controller
             logInfo($e->getMessage());  
             return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
         }
-        // $validated = validatorHelper()->validate('contact_save', $request);
-        // if (! $validated['status']) {
-        //     return response()->json($validated, 400);
-        // }
-
-        // $contact = Contact::create($validated['validated']);
-        // return response()->json(['status' => 'success', 'message' => 'Contact saved successfully', 'data' => $contact]);
     } 
 
     public function edit($id) {

@@ -6,6 +6,7 @@ use App\Helpers\KeysHelper;
 use App\Helpers\ValidatorHelper;
 use App\Helpers\GlobalHelper;
 use App\Helpers\ResponseHelper;
+use App\Helpers\RecordingHelper;
 
 function formatHelper() {
     return new FormatHelper();
@@ -33,4 +34,8 @@ function responseHelper() {
 
 function logInfo(string $message) {
     return globalHelper()->logInfo($message);
+}
+
+function recordingHelper() {
+    return new RecordingHelper();
 }

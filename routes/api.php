@@ -47,4 +47,5 @@ Route::prefix('extensions')->group(function () {
 Route::prefix('communications')->group(function () {
     Route::post('/archive/{id}/{type}', [CommunicationController::class, 'archive']);
     Route::post('/un-archive/{id}/{type}', [CommunicationController::class, 'unArchive']);
+    Route::post('/transcribe-recording', [CommunicationController::class, 'transcribeRecording']);
 });

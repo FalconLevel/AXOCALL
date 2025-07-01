@@ -2,8 +2,8 @@ $(document).ready(function () {
     // Template for phone card in edit modal
     function createPhoneCardEdit(phoneData = null, index = 0) {
         const phoneNumber = phoneData ? phoneData.phone_number : "";
-        const phoneExt = phoneData ? phoneData.phone_ext : "";
-        const phoneType = phoneData ? phoneData.phone_type : "";
+        const phoneExt = phoneData ? phoneData.phone_ext || "" : "";
+        const phoneType = phoneData ? phoneData.phone_type || "" : "";
         const showDelete = index > 0 ? "" : "d-none";
 
         return `

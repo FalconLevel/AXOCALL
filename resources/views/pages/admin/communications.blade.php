@@ -47,12 +47,18 @@
                                                 <td class="{{ $svg_class }} svg-icon">{!! config('twilio.svg.' . $communication->type) !!} </td>
                                                 <td>{{ $communication->from_formatted }}</td>
                                                 <td>{{ $communication->to_formatted }}</td>
-                                                <td>{{ $communication->date_time }}</td>
+                                                <td>{{ date('m/d/y h:i A', strtotime($communication->date_time)) }}</td>
                                                 <td>{{ formatHelper()->formatDuration($communication->duration) }}</td>
                                                 <td>{{ $communication->summary }}</td>
-                                                <td>{{ $communication->sentiment }}</td>
+                                                <td>
+                                                    <i class="{{ $communication->sentiment ? config('twilio.sentiment.' . $communication->sentiment) : '' }}"></i>
+                                                </td>
                                                 <td>{{ $communication->keywords }}</td>
-                                                <td>{{ $communication->is_booked }}</td>
+                                                <td>
+                                                    {!! 
+                                                        $communication->is_booked ? '<i class="text-success fa-regular fa-check"></i>' : '<i class="text-danger fa-regular fa-xmark"></i>' 
+                                                    !!}
+                                                </td>
                                                 <td>
                                                     <a 
                                                         href="javascript:void(0)" 

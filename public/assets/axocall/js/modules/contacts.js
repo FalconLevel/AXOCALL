@@ -42,7 +42,7 @@ function _renderContacts(contacts) {
             .join(" ");
         tbody.append(`
             <tr>
-                <td>${contact.first_name} ${contact.last_name}</td>
+                <td>${contact.first_name} ${contact.last_name || ""}</td>
                 <td>${
                     contact.phone_numbers && contact.phone_numbers.length > 0
                         ? contact.phone_numbers
@@ -50,7 +50,9 @@ function _renderContacts(contacts) {
                                   (phone) =>
                                       phone.phone_number +
                                       " " +
-                                      `<span class="label label-pill">${phone.phone_type}</span>`
+                                      `<span class="label label-pill">${
+                                          phone.phone_type || ""
+                                      }</span>`
                               )
                               .join("<br />")
                         : ""
@@ -346,11 +348,7 @@ function _get_phones() {
     }
 
     phones.forEach((phone) => {
-        if (
-            phone.phone_number === "" ||
-            phone.phone_ext === "" ||
-            phone.phone_type === ""
-        ) {
+        if (phone.phone_number === "") {
             _show_toastr(
                 "error",
                 "Please fill all required phone fields",
@@ -369,11 +367,6 @@ function _get_tags() {
     let selected_tags = $(".selected-tags .tag-labels a");
     for (const tag of selected_tags) {
         tags.push($(tag).data("id"));
-    }
-
-    if (tags.length === 0) {
-        _show_toastr("error", "Please select at least one tag", "User Error");
-        return false;
     }
 
     return tags;

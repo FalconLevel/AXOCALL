@@ -17,7 +17,7 @@ class FormatHelper {
      */
     public static function formatDuration($seconds): string {
         if (!$seconds || $seconds <= 0) {
-            return '00:00:00';
+            return '00:00';
         }
         
         $seconds = (int) $seconds;
@@ -25,6 +25,10 @@ class FormatHelper {
         $minutes = floor(($seconds % 3600) / 60);
         $remainingSeconds = $seconds % 60;
         
-        return sprintf('%02d:%02d:%02d', $hours, $minutes, $remainingSeconds);
+        if ($hours > 0) {
+            return sprintf('%02d:%02d:%02d', $hours, $minutes, $remainingSeconds);
+        } else {
+            return sprintf('%02d:%02d', $minutes, $remainingSeconds);
+        }
     }
 }

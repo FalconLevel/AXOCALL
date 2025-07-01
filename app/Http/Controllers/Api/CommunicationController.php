@@ -311,5 +311,14 @@ class CommunicationController extends Controller {
                 'error' => $e->getMessage()
             ], 500);
         }
-    }       
+    }
+
+    public function transcribeRecording(Request $request)
+    {
+        return $transcription = recordingHelper()->transcribeRecording('','');
+        return response()->json([
+            'success' => true,
+            'data' => $transcription
+        ]);
+    }
 }
