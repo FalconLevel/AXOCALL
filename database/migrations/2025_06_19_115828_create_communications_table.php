@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('is_booked')->nullable();
             $table->string('status')->nullable();
             $table->string('modified_by')->nullable();
-            $table->string('is_archived')->nullable();
+            $table->string('category')->nullable();
             $table->timestamps(); 
             $table->softDeletes();
         });

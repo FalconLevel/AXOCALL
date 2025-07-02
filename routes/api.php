@@ -49,4 +49,6 @@ Route::prefix('communications')->group(function () {
     Route::post('/un-archive/{id}/{type}', [CommunicationController::class, 'unArchive']);
     Route::post('/transcribe-recording', [CommunicationController::class, 'transcribeRecording']);
     Route::post('/update-notes/{id}', [CommunicationController::class, 'updateNotes']);
+    Route::post('/follow-up/{id}/{type}', [CommunicationController::class, 'followUp']);
+    Route::post('/refresh-datatable', [CommunicationController::class, 'refreshDatatable']);
 });

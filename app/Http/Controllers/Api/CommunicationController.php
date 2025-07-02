@@ -253,18 +253,47 @@ class CommunicationController extends Controller {
         ]);
     }
 
+    public function followUp(string $id, string $type): JsonResponse
+    {
+        try {
+            if ($type == "communication") {
+                $communication = Communication::find($id);
+                $communication->update([
+                    'category' => 'follow-up'
+                ]);
+            } elseif ($type == "message") {
+                $message = Message::find($id);
+                $message->update([
+                    'category' => 'follow-up'
+                ]);
+            }
+
+            return response()->json([
+                'success' => true,
+                'message' => ucfirst($type) . ' archived successfully',
+                'data' => $communication ?? $message
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to archive ' . ucfirst($type) . ' ' . $id,
+                'error' => $e->getMessage()
+            ], 500);
+        } 
+    }
+
     public function archive(string $id, string $type): JsonResponse
     {
         try {
             if ($type == "communication") {
                 $communication = Communication::find($id);
                 $communication->update([
-                    'is_archived' => 'yes'
+                    'category' => 'archived'
                 ]);
             } elseif ($type == "message") {
                 $message = Message::find($id);
                 $message->update([
-                    'is_archived' => 'yes'
+                    'category' => 'archived'
                 ]);
             }
 
@@ -288,12 +317,12 @@ class CommunicationController extends Controller {
             if ($type == "communication") {
                 $communication = Communication::find($id);
                 $communication->update([
-                    'is_archived' => 'no'
+                    'category' => 'follow-up'
                 ]);
             } elseif ($type == "message") { 
                 $message = Message::find($id);
                 $message->update([
-                    'is_archived' => 'no'
+                    'category' => 'follow-up'
                 ]);
             }
             return response()->json([
@@ -316,6 +345,14 @@ class CommunicationController extends Controller {
         return response()->json([
             'success' => true,
             'data' => $transcription
+        ]);
+    }
+
+    public function refreshDatatable(): JsonResponse
+    {
+        return response()->json([
+            'success' => true,
+            'data' => Communication::orderBy('date_time', 'desc')->get()
         ]);
     }
 }

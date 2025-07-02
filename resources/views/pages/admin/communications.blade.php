@@ -22,7 +22,7 @@
                     <div class="card">
                         <div class="card-body">
                             <div class="table-responsive">
-                                <table class="table table-hover zero-configuration verticle-middle" cellspacing="0">
+                                <table class="table table-hover zero-configuration verticle-middle" cellspacing="0" id="communications-table">
                                     <thead>
                                         <tr>
                                             <th scope="col">Type</th>
@@ -90,18 +90,17 @@
                                                         <i class="fa-regular fa-note-sticky"></i>
                                                     </a>
 
-                                                    <!-- Notes Edit Modal -->
- 
-                                                    
-
-                                                    
                                                 </td>
                                                 <td>
-                                                    @if($communication->is_archived == 'no' || $communication->is_archived == null)
-                                                        <a href="javascript:void(0)" class="text-secondary svg-icon" data-trigger="archive" data-id="{{ $communication->id }}" data-type="communication">
+                                                    @if($communication->category == null)
+                                                        <a href="javascript:void(0)" class="text-light svg-icon" data-trigger="follow-up" data-id="{{ $communication->id }}" data-type="communication">
                                                             <i class="fa-regular fa-flag"></i>
                                                         </a>
-                                                    @else
+                                                    @elseif($communication->category == 'follow-up')
+                                                        <a href="javascript:void(0)" class="text-primary svg-icon" data-trigger="follow-up" data-id="{{ $communication->id }}" data-type="communication">
+                                                            <i class="fa-regular fa-flag"></i>
+                                                        </a>
+                                                    @else   
                                                         <a href="javascript:void(0)" class="text-success svg-icon">
                                                             <i class="fa-regular fa-check-circle"></i>
                                                         </a>
@@ -154,9 +153,19 @@
                                                        data-message="{{ $message->message_body }}">
                                                         <i class="fa-regular fa-note-sticky"></i>
                                                     </a>&nbsp;
-                                                    <a href="javascript:void(0)" class="text-secondary svg-icon" data-trigger="archive" data-id="{{ $message->id }}" data-type="message">
-                                                        <i class="fa-regular fa-flag"></i>
-                                                    </a>
+                                                    @if($message->category == null)
+                                                        <a href="javascript:void(0)" class="text-secondary svg-icon" data-trigger="follow-up" data-id="{{ $message->id }}" data-type="message">
+                                                            <i class="fa-regular fa-flag"></i>
+                                                        </a>
+                                                    @elseif($message->category == 'follow-up')
+                                                        <a href="javascript:void(0)" class="text-primary svg-icon" data-trigger="follow-up" data-id="{{ $message->id }}" data-type="message">
+                                                            <i class="fa-regular fa-flag"></i>
+                                                        </a>
+                                                    @else   
+                                                        <a href="javascript:void(0)" class="text-success svg-icon">
+                                                            <i class="fa-regular fa-check-circle"></i>
+                                                        </a>
+                                                    @endif
                                                 </td>
                                             </tr>
                                         @endforeach

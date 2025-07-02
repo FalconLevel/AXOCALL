@@ -49,7 +49,7 @@ class FetchTwilioRecordings extends Command
             $calls = $this->twilio_client->calls->read([
                 "startTimeAfter" => new \DateTime($start_date."T00:00:00Z"),
                 "startTimeBefore" => new \DateTime($end_date."T23:59:59Z"),
-            ]);
+            ], 20);
             
 
             $filtered_calls = [];
