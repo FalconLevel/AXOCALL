@@ -22,7 +22,7 @@ class ModuleController extends Controller
         $this->data['total_communications'] = Communication::count();
         $this->data['total_messages'] = Message::count();
         $this->data['total_extensions'] = Extension::where('status', 'active')->count();
-        $this->data['total_follow_ups'] = Communication::where('is_archived', 'yes')->count();
+        $this->data['total_follow_ups'] = Communication::where('category', 'follow-up')->count();
         
         return view('pages.admin.dashboard', $this->data);
     }
