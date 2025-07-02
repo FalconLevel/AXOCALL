@@ -44,6 +44,11 @@ class SentimentAnalysisService
         'fast', 'hurry', 'rush', 'critical', 'important', 'priority', 'needed now'
     ];
 
+    // Neutral keywords
+    private $neutralKeywords = [
+        'okay', 'fine', 'normal', 'average', 'alright', 'standard', 'regular', 'typical', 'ordinary', 'routine'
+    ];
+
     public function __construct()
     {
         $this->initializeClassifier();
@@ -63,11 +68,17 @@ class SentimentAnalysisService
     public function analyzeCallRecording(string $transcription, string $callType = 'inbound'): array
     {
         if (empty($transcription)) {
-            return $this->getDefaultAnalysis();
+            $default = $this->getDefaultAnalysis();
+            $default['sentiment_keyword_hits'] = [
+                'positive' => 0,
+                'negative' => 0,
+                'neutral' => 0
+            ];
+            return $default;
         }
 
         $transcription = strtolower(trim($transcription));
-        
+        $sentimentKeywordHits = $this->countSentimentKeywordHits($transcription);
         return [
             'sentiment' => $this->analyzeSentiment($transcription),
             'keywords' => $this->extractKeywords($transcription),
@@ -76,7 +87,8 @@ class SentimentAnalysisService
             'urgency_level' => $this->detectUrgency($transcription),
             'confidence_score' => $this->calculateConfidence($transcription),
             'call_intent' => $this->detectCallIntent($transcription, $callType),
-            'customer_satisfaction' => $this->assessCustomerSatisfaction($transcription)
+            'customer_satisfaction' => $this->assessCustomerSatisfaction($transcription),
+            'sentiment_keyword_hits' => $sentimentKeywordHits
         ];
     }
 
@@ -362,5 +374,31 @@ class SentimentAnalysisService
         
         // Fallback to local analysis
         return $this->analyzeCallRecording($transcription);
+    }
+
+    /**
+     * Count keyword hits for positive, negative, and neutral sentiment
+     */
+    private function countSentimentKeywordHits(string $text): array
+    {
+        $positiveCount = 0;
+        $negativeCount = 0;
+        $neutralCount = 0;
+
+        foreach ($this->positiveKeywords as $keyword) {
+            $positiveCount += substr_count($text, $keyword);
+        }
+        foreach ($this->negativeKeywords as $keyword) {
+            $negativeCount += substr_count($text, $keyword);
+        }
+        foreach ($this->neutralKeywords as $keyword) {
+            $neutralCount += substr_count($text, $keyword);
+        }
+
+        return [
+            'positive' => $positiveCount .'/'.count($this->positiveKeywords),
+            'negative' => $negativeCount .'/'.count($this->negativeKeywords),
+            'neutral' => $neutralCount .'/'.count($this->neutralKeywords)
+        ];
     }
 } 

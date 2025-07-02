@@ -49,7 +49,7 @@ class FetchTwilioRecordings extends Command
             $calls = $this->twilio_client->calls->read([
                 "startTimeAfter" => new \DateTime($start_date."T00:00:00Z"),
                 "startTimeBefore" => new \DateTime($end_date."T23:59:59Z"),
-            ], 20);
+            ]);
             
 
             $filtered_calls = [];
@@ -85,7 +85,7 @@ class FetchTwilioRecordings extends Command
                             
                             $callData['summary'] = $analysis['summary'] ?? null;
                             $callData['sentiment'] = $analysis['sentiment'] ?? null;
-                            $callData['keywords'] = $analysis['keywords'] ?? null;
+                            $callData['keywords'] = $analysis['sentiment_keyword_hits'][$analysis['sentiment']] ?? null;
                             $callData['is_booked'] = $analysis['is_booked'] ?? null;
                             
                             $filtered_transcription = array_merge($filtered_transcription, $transcription);

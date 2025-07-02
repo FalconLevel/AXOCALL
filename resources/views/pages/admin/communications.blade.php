@@ -49,17 +49,28 @@
                                                 <td>{{ $communication->to_formatted }}</td>
                                                 <td>{{ date('m/d/y h:i A', strtotime($communication->date_time)) }}</td>
                                                 <td>{{ formatHelper()->formatDuration($communication->duration) }}</td>
-                                                <td>{{ $communication->summary }}</td>
+                                                <td title="{{ $communication->summary }}">{{ \Illuminate\Support\Str::limit($communication->summary, 20) }}</td>
                                                 <td>
                                                     <i class="{{ $communication->sentiment ? config('twilio.sentiment.' . $communication->sentiment) : '' }}"></i>
                                                 </td>
-                                                <td>{{ $communication->keywords }}</td>
+                                                <td class="text-danger">{{ $communication->keywords }}</td>
                                                 <td>
                                                     {!! 
                                                         $communication->is_booked ? '<i class="text-success fa-regular fa-check"></i>' : '<i class="text-danger fa-regular fa-xmark"></i>' 
                                                     !!}
                                                 </td>
                                                 <td>
+                                                    <a 
+                                                        href="javascript:void(0)" 
+                                                        class="text-primary svg-icon btn-show-transcription"
+                                                        title="View Transcription"
+                                                        data-id="{{ $communication->id }}"
+                                                        data-transcription="{{ $communication->transcriptions }}"
+                                                        data-notes="{{ htmlspecialchars($communication->notes ?? '', ENT_QUOTES) }}"
+                                                    >
+                                                        <i class="fa-regular fa-file-lines"></i>
+                                                    </a>&nbsp;
+                                                    
                                                     <a 
                                                         href="javascript:void(0)" 
                                                         class="text-info svg-icon"
@@ -69,6 +80,20 @@
                                                         <i class="fa-regular fa-circle-play"></i>
                                                     </a>&nbsp;
                                                     
+                                                    <a 
+                                                        href="javascript:void(0)" 
+                                                        class="text-warning svg-icon btn-edit-notes"
+                                                        title="Edit Notes"
+                                                        data-id="{{ $communication->id }}"
+                                                        data-notes="{{ htmlspecialchars($communication->notes ?? '', ENT_QUOTES) }}"
+                                                    >
+                                                        <i class="fa-regular fa-note-sticky"></i>
+                                                    </a>
+
+                                                    <!-- Notes Edit Modal -->
+ 
+                                                    
+
                                                     
                                                 </td>
                                                 <td>
@@ -148,6 +173,8 @@
     
 <x-audio-modal />
 <x-message-modal />
+<x-transcriptions-modal />
+<x-communication-notes-modal />
 
 @include('partials.admin.footer')
 

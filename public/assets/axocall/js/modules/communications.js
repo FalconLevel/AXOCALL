@@ -3,6 +3,71 @@ $(document).ready(function () {
     $("table").on("draw.dt", function () {
         _initWidgets();
     });
+
+    // Fixed: Remove <script> tag, avoid nested DOMContentLoaded, use jQuery for consistency
+    // Delegate click event for dynamic rows using jQuery
+    $(document).on("click", ".btn-show-transcription", function () {
+        var id = $(this).data("id");
+        var transcription = $(this).data("transcription");
+        var modalBody = document.getElementById("transcriptionModalBody");
+        // Set the modal body content to the transcription value (HTML safe)
+        if (modalBody) {
+            modalBody.innerHTML = transcription
+                ? transcription
+                      .map(function (transcription) {
+                          return transcription.transcript_sentence + "<br>";
+                      })
+                      .join("")
+                : "<div class='text-center text-muted'>No transcription available.</div>";
+        }
+        $("#transcriptionModal").modal("show");
+    });
+
+    // Notes
+    $(document).on("click", ".btn-edit-notes", function () {
+        let id = $(this).attr("data-id");
+        let notes = $(this).attr("data-notes");
+
+        $("#editNotesCommunicationId").val(id);
+        $("#editNotesTextarea").val(notes);
+        $("#editNotesModal").modal("show");
+    });
+
+    $("#editNotesForm").on("submit", function (e) {
+        e.preventDefault();
+        let id = $("#editNotesCommunicationId").val();
+        let notes = $("#editNotesTextarea").val();
+        let token = $("meta[name='_token']").attr("content");
+        $.ajax({
+            url: "/api/communications/update-notes/" + id,
+            type: "POST",
+            headers: {
+                "X-CSRF-TOKEN": $("meta[name='_token']").attr("content"),
+            },
+            data: {
+                _token: token,
+                notes: notes,
+            },
+            success: function (response) {
+                if (response.success) {
+                    $("#editNotesModal").modal("hide");
+                    $("a[data-id=" + id + "]").attr("data-notes", notes);
+                    _show_toastr("success", "Notes updated successfully.");
+                } else {
+                    _show_toastr(
+                        "error",
+                        response.message || "Failed to update notes."
+                    );
+                }
+            },
+            error: function (xhr) {
+                _show_toastr(
+                    "error",
+                    xhr.responseText || "Failed to update notes."
+                );
+            },
+        });
+    });
 });
 
 function _initWidgets() {

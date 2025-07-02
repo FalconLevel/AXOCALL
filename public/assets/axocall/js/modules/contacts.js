@@ -104,7 +104,7 @@ function _editContact(id) {
 }
 
 function _deleteContact(id) {
-    if (!confirm("Are you sure you want to delete this contact?")) return;
+    // if (!confirm("Are you sure you want to delete this contact?")) return;
     $.ajax({
         url: `/api/contacts/delete/${id}`,
         method: "POST",

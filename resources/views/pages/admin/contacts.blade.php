@@ -29,8 +29,9 @@
     </div>
 </div>
 
-@include('components.modals')
+
 @include('components.contact-modal-edit')
+@include('components.contact-modal-add')
 @include('partials.admin.footer')
 
 <script src="{{ asset('assets/axocall/js/modules/contacts.js') }}"></script>

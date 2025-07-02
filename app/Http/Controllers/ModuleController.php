@@ -31,7 +31,8 @@ class ModuleController extends Controller
         $this->data['title'] = 'Communications';
         $this->data['description'] = 'Manage all your call logs and SMS messages in one place.';
         $this->data['panel_type'] = 'communications';
-        $this->data['communications'] = Communication::orderBy('date_time', 'desc')->get();
+        $this->data['communications'] = Communication::orderBy('date_time', 'desc')->with('transcriptions')->get();
+        
         $this->data['messages'] = Message::orderBy('date_sent', 'desc')->get();
 
         return view('pages.admin.communications', $this->data);

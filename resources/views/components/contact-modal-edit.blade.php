@@ -18,7 +18,7 @@
                                 <input type="text" class="form-control form-control-xs" id="edit_first_name" placeholder="John" data-key="FirstName" data="req">
                             </div>
                             <div class="form-group col-md-6">
-                                <label class="text-label">Last Name <span class="text-danger">*</span></label>
+                                <label class="text-label">Last Name </label>
                                 <input type="text" class="form-control form-control-xs" id="edit_last_name" placeholder="Doe" data-key="LastName" data="req">
                             </div>
                         </div>

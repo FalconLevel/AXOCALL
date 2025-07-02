@@ -21,7 +21,7 @@
                                     <input type="text" class="form-control form-control-xs" placeholder="John" data-key="FirstName" data="req">
                                 </div>
                                 <div class="form-group col-md-6">
-                                    <label class="text-label">Last Name <span class="text-danger">*</span></label>
+                                    <label class="text-label">Last Name </label>
                                     <input type="text" class="form-control form-control-xs" placeholder="Doe" data-key="LastName">
                                 </div>
                             </div>

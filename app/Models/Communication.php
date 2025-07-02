@@ -91,4 +91,9 @@ class Communication extends Model
     {
         return $query->where('type', 'outbound');
     }
+
+    public function transcriptions()
+    {
+        return $this->hasMany(Transcription::class, 'recording_id', 'recording_sid');
+    }
 }

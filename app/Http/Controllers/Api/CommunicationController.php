@@ -176,10 +176,7 @@ class CommunicationController extends Controller {
         ]);
         
         $communication = Communication::findOrFail($id);
-        $communication->update([
-            'notes' => $request->notes,
-            'modified_by' => auth()->user()->id ?? 'system' 
-        ]);
+        $communication->update(['notes' => $request->notes]);
         
         return response()->json([
             'success' => true,
