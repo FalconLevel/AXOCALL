@@ -41,7 +41,9 @@ function _renderContacts(contacts) {
             )
             .join(" ");
         tbody.append(`
-            <tr>
+            <tr class="cursor-pointer" data-trigger="view-contact" data-id="${
+                contact.id
+            }">
                 <td>${contact.first_name} ${contact.last_name || ""}</td>
                 <td>${
                     contact.phone_numbers && contact.phone_numbers.length > 0
@@ -62,9 +64,7 @@ function _renderContacts(contacts) {
                 <td>${_format_date(contact.created_at) || ""}</td>
                 <td>
                     <span>
-                        <a href="#" data-trigger="edit-contact" data-id="${
-                            contact.id
-                        }" title="Edit"><i class="fa fa-pencil color-muted m-r-5"></i></a>
+                        
                         <a href="#" data-trigger="delete-contact" data-id="${
                             contact.id
                         }" title="Delete"><i class="fa fa-trash color-danger"></i></a>
@@ -73,6 +73,9 @@ function _renderContacts(contacts) {
             </tr>
         `);
     });
+    // <a href="#" data-trigger="edit-contact" data-id="${
+    //     contact.id
+    // }" title="Edit"><i class="fa fa-pencil color-muted m-r-5"></i></a>
     _init_actions();
 }
 
@@ -82,6 +85,7 @@ function _editContact(id) {
         method: "POST",
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
+            console.log(res);
             if (res.status === "success" && res.data) {
                 loadContactForEdit(id);
                 $("#contact-modal-edit .modal-title").text("Edit Contact");
@@ -97,7 +101,8 @@ function _editContact(id) {
                 );
             }
         },
-        error: function () {
+        error: function (e) {
+            console.log(e);
             _show_toastr("error", "Failed to fetch contact", "System Error");
         },
     });
@@ -172,6 +177,7 @@ function _init_actions() {
     $("[data-trigger]").off();
     $("[data-trigger]").click(function (e) {
         e.preventDefault();
+        e.stopPropagation();
         let trigger = $(this).data("trigger");
         let parentForm = $(this).closest("form");
         switch (trigger) {
@@ -316,9 +322,18 @@ function _init_actions() {
                 let editId = $(this).data("id");
                 _editContact(editId);
                 break;
+            case "edit-contact-view":
+                let editIdView = $(this).data("id");
+                $("#contact-modal-view").modal("hide");
+                _editContact(editIdView);
+                break;
             case "delete-contact":
                 let deleteId = $(this).data("id");
                 _deleteContact(deleteId);
+                break;
+            case "view-contact":
+                let viewId = $(this).data("id");
+                _viewContact(viewId);
                 break;
         }
     });
@@ -357,6 +372,17 @@ function _get_phones() {
             is_valid = false;
             return;
         }
+
+        // Validate phone number to be exactly 10 digits
+        if (!/^\d{10}$/.test(phone.phone_number.replace(/\D/g, ""))) {
+            _show_toastr(
+                "error",
+                "Phone number must be exactly 10 digits",
+                "User Error"
+            );
+            is_valid = false;
+            return;
+        }
     });
 
     return is_valid ? phones : false;
@@ -380,5 +406,84 @@ function _format_date(date) {
         hour: "2-digit",
         minute: "2-digit",
         hour12: true,
+    });
+}
+
+function _viewContact(id) {
+    $.ajax({
+        url: `/api/contacts/view/${id}`,
+        method: "POST",
+        headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
+        success: function (res) {
+            if (res.status === "success") {
+                let contact = res.data;
+
+                // Populate modal with contact data
+                $("#contact-modal-view .modal-title").text(
+                    contact.first_name + " " + contact.last_name ||
+                        "Contact Details"
+                );
+                $("#contact-modal-view .view_name").text(
+                    contact.first_name + " " + contact.last_name || "N/A"
+                );
+                $("#contact-modal-view .view_notes").text(
+                    contact.notes || "No notes available"
+                );
+                $("#contact-modal-view .view_created").text(
+                    _format_date(contact.created_at)
+                );
+
+                $(
+                    "#contact-modal-view [data-trigger='edit-contact-view']"
+                ).attr("data-id", id);
+
+                let phone_numbers = "";
+                if (contact.phone_numbers && contact.phone_numbers.length > 0) {
+                    contact.phone_numbers.forEach((phone) => {
+                        phone_numbers +=
+                            phone.phone_number +
+                            " " +
+                            (phone.phone_ext ? "x" + phone.phone_ext : "") +
+                            " " +
+                            (phone.phone_type
+                                ? "(" + phone.phone_type + ")"
+                                : "") +
+                            " " +
+                            "<br />";
+                    });
+                }
+                $("#contact-modal-view .view_phone_numbers").html(
+                    phone_numbers
+                );
+                // Handle tags display
+                let tagsHtml = "";
+                if (contact.tags && contact.tags.length > 0) {
+                    contact.tags.forEach((tag) => {
+                        tagsHtml += `<span class="badge badge-primary me-1">${tag.name}</span>`;
+                    });
+                } else {
+                    tagsHtml =
+                        '<span class="text-muted">No tags assigned</span>';
+                }
+                $("#contact-modal-view .contact-tags").html(tagsHtml);
+
+                // Show the modal
+                $("#contact-modal-view").modal("show");
+            } else {
+                _show_toastr(
+                    "error",
+                    res.message || "Failed to load contact details",
+                    "Error"
+                );
+            }
+        },
+        error: function (err) {
+            console.log(err);
+            _show_toastr(
+                "error",
+                "Failed to load contact details",
+                "System Error"
+            );
+        },
     });
 }

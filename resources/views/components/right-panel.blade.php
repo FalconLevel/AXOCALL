@@ -29,8 +29,8 @@
         </li>
     </ul>
 @elseif($xtype == 'contacts')
-    <div class="d-flex justify-content-end align-middle border-bottom">
-        <input type="text" class="form-control form-control-xs w-50" placeholder="Search Contact">
+    <div class="d-flex justify-content-end align-middle">
+        {{-- <input type="text" class="form-control form-control-xs w-50" placeholder="Search Contact"> --}}
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
                 <button type="button" class="btn ml-1  btn-outline-danger">
@@ -48,7 +48,6 @@
     </div>
 @elseif($xtype == 'extensions')
     <div class="d-flex justify-content-end align-middle border-bottom">
-        <input type="text" class="form-control form-control-xs w-50" placeholder="Search Extensions">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
                 <button type="button" class="btn ml-1  btn-outline-danger">

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CommunicationController;
 use App\Http\Controllers\Api\ContactController;
+use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\TagController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -24,6 +25,11 @@ Route::prefix('tags')->group(function () {
     Route::post('/delete/{id}', [TagController::class, 'delete']);
 });
 
+Route::prefix('settings')->group(function () {
+    Route::post('/extension-settings', [SettingsController::class, 'extensionSettings']);
+    Route::post('/save-extension-settings', [SettingsController::class, 'saveExtensionSettings']);
+});
+
 Route::prefix('contacts')->group(function () {
     Route::post('/all', [ContactController::class, 'all']);
     Route::post('/save', [ContactController::class, 'save']);
@@ -31,6 +37,7 @@ Route::prefix('contacts')->group(function () {
     Route::post('/update/{id}', [ContactController::class, 'update']);
     Route::post('/delete/{id}', [ContactController::class, 'delete']);
     Route::post('/{id}/phone-numbers', [ContactController::class, 'phoneNumbers']);
+    Route::post('/view/{id}', [ContactController::class, 'view']);
 });
 
 

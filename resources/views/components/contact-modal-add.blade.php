@@ -50,7 +50,7 @@
                                                 
                                                 <div class="row">
                                                     <div class="col-md-8">
-                                                        <input type="text" class="form-control form-control-xs phone-number" placeholder="Phone Number">
+                                                        <input type="text" class="form-control form-control-xs phone-number" placeholder="0123456789" maxlength="10">
                                                     </div>
                                                     <div class="col-md-2">
                                                         <input type="text" class="form-control form-control-xs phone-ext" placeholder="1234#">

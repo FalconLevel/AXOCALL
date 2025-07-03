@@ -139,4 +139,21 @@ class ExtensionController extends Controller
             'message' => 'Extension deleted successfully'
         ]);
     }
+
+    public function generate(Request $request)
+    {
+        try {
+            $extension_data = globalHelper()->generateExtension();
+            return response()->json([
+                'status' => 'success',
+                'data' => $extension_data
+            ]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to generate extension'
+            ], 500);
+        }
+    } 
 }

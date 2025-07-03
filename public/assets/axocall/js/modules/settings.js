@@ -1,23 +1,16 @@
 $(document).ready(function () {
     _fetch_tags();
-
+    _fetch_extension_settings();
     init_actions();
-    // $(".add-tag").click(function () {
-    //     var tag_name = $("#tag_name").val();
-    //     var tag_color = $("#tag_color").val();
-    //     var url = "{{ route('executor.tags.save') }}";
-    //     var request_type = "POST";
-    //     var data = {
-    //         tag_name: tag_name,
-    //         tag_color: tag_color,
-    //     };
-    // });
 });
 
 function _fetch_tags() {
     ajaxRequest("/executor/tags/all", {}, "");
 }
 
+function _fetch_extension_settings() {
+    ajaxRequest("/executor/settings/extension-settings", {}, "");
+}
 function init_actions() {
     $("[data-trigger]").off();
     $("[data-trigger]").click(function (e) {
@@ -33,6 +26,24 @@ function init_actions() {
             case "delete-tag":
                 let id = $(this).data("id");
                 ajaxRequest("/executor/tags/delete/" + id, {}, "");
+                break;
+            case "save-extension-settings":
+                let randomExtensionGeneration = $(
+                    "#random-extension-toggle"
+                ).is(":checked")
+                    ? 1
+                    : 0;
+                let data = JSON.parse(_collectFields(parentForm));
+                data = {
+                    ...data,
+                    IsRandomExtensionGeneration: randomExtensionGeneration,
+                };
+
+                ajaxRequest(
+                    "/executor/settings/save-extension-settings",
+                    data,
+                    "POST"
+                );
                 break;
         }
     });

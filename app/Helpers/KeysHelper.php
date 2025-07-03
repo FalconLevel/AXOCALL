@@ -28,6 +28,11 @@ class KeysHelper {
         'ExtensionPhoneType' => 'extension_phone_type',
         'ExtensionContactId' => 'extension_contact_id',
         'ExtensionPhoneId' => 'extension_phone_id',
+
+        'ExtensionExpirationDays' => 'extension_expiration_days',
+        'ExtensionExpirationHrs' => 'extension_expiration_hrs',
+        'IsRandomExtensionGeneration' => 'random_extension_generation',
+        'IsActive' => 'is_active',
     ];
 
     public function getKey(string $key_index): string {

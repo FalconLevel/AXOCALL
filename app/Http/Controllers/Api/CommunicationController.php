@@ -19,7 +19,8 @@ class CommunicationController extends Controller {
     }
     
     public function all() {
-        return Communication::orderBy('date_time', 'desc')->paginate(10);
+        return globalHelper()->getCommunicationData();
+        // return Communication::orderBy('date_time', 'desc')->paginate(10);
     }
     
     /**

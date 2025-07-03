@@ -3,6 +3,11 @@
 declare(strict_types=1);
 namespace App\Helpers;
 
+use App\Models\Communication;
+use App\Models\Contact;
+use App\Models\Extension;
+use App\Models\PhoneNumber;
+use App\Models\SettingExtension;
 use App\Models\Tag;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -46,4 +51,52 @@ class GlobalHelper {
         }
     }
 
+    public function getCommunicationData() {
+        $communications = Communication::orderBy('date_time', 'asc')->with('transcriptions', 'contact_from', 'contact_to')->get();
+        
+        return $communications;
+    }
+
+    public function generateExtension() {
+        try {
+            $setting_extension = SettingExtension::first();
+            if (!$setting_extension) {
+                return [
+                    'extension_number' => '',
+                    'expiration_date' => '',
+                ];
+            }
+            $extension_expiration_days = $setting_extension->extension_expiration_days;
+            $extension_expiration_hrs = $setting_extension->extension_expiration_hrs;
+            $random_extension_generation = $setting_extension->random_extension_generation;
+
+            if ($random_extension_generation) {
+                $extension_new = $this->generateRandomExtension();
+            } else {
+                $extension_new = $this->generateSequentialExtension();
+            }
+            
+            $expiration_date = now()->addDays($extension_expiration_days)->addHours($extension_expiration_hrs)->format('Y-m-d H:i:s');
+            return [
+                'extension_number' => $extension_new,
+                'expiration_date' => $expiration_date,
+            ];
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return [
+                'extension_number' => '',
+                'expiration_date' => '',
+            ];
+        }
+    }
+
+    private function generateRandomExtension() {
+        $extension_new = rand(1000, 9999);
+        return $extension_new;
+    }
+
+    private function generateSequentialExtension() {
+        $last_extension = Extension::orderBy('id', 'desc')->first();
+        return $last_extension ? $last_extension->extension_number + 1 : config('custom.extension_start');
+    }
 }

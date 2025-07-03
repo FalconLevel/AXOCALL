@@ -29,6 +29,14 @@ class ResponseHelper {
             case 'delete-tag':
                 $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."'); _fetch_tags();";
                 break;
+            case 'fetch-extension-settings':
+                $script = "$('[data-key=\"ExtensionExpirationDays\"]').val('".$data['extension_expiration_days']."'); 
+                $('[data-key=\"ExtensionExpirationHrs\"]').val('".$data['extension_expiration_hrs']."'); 
+                $('[data-key=\"IsRandomExtensionGeneration\"]').prop('checked', ".$data['random_extension_generation'].");";
+                break;
+            case 'generate-extension':
+                $script = "$('[data-key=\"extension_number\"]').val('".$data['extension_number']."'); $('[data-key=\"expiration\"]').val('".$data['expiration_date']."');";
+                break;
         }
 
         return ['js' => $script];

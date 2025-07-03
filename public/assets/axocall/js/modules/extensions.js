@@ -211,6 +211,7 @@ function _init_extension_actions() {
                         .removeAttr("data-id");
                 }
                 _show_numbers();
+                _generateExtension();
                 $("#" + modal).modal("show");
                 break;
             case "save-extension":
@@ -303,6 +304,10 @@ function _format_date(date) {
         minute: "2-digit",
         hour12: true,
     });
+}
+
+function _generateExtension() {
+    ajaxRequest("/executor/extensions/generate", {}, "POST");
 }
 
 function _show_numbers() {
@@ -427,6 +432,7 @@ function _show_numbers() {
         $("#selected-contact-info").hide();
         $("#contact-info-display").empty();
     });
+
     // $("#contact_id").on("change", function () {
     //     var contactId = $(this).val();
     //     var $phoneSelect = $("#phone_number");

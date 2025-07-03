@@ -16,6 +16,13 @@ class ContactController extends Controller
     public function all(): JsonResponse {
         try {
             $contacts = Contact::with('phoneNumbers', 'tags')->get()->toArray();
+
+            if ($contacts) {
+                $contacts = array_map(function ($contact) {
+                    $contact['first_name'] = ucfirst(strtolower($contact['first_name']));
+                    return $contact;
+                }, $contacts);
+            }
             return response()->json(['status' => 'success', 'data' => $contacts]);
         } catch (\Exception $e) {
             logInfo($e->getMessage());
@@ -51,7 +58,8 @@ class ContactController extends Controller
             $phone_number_data = array_map(function ($phone) use ($contact_id) {
                 return [
                     'contact_id' => $contact_id,
-                    'phone_number' => $phone['phone_number'],
+                    'phone_number' => formatHelper()->formatPhoneNumberWithParenthesis($phone['phone_number']),
+                    'phone_number_formatted' => formatHelper()->formatPhoneNumber($phone['phone_number']),
                     'phone_ext' => $phone['phone_ext'] ?? null,
                     'phone_type' => $phone['phone_type'] ?? null,
                 ];
@@ -87,6 +95,15 @@ class ContactController extends Controller
 
     public function edit($id): JsonResponse {
         $contact = Contact::with('phoneNumbers', 'tags')->find($id);
+        
+        if ($contact) {
+            $contact = $contact->toArray();
+
+            $contact['phone_numbers'] = array_map(function ($phone) {
+                $phone['phone_number'] = formatHelper()->unFormatPhoneNumber($phone['phone_number']);
+                return $phone;
+            }, $contact['phone_numbers']);
+        }
         return response()->json(['status' => 'success', 'data' => $contact]);
     }
 
@@ -111,7 +128,8 @@ class ContactController extends Controller
             $phone_number_data = array_map(function ($phone) use ($contact) {
                 return [
                     'contact_id' => $contact->id,
-                    'phone_number' => $phone['phone_number'],
+                    'phone_number' => formatHelper()->formatPhoneNumberWithParenthesis($phone['phone_number']),
+                    'phone_number_formatted' => formatHelper()->formatPhoneNumber($phone['phone_number']),
                     'phone_ext' => $phone['phone_ext'] ?? null,
                     'phone_type' => $phone['phone_type'] ?? null,
                 ];
@@ -161,5 +179,10 @@ class ContactController extends Controller
             logInfo($e->getMessage());
             return response()->json(['status' => 'error', 'message' => 'Please call system administrator'], 500);
         }
+    }
+
+    public function view($id): JsonResponse {
+        $contact = Contact::with('phoneNumbers', 'tags')->find($id);
+        return response()->json(['status' => 'success', 'data' => $contact]);
     }
 }

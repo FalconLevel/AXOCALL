@@ -96,4 +96,14 @@ class Communication extends Model
     {
         return $this->hasMany(Transcription::class, 'recording_id', 'recording_sid');
     }
+
+    public function contact_from()
+    {
+        return $this->belongsTo(PhoneNumber::class, 'from', 'phone_number_formatted')->with('contact');
+    }
+
+    public function contact_to()
+    {
+        return $this->belongsTo(PhoneNumber::class, 'to', 'phone_number_formatted')->with('contact');
+    }
 }

@@ -12,7 +12,7 @@
                     <div class="form-group">
                         
                         <label for="contact_id">Contact</label>
-                        <select class="form-control" id="contact_id" name="contact_id" required data-key="contact_id">
+                        <select class="form-control select2" id="contact_id" name="contact_id" required data-key="contact_id">
                             <option value="">Select Contact</option>
                             
                             @foreach($contacts as $contact)

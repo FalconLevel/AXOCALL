@@ -56,6 +56,13 @@ class ValidatorHelper {
                     'last_name' => 'nullable|string|max:255',
                     'notes' => 'nullable|string|max:255',
                 ];
+            case 'extension_settings_save':
+                return [
+                    'extension_expiration_days' => 'required|integer|min:1|max:365',
+                    'extension_expiration_hrs' => 'sometimes|integer|min:0|max:24',
+                    'random_extension_generation' => 'sometimes|boolean',
+                    'is_active' => 'sometimes|boolean',
+                ];
         }
     }
 }

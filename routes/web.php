@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Exec\ContactController;
 use App\Http\Controllers\Exec\ExtensionController;
+use App\Http\Controllers\Exec\SettingsController;
 use App\Http\Controllers\Exec\TagController;
 use App\Http\Controllers\ModuleController;
 use Illuminate\Support\Facades\Route;
@@ -53,5 +54,12 @@ Route::group(['prefix' => 'executor'], function () {
         Route::post('/update/{id}', [ExtensionController::class, 'update'])->name('executor.extensions.update');
         Route::post('/delete/{id}', [ExtensionController::class, 'delete'])->name('executor.extensions.delete');
         Route::post('/edit/{id}', [ExtensionController::class, 'edit'])->name('executor.extensions.edit');
+
+        Route::post('/generate', [ExtensionController::class, 'generate'])->name('executor.extensions.generate');
+    });
+
+    Route::group(['prefix' => 'settings'], function () {
+        Route::post('/extension-settings', [SettingsController::class, 'extensionSettings'])->name('executor.settings.extension-settings');
+        Route::post('/save-extension-settings', [SettingsController::class, 'saveExtensionSettings'])->name('executor.settings.save-extension-settings');
     });
 });

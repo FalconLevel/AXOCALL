@@ -199,7 +199,11 @@ class FetchTwilioRecordings extends Command
     }
 
     private function getCallType(string $from): string {
-        return in_array($from, $this->getAccessNumbers()) ? self::OUTBOUND_CALL : self::INBOUND_CALL;
+        
+        print_r([
+            formatHelper()->formatPhoneNumber($from), $this->getAccessNumbers()
+        ]);
+        return in_array(formatHelper()->formatPhoneNumber($from), $this->getAccessNumbers()) ? self::OUTBOUND_CALL : self::INBOUND_CALL;
     }
 
     private function getAccessNumbers(): array {

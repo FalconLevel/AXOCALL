@@ -124,3 +124,92 @@ textarea {
         flex: 1 1 100%;
     }
 }
+
+.dataTables_wrapper {
+    padding: 0 !important;
+}
+
+.dataTables_filter input {
+    border-radius: 0.25rem !important;
+    border: 1px solid #e0e0e0 !important;
+    padding: 0.5rem 0.75rem !important;
+    font-size: 0.875rem !important;
+    line-height: 1rem !important;
+    color: #313131 !important;
+    background-color: #ffffff !important;
+    width: 200px !important;
+}
+
+.zero-configuration {
+    background-color: #ffffff !important;
+}
+
+.text-bold {
+    font-weight: bold !important;
+}
+
+.table-hover tbody tr:hover {
+    background-color: #f8f9fa !important;
+}
+
+/* toggle */
+.toggle-switch-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.toggle-label {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 24px;
+}
+
+.toggle-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #ccc;
+    transition: 0.4s;
+    border-radius: 24px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 3px;
+    bottom: 3px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #2196f3;
+}
+
+input:checked + .slider:before {
+    transform: translateX(26px);
+}
+
+.slider:hover {
+    box-shadow: 0 0 5px rgba(33, 150, 243, 0.3);
+}

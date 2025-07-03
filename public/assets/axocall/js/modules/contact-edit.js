@@ -18,7 +18,7 @@ $(document).ready(function () {
                     
                     <div class="row">
                         <div class="col-md-8">
-                            <input type="text" class="form-control form-control-xs phone-number-edit" 
+                            <input type="text" class="form-control form-control-xs phone-number-edit phone-number" maxlength="10"
                                    placeholder="Phone Number" value="${phoneNumber}">
                         </div>
                         <div class="col-md-2">
@@ -175,12 +175,8 @@ $(document).ready(function () {
         const notes = $("#edit_notes").val();
 
         // Validate required fields
-        if (!firstName || !lastName) {
-            _show_toastr(
-                "error",
-                "First Name and Last Name are required",
-                "System Error"
-            );
+        if (!firstName) {
+            _show_toastr("error", "First Name is required", "User Error");
             return;
         }
 
@@ -192,6 +188,25 @@ $(document).ready(function () {
             const phoneType = $(this).find(".phone-type-edit").val();
 
             if (phoneNumber) {
+                if (phoneNumber === "") {
+                    _show_toastr(
+                        "error",
+                        "Please fill all required phone fields",
+                        "User Error"
+                    );
+                    return;
+                }
+
+                // Validate phone number to be exactly 10 digits
+                if (!/^\d{10}$/.test(phoneNumber.replace(/\D/g, ""))) {
+                    _show_toastr(
+                        "error",
+                        "Phone number must be exactly 10 digits",
+                        "User Error"
+                    );
+                    return;
+                }
+
                 phoneNumbers.push({
                     phone_number: phoneNumber,
                     phone_ext: phoneExt,

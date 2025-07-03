@@ -19,7 +19,7 @@
                             </div>
                             <div class="form-group col-md-6">
                                 <label class="text-label">Last Name </label>
-                                <input type="text" class="form-control form-control-xs" id="edit_last_name" placeholder="Doe" data-key="LastName" data="req">
+                                <input type="text" class="form-control form-control-xs" id="edit_last_name" placeholder="Doe" data-key="LastName">
                             </div>
                         </div>
                         <div class="card-body p-0">

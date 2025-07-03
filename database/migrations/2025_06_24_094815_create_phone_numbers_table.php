@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('contact_id')->constrained('contacts');
             $table->string('phone_number')->unique();
+            $table->string('phone_number_formatted')->nullable();
             $table->string('phone_ext')->nullable();
             $table->string('phone_type')->nullable();
             $table->softDeletes();
