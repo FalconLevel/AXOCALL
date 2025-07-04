@@ -65,7 +65,6 @@
     </div>
 @elseif($xtype == 'communications')
     <div class="d-flex justify-content-end align-middle border-bottom">
-        <input type="text" class="form-control form-control-xs w-50" placeholder="Search Logs">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
                 <button type="button" class="btn ml-1  btn-outline-danger">

@@ -356,4 +356,32 @@ class CommunicationController extends Controller {
             'data' => Communication::orderBy('date_time', 'desc')->get()
         ]);
     }
+
+    public function unFollowUp(string $id, string $type): JsonResponse
+    {
+        try {
+            if ($type == "communication") {
+                $communication = Communication::find($id);
+                $communication->update([
+                    'category' => null
+                ]);
+            } elseif ($type == "message") {
+                $message = Message::find($id);
+                $message->update([
+                    'category' => null
+                ]);
+            }
+            return response()->json([
+                'success' => true,
+                'message' => ucfirst($type) . ' restored successfully',
+                'data' => $communication ?? $message
+            ]);
+        } catch (\Exception $e) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to unfollow ' . ucfirst($type) . ' ' . $id,
+                'error' => $e->getMessage()
+            ], 500);
+        }
+    }
 }

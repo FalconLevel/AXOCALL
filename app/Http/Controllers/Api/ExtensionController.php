@@ -14,7 +14,13 @@ class ExtensionController extends Controller
      */
     public function all()
     {
-        $extensions = Extension::with('contact', 'phone')->get();
+        $extensions = Extension::with('contact', 'phone')->orderBy('created_at', 'desc')->get();
+
+        $extensions = $extensions->map(function ($extension) {
+            $extension->status = $extension->expiration > now() ? "active" : "inactive";
+            return $extension;
+        });
+
         return response()->json([
             'status' => 'success',
             'data' => $extensions
@@ -26,7 +32,7 @@ class ExtensionController extends Controller
      */
     public function save(Request $request)
     {
-        try {
+        try { 
             $validator = Validator::make($request->all(), [
                 'contact_id' => 'required|exists:contacts,id',
                 'phone_id' => 'required|exists:phone_numbers,id',
@@ -44,7 +50,11 @@ class ExtensionController extends Controller
                 ], 422);
             }
     
-            $extension = Extension::create($validator->validated());
+            $validated = $validator->validated();
+            $validated['expiration'] = date('Y-m-d H:i:s', strtotime($validated['expiration']));
+            
+            
+            $extension = Extension::create($validated);
     
             return response()->json([
                 'status' => 'success',

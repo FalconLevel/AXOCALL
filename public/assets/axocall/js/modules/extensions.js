@@ -1,6 +1,12 @@
 $(document).ready(function () {
     _fetchExtensions();
     _init_extension_actions();
+
+    $(".datetimepicker").datetimepicker({
+        format: "Y-m-d H:i A",
+        timepicker: true,
+        datepicker: true,
+    });
 });
 
 function _fetchExtensions() {
@@ -37,22 +43,25 @@ function _renderExtensions(extensions) {
         tbody.append(`
             <tr>
                 <td>${
-                    extension.contact.first_name
-                } ${extension.contact.last_name}</td>
+                    extension.contact.first_name.charAt(0).toUpperCase() +
+                    extension.contact.first_name.slice(1)
+                } ${extension.contact?.last_name ? extension.contact.last_name.charAt(0).toUpperCase() + extension.contact.last_name.slice(1) : ""}</td>
                 <td>${extension.phone.phone_number}</td>
                 <td>${extension.extension_number}</td>
-                <td>${extension.status || ""}</td>
+                <td><span class="badge badge-${
+                    extension.status === "active" ? "success" : "danger"
+                }">${extension.status ? extension.status.charAt(0).toUpperCase() + extension.status.slice(1) : ""}</td>
+                <td>${_format_date(extension.expiration) || ""}</td>
                 <td>${extension.notes || ""}</td>
                 <td>${_format_date(extension.created_at) || ""}</td>
-                <td>${_format_date(extension.expiration) || ""}</td>
                 <td>
                     <span>
-                        <a href="#" data-trigger="edit-extension" data-id="${
+                        <a href="#" data-trigger="re-activate-extension" data-id="${
                             extension.id
-                        }" title="Edit"><i class="fa fa-pencil color-muted m-r-5"></i></a>
+                        }" title="Re-activate"><i class="fa fa-refresh text-success m-r-5"></i></a>&nbsp;
                         <a href="#" data-trigger="delete-extension" data-id="${
                             extension.id
-                        }" title="Delete"><i class="fa fa-trash color-danger"></i></a>
+                        }" title="Delete"><i class="fa fa-trash text-danger"></i></a>
                     </span>
                 </td>
             </tr>
@@ -61,7 +70,6 @@ function _renderExtensions(extensions) {
     _init_extension_actions();
 }
 function _loadExtensionForEdit(extension) {
-    console.log(extension);
     // Populate form fields with extension data
     $("#edit_extension_id").val(extension.id);
     $("#edit_contact_id").val(extension.contact_id);
@@ -220,7 +228,6 @@ function _init_extension_actions() {
                 let mode = $(this).attr("data-mode");
                 let extensionId = $(this).attr("data-id");
 
-                console.log(extension_details);
                 let url =
                     mode === "edit"
                         ? `/api/extensions/update/${extensionId}`
@@ -242,6 +249,7 @@ function _init_extension_actions() {
                                 "System Info"
                             );
                             $("#extension-modal-edit").modal("hide");
+                            $("#extension-modal-add").modal("hide");
                             _fetchExtensions();
                         } else {
                             _show_toastr(

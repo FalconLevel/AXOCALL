@@ -8,7 +8,7 @@
                         <p class="modal-description">Contact details and assigned extension.</p>
                     </div>
                     
-                    <a href="#" data-trigger="edit-contact-view" data-id="" title="Edit"><i class="fa fa-pencil color-muted m-r-5"></i></a>
+                    <a href="#" data-trigger="edit-contact-view" data-id="" title="Edit"><i class="fa fa-pencil text-info m-r-5"></i></a>
                 </div>
                 <div class="modal-body">
                     <div class="card shadow-sm">
@@ -63,40 +63,8 @@
                                 <i class="fa fa-building"></i> Assigned Extension
                             </h5>
                             <div class="row">
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h6>Name</h6>
-                                            <p class="text-muted view_name"></p>
-                                        </div>
-        
-                                    </div>
-        
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h6>Notes</h6>
-                                            <p class="text-muted view_notes"></p>
-                                        </div>
-        
-                                    </div>
-        
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h6>Created</h6>
-                                            <p class="text-muted view_created"></p>
-                                        </div>
-        
-                                    </div>
-        
-                                </div>
-        
-                                <div class="col-md-6">
-                                    <div class="row">
-                                        <div class="col-md-12">
-                                            <h6>Phone Numbers</h6>
-                                            <span class="view_phone_numbers"></span>
-                                        </div>
-                                    </div>
+                                <div class="col-md-12 extension-details">
+                                    
                                 </div>
                             </div>
                         </div>

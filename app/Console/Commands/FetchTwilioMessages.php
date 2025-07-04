@@ -20,7 +20,7 @@ class FetchTwilioMessages extends Command
         $twilio_client = new Client(config('twilio.twilio.sid'), config('twilio.twilio.token'));
         $messages = $twilio_client->messages->read([
             "dateSentAfter" => new \DateTime("2025-06-01T00:00:00Z"),
-            "dateSentBefore" => new \DateTime("2025-06-22T23:59:59Z"),
+            "dateSentBefore" => new \DateTime("2025-06-30T23:59:59Z"),
         ]);
         $filtered_messages = [];
         foreach ($messages as $message) {
@@ -45,7 +45,7 @@ class FetchTwilioMessages extends Command
     }
 
     private function getMessageType(string $from): string {
-        return in_array($from, $this->getAccessNumbers()) ? self::OUTBOUND_MESSAGE : self::INBOUND_MESSAGE;
+        return in_array(formatHelper()->formatPhoneNumber($from), $this->getAccessNumbers()) ? self::OUTBOUND_MESSAGE : self::INBOUND_MESSAGE;
     }
 
     private function getAccessNumbers(): array {

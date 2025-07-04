@@ -67,7 +67,7 @@ function _renderContacts(contacts) {
                         
                         <a href="#" data-trigger="delete-contact" data-id="${
                             contact.id
-                        }" title="Delete"><i class="fa fa-trash color-danger"></i></a>
+                        }" title="Delete"><i class="fa fa-trash text-danger"></i></a>
                     </span>
                 </td>
             </tr>
@@ -437,6 +437,7 @@ function _viewContact(id) {
                     "#contact-modal-view [data-trigger='edit-contact-view']"
                 ).attr("data-id", id);
 
+                let extension_html = "";
                 let phone_numbers = "";
                 if (contact.phone_numbers && contact.phone_numbers.length > 0) {
                     contact.phone_numbers.forEach((phone) => {
@@ -450,11 +451,32 @@ function _viewContact(id) {
                                 : "") +
                             " " +
                             "<br />";
+                        if (phone.extension) {
+                            extension_html += `
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <h6>${phone.phone_number}</h6>
+                                        <span class="view_extension">${phone.extension.extension_number}</span>
+                                    </div>
+                                </div>
+                            `;
+                        } else {
+                            extension_html += `
+                                <div class="row mb-3">
+                                    <div class="col-md-12">
+                                        <h6>${phone.phone_number}</h6>
+                                        <span class="view_extension mb-3">No extension assigned</span>
+                                    </div>
+                                </div>
+                            `;
+                        }
                     });
                 }
+
                 $("#contact-modal-view .view_phone_numbers").html(
                     phone_numbers
                 );
+
                 // Handle tags display
                 let tagsHtml = "";
                 if (contact.tags && contact.tags.length > 0) {
@@ -465,7 +487,13 @@ function _viewContact(id) {
                     tagsHtml =
                         '<span class="text-muted">No tags assigned</span>';
                 }
+
                 $("#contact-modal-view .contact-tags").html(tagsHtml);
+                if (extension_html) {
+                    $("#contact-modal-view .extension-details").html(
+                        extension_html
+                    );
+                }
 
                 // Show the modal
                 $("#contact-modal-view").modal("show");

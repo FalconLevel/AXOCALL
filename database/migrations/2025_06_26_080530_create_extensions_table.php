@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('extension_number')->unique();
             $table->date('expiration')->nullable();
             $table->text('notes')->nullable();
-            $table->string('status')->default('inactive');
+            $table->string('status')->default('active');
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('contact_id')->references('id')->on('contacts')->onDelete('cascade');

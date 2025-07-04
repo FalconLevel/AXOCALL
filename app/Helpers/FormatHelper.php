@@ -40,4 +40,8 @@ class FormatHelper {
             return sprintf('%02d:%02d', $minutes, $remainingSeconds);
         }
     }
+
+    public static function formatDate(string $date): string {
+        return date('m/d/y h:i A', strtotime($date));
+    }
 }

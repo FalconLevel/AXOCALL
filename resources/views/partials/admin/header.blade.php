@@ -19,6 +19,7 @@
     <link href="{{ asset('assets/system/plugins/toastr/css/toastr.min.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/system/plugins/jquery-asColorPicker-master/css/asColorPicker.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/system/plugins/select2/css/select2.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/system/datetime-picker/jquery.datetimepicker.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/system/css/style.css') }}" type="text/css" rel="stylesheet">
     <link href="{{ asset('assets/system/css/override.css') }}" type="text/css" rel="stylesheet">
 </head>

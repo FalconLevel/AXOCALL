@@ -12,9 +12,9 @@
                             <th scope="col">Phone Number</th>
                             <th scope="col">Extension</th>
                             <th scope="col">Status</th>
+                            <th scope="col">Expiration</th>
                             <th scope="col">Notes</th>
                             <th scope="col">Date Created</th>
-                            <th scope="col">Expiration</th>
                             <th scope="col">Action</th>
                         </tr>
                     </thead>

@@ -52,10 +52,11 @@ Route::prefix('extensions')->group(function () {
 });
 
 Route::prefix('communications')->group(function () {
+    Route::post('/transcribe-recording', [CommunicationController::class, 'transcribeRecording']);
     Route::post('/archive/{id}/{type}', [CommunicationController::class, 'archive']);
     Route::post('/un-archive/{id}/{type}', [CommunicationController::class, 'unArchive']);
-    Route::post('/transcribe-recording', [CommunicationController::class, 'transcribeRecording']);
     Route::post('/update-notes/{id}', [CommunicationController::class, 'updateNotes']);
     Route::post('/follow-up/{id}/{type}', [CommunicationController::class, 'followUp']);
+    Route::post('/un-follow-up/{id}/{type}', [CommunicationController::class, 'unFollowUp']);
     Route::post('/refresh-datatable', [CommunicationController::class, 'refreshDatatable']);
 });

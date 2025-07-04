@@ -32,9 +32,7 @@ class ModuleController extends Controller
         $this->data['description'] = 'Manage all your call logs and SMS messages in one place.';
         $this->data['panel_type'] = 'communications';
         $this->data['communications'] = globalHelper()->getCommunicationData();
-        
-        $this->data['messages'] = Message::orderBy('date_sent', 'desc')->get();
-
+        $this->data['messages'] = globalHelper()->getMessageData();
         return view('pages.admin.communications', $this->data);
     }
 
@@ -59,10 +57,10 @@ class ModuleController extends Controller
         $this->data['description'] = 'Manage your flagged calls and SMS messages that need follow-up';
         $this->data['panel_type'] = 'follow_ups';
         $this->data['communications'] = Communication::where('category', 'follow-up')
-        ->orderBy('date_time', 'desc')->get();
+        ->orderBy('date_time', 'desc')->with('transcriptions', 'contact_from', 'contact_to')->get();
         
         $this->data['messages'] = Message::where('category', 'follow-up')
-        ->orderBy('date_sent', 'desc')->get();
+        ->orderBy('date_sent', 'desc')->with('contact_from', 'contact_to')->get();
         
         return view('pages.admin.follow_ups', $this->data);
     }

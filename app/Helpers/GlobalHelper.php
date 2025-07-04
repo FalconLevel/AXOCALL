@@ -6,6 +6,7 @@ namespace App\Helpers;
 use App\Models\Communication;
 use App\Models\Contact;
 use App\Models\Extension;
+use App\Models\Message;
 use App\Models\PhoneNumber;
 use App\Models\SettingExtension;
 use App\Models\Tag;
@@ -52,9 +53,15 @@ class GlobalHelper {
     }
 
     public function getCommunicationData() {
-        $communications = Communication::orderBy('date_time', 'asc')->with('transcriptions', 'contact_from', 'contact_to')->get();
+        $communications = Communication::orderBy('date_time', 'desc')->with('transcriptions', 'contact_from', 'contact_to')->get();
         
         return $communications;
+    }
+
+    public function getMessageData() {
+        $messages = Message::orderBy('date_sent', 'desc')->with('contact_from', 'contact_to')->get();
+        
+        return $messages;
     }
 
     public function generateExtension() {
@@ -76,7 +83,7 @@ class GlobalHelper {
                 $extension_new = $this->generateSequentialExtension();
             }
             
-            $expiration_date = now()->addDays($extension_expiration_days)->addHours($extension_expiration_hrs)->format('Y-m-d H:i:s');
+            $expiration_date = now()->addDays($extension_expiration_days)->addHours($extension_expiration_hrs)->format('Y-m-d H:i A');
             return [
                 'extension_number' => $extension_new,
                 'expiration_date' => $expiration_date,

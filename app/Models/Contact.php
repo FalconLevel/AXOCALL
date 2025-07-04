@@ -13,7 +13,7 @@ class Contact extends Model
 
     public function phoneNumbers()
     {
-        return $this->hasMany(PhoneNumber::class, 'contact_id');
+        return $this->hasMany(PhoneNumber::class, 'contact_id')->with('extension');
     }
 
     public function tags()

@@ -41,7 +41,7 @@
                     </div>
                     <div class="form-group">
                         <label for="expiration">Expiration Date</label>
-                        <input type="date" class="form-control" id="expiration" name="expiration" data-key="expiration">
+                        <input type="text" class="form-control datetimepicker" id="expiration" name="expiration" data-key="expiration">
                     </div>
                     <div class="form-group">
                         <label for="notes">Notes</label>
