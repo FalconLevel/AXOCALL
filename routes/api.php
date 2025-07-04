@@ -18,7 +18,7 @@ Route::prefix('account')->group(function () {
     Route::post('/login', [AccountController::class, 'login']);
 });
 
-Route::middleware('auth:sanctum')->group(function () {
+// Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('account')->group(function () {
         Route::post('/logout', [AccountController::class, 'logout']);
     });
@@ -68,4 +68,4 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::post('/un-follow-up/{id}/{type}', [CommunicationController::class, 'unFollowUp']);
         Route::post('/refresh-datatable', [CommunicationController::class, 'refreshDatatable']);
     });
-});
+// });

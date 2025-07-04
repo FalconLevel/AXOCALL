@@ -1,5 +1,6 @@
 $(document).ready(function () {
-    $('[data-trigger="logout"]').on("click", function () {
+    $('[data-action="logout"]').on("click", function () {
+        console.log("logout");
         ajaxRequest("/executor/account/logout", "", "");
     });
 });

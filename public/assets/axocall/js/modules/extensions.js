@@ -203,7 +203,7 @@ function _init_extension_actions() {
     $("[data-trigger]").click(function (e) {
         e.preventDefault();
         let trigger = $(this).data("trigger");
-        console.log(trigger);
+
         let parentForm = $(this).closest("form");
         switch (trigger) {
             case "add-extension":

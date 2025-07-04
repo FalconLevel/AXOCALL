@@ -38,7 +38,7 @@ Route::group(['prefix' => 'executor'], function () {
 });
 
 //Execution Routes
-Route::middleware(['auth:sanctum'])->group(function () {
+// Route::middleware(['auth:sanctum'])->group(function () {
     Route::group(['prefix' => 'executor'], function () {
         
         Route::group(['prefix' => 'account'], function () {
@@ -79,4 +79,4 @@ Route::middleware(['auth:sanctum'])->group(function () {
             Route::post('/save-extension-settings', [SettingsController::class, 'saveExtensionSettings'])->name('executor.settings.save-extension-settings');
         });
     });
-});
+// });
