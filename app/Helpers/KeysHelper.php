@@ -11,7 +11,12 @@ class KeysHelper {
         'FirstName' => 'first_name',
         'LastName' => 'last_name',
         'Notes' => 'notes',
-        
+        'Email' => 'email',
+        'Password' => 'password',
+        'Role' => 'role',
+        'Status' => 'status',
+        'Attempts' => 'attempts',
+
         'PhoneNumber' => 'phone_number',
         'PhoneExt' => 'phone_ext',
         'PhoneType' => 'phone_type',

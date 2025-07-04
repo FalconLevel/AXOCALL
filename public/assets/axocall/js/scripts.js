@@ -1,3 +1,9 @@
+$(document).ready(function () {
+    $('[data-trigger="logout"]').on("click", function () {
+        ajaxRequest("/executor/account/logout", "", "");
+    });
+});
+
 function ajaxRequest(sUrl = "", sData = "", sLoadParent = "") {
     $.ajax({
         url: sUrl,

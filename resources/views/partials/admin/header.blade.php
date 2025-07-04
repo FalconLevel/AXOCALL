@@ -90,7 +90,7 @@
                                             <a href="{{ route('maintenance.profile') }}"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>                                        
                                         <hr class="my-2">
-                                        <li><a href="page-login.html"><i class="icon-key"></i> <span>Logout</span></a></li>
+                                        <li><a href="javascript:void(0)" data-trigger="logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>
                             </div>

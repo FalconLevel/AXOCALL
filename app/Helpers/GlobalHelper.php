@@ -106,4 +106,29 @@ class GlobalHelper {
         $last_extension = Extension::orderBy('id', 'desc')->first();
         return $last_extension ? $last_extension->extension_number + 1 : config('custom.extension_start');
     }
+
+    public function getDashboardData() {
+        $total_communications = Communication::count();
+        $total_messages = Message::count();
+        $total_extensions = Extension::where('status', 'active')->count();
+        $total_follow_ups = Communication::where('category', 'follow-up')->count();
+        $total_appointments_booked = Communication::where('is_booked', 'yes')->count();
+
+        $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->count();
+        $total_positive_calls = Communication::where('sentiment', 'positive')->count();
+        $total_neutral_calls = Communication::where('sentiment', 'neutral')->count();
+        $total_negative_calls = Communication::where('sentiment', 'negative')->count();
+
+        return [
+            'total_communications' => $total_communications,    
+            'total_messages' => $total_messages,
+            'total_extensions' => $total_extensions,
+            'total_follow_ups' => $total_follow_ups,
+            'total_appointments_booked' => $total_appointments_booked,
+            'total_calls_with_sentiment' => $total_calls_with_sentiment,
+            'total_positive_calls' => $total_positive_calls,
+            'total_neutral_calls' => $total_neutral_calls,
+            'total_negative_calls' => $total_negative_calls,
+        ];
+    }
 }

@@ -28,11 +28,11 @@
     
   </footer>
 
-  <script src="{{ assets('asset/system/plugins/common/common') }} .min.js"></script>
-  <script src="{{ assets('asset/system/js/custom.min') }} .js"></script>
-  <script src="{{ assets('asset/system/js/settings.js') }} "></script>
-  <script src="{{ assets('asset/system/js/gleek.js') }} "></script>
-  <script src="{{ assets('asset/system/js/styleSwitcher.js') }} "></script>
+  <script src="{{ asset('assets/system/plugins/common/common.min.js') }}"></script>
+  <script src="{{ asset('assets/system/js/custom.min.js') }}"></script>
+  <script src="{{ asset('assets/system/js/settings.js') }} "></script>
+  <script src="{{ asset('assets/system/js/gleek.js') }} "></script>
+  <script src="{{ asset('assets/system/js/styleSwitcher.js') }} "></script>
 
 </body>
 </html>

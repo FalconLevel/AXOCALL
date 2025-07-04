@@ -12,8 +12,11 @@
 
     <link rel="shortcut icon" href="{{ asset('assets/axocall/icons/logo.svg') }}" type="image/x-icon">
 
+    <link rel="stylesheet" href="{{ asset('assets/system/plugins/fontawesome/css/all.min.css') }}" type="text/css">
+    <link href="{{ asset('assets/system/plugins/toastr/css/toastr.min.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="{{ asset('assets/system/css/style.css') }}" type="text/css">
 
+    <link href="{{ asset('assets/system/css/override.css') }}" type="text/css" rel="stylesheet">
 </head>
 
 <body class="h-100">

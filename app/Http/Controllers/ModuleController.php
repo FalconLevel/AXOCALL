@@ -19,11 +19,8 @@ class ModuleController extends Controller
         $this->data['title'] = 'Dashboard Overview';
         $this->data['description'] = "Welcome back! Here's what's happening with your communications.";
         $this->data['panel_type'] = 'dashboard';
-        $this->data['total_communications'] = Communication::count();
-        $this->data['total_messages'] = Message::count();
-        $this->data['total_extensions'] = Extension::where('status', 'active')->count();
-        $this->data['total_follow_ups'] = Communication::where('category', 'follow-up')->count();
-        
+        $this->data['dashboard_data'] = globalHelper()->getDashboardData();
+
         return view('pages.admin.dashboard', $this->data);
     }
 

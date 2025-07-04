@@ -213,3 +213,20 @@ input:checked + .slider:before {
 .slider:hover {
     box-shadow: 0 0 5px rgba(33, 150, 243, 0.3);
 }
+
+.login-form {
+    min-height: 400px !important;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.btn-outline-light {
+    border: 1px solid #e0e0e0 !important;
+}
+
+.btn-outline-light:hover {
+    background-color: #e0e0e0 !important;
+    color: #313131 !important;
+}
