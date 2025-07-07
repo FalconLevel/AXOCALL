@@ -7,4 +7,7 @@
 
     @include('components.dashboard.sentiments')
 </div>
+
 @include('partials.admin.footer')
+
+<script src="{{ asset('assets/axocall/js/modules/dashboard.js') }}"></script>

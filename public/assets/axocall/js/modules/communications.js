@@ -69,6 +69,32 @@ $(document).ready(function () {
             },
         });
     });
+
+    $("[data-trigger='export-communications']").on("click", function () {
+        let report_type = $(".nav-link.active").attr("href").split("#")[1];
+
+        $.ajax({
+            url: "/api/communications/export",
+            type: "POST",
+            headers: {
+                "X-CSRF-TOKEN": $("meta[name='_token']").attr("content"),
+            },
+            data: {
+                report_type: report_type,
+            },
+            success: function (response) {
+                if (response.status) {
+                    window.location.href = response.data;
+                } else {
+                    _show_toastr("error", response.message);
+                }
+            },
+            error: function (xhr) {
+                console.log(xhr);
+                _show_toastr("error", "Failed to export data logs!");
+            },
+        });
+    });
 });
 
 function _initWidgets() {

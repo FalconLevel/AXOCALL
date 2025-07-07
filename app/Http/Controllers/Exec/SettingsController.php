@@ -11,13 +11,14 @@ class SettingsController extends Controller
     {
         try {
             $response = apiHelper()->execute($request, '/api/settings/extension-settings');
+            
             return globalHelper()->ajaxSuccessResponse(
                 'scripts',
                 'success',
                 'fetch-extension-settings',
                 '',   
                 '',
-                $response['data']
+                $response['data'] ? $response['data'] : []
             );
         } catch (\Exception $e) {
             logInfo($e->getMessage());

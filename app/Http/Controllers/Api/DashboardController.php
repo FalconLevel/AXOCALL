@@ -28,4 +28,24 @@ class DashboardController extends Controller
             'total_active_extensions' => $count
         ]);
     }
+
+    public function stats()
+    {
+        try {
+            $trigger = request()->get('trigger');
+            $daterange = request()->get('daterange');
+            $data = globalHelper()->getDashboardData($trigger, $daterange);
+
+            return response()->json([
+                'status' => true,
+                'data' => $data
+            ]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
 }

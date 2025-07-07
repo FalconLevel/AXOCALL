@@ -20,15 +20,8 @@
                                         </div>
                                     </div>
                                     <div class="card-body py-0">
-                                        <h1 class="text-success">{{ $dashboard_data['total_positive_calls'] }}</h1>
-                                        <p class="text-muted">
-                                            {{ 
-                                                $dashboard_data['total_calls_with_sentiment'] > 0 ?
-                                                number_format($dashboard_data['total_positive_calls'] / $dashboard_data['total_calls_with_sentiment'] * 100, 2) : 0
-                                                }}% 
-                                                of 
-                                            {{ $dashboard_data['total_calls_with_sentiment'] }} calls
-                                        </p>
+                                        <h1 class="text-success total-positive-calls"></h1>
+                                        <p class="text-muted total-positive-calls-percentage"></p>
                                     </div>
                                 </div>    
                             </div>
@@ -42,15 +35,8 @@
                                         </div>
                                     </div>
                                     <div class="card-body py-0">
-                                        <h1 class="text-warning">{{ $dashboard_data['total_neutral_calls'] }}</h1>
-                                        <p class="text-muted">
-                                            {{ 
-                                                $dashboard_data['total_calls_with_sentiment'] > 0 ?
-                                                number_format($dashboard_data['total_neutral_calls'] / $dashboard_data['total_calls_with_sentiment'] * 100, 2) : 0
-                                                }}% 
-                                                of 
-                                            {{ $dashboard_data['total_calls_with_sentiment'] }} calls
-                                        </p>
+                                        <h1 class="text-warning total-neutral-calls"></h1>
+                                        <p class="text-muted total-neutral-calls-percentage"></p>
                                     </div>
                                 </div>    
                             </div>
@@ -64,15 +50,8 @@
                                         </div>
                                     </div>
                                     <div class="card-body py-0">
-                                        <h1 class="text-danger">{{ $dashboard_data['total_negative_calls'] }}</h1>
-                                        <p class="text-muted">
-                                            {{ 
-                                                $dashboard_data['total_calls_with_sentiment'] > 0 ?
-                                                    number_format($dashboard_data['total_negative_calls'] / $dashboard_data['total_calls_with_sentiment'] * 100, 2) : 0
-                                                }}% 
-                                                of 
-                                            {{ $dashboard_data['total_calls_with_sentiment'] }} calls
-                                        </p>
+                                        <h1 class="text-danger total-negative-calls"></h1>
+                                        <p class="text-muted total-negative-calls-percentage"></p>
                                     </div>
                                 </div>    
                             </div>

@@ -61,8 +61,16 @@ return [
         ],
         'recordings' => [
             'driver' => 'local',
-            'root' => public_path('assets/axocall/recordings'),
+            'root' => public_path('assets/axocall/exports'),
             'url' => env('APP_URL').'/assets/axocall/recordings',
+            'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+        'exports' => [
+            'driver' => 'local',
+            'root' => public_path('assets/axocall/exports'),
+            'url' => env('APP_URL').'/assets/axocall/exports',
             'visibility' => 'public',
             'throw' => false,
             'report' => false,

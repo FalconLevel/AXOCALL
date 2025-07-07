@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Extension;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
 class ExtensionController extends Controller
@@ -166,4 +167,26 @@ class ExtensionController extends Controller
             ], 500);
         }
     } 
+
+    public function export()
+    {
+        try {
+            $extensions = Extension::with('contact', 'phone')->get();
+            $filename = 'extensions_'.date('Y-m-d_H-i-s').'.csv';
+            $path = public_path('assets/axocall/exports/'.$filename);
+            $file = fopen($path, 'w');
+            fputcsv($file, ['Name', 'Phone', 'Extension', 'Expiration', 'Notes', 'Status']);
+            foreach ($extensions as $extension) {
+                fputcsv($file, [$extension->contact->first_name . ' ' . $extension->contact->last_name, $extension->phone->phone_number, $extension->extension_number, $extension->expiration, $extension->notes, $extension->status]);
+            }
+            fclose($file);
+            return response()->json(['status' => 'success', 'data' => URL::to('assets/axocall/exports/'.$filename)]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to export extensions'
+            ], 500);
+        }
+    }   
 }

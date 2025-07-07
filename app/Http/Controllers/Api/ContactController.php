@@ -10,6 +10,7 @@ use Illuminate\Database\QueryException;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\URL;
 
 class ContactController extends Controller
 {
@@ -150,7 +151,7 @@ class ContactController extends Controller
         }
 
         DB::commit();
-        return response()->json(['status' => 'success', 'message' => 'Contact updated successfully']);
+        return response()->json(['status' => 'success', 'message' => 'Contact updated successfully']);  
     }
 
     public function delete($id): JsonResponse {
@@ -184,5 +185,37 @@ class ContactController extends Controller
     public function view($id): JsonResponse {
         $contact = Contact::with('phoneNumbers', 'tags')->find($id);
         return response()->json(['status' => 'success', 'data' => $contact]);
+    }
+
+    public function export(): JsonResponse {
+        try {
+            $contacts = Contact::with('phoneNumbers', 'tags')->get()->toArray(); 
+            
+            $filename = 'contacts_'.date('Y-m-d_H-i-s').'.csv';
+            $path = public_path('assets/axocall/exports/'.$filename);
+            $file = fopen($path, 'w');
+            fputcsv($file, ['Name', 'Phone', 'Tags', 'Notes', 'Date Created']);
+            foreach ($contacts as $contact) {
+                fputcsv($file, 
+                    [
+                        $contact['first_name'] . " " . $contact['last_name'] , 
+                        implode(',', array_map(function ($phone) {
+                            return $phone['phone_number'];
+                        }, $contact['phone_numbers'])),
+                        
+                        implode(',', array_map(function ($tag) {
+                            return $tag['tag']['tag_name'];
+                        }, $contact['tags'])),
+                        $contact['notes'],
+                        formatHelper()->formatDate($contact['created_at'])
+                    ]
+                );
+            }
+            fclose($file);
+            return response()->json(['status' => 'success', 'data' => URL::to('assets/axocall/exports/'.$filename)]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json(['status' => 'error', 'message' => 'Please call system administrator'], 500);
+        }
     }
 }

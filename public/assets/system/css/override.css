@@ -230,3 +230,11 @@ input:checked + .slider:before {
     background-color: #e0e0e0 !important;
     color: #313131 !important;
 }
+
+.daterangepicker {
+    left: 920px !important;
+    top: 135px !important;
+}
+.daterangepicker.opensright:before {
+    color: "" !important;
+}

@@ -9,12 +9,12 @@
                         <table class="table table-hover verticle-middle zero-configuration" cellspacing="0">
                             <thead>
                                 <tr>
-                                    <th scope="col">Name</th>
-                                    <th scope="col">Phone</th>
-                                    <th scope="col">Tags</th>
-                                    <th scope="col">Notes</th>
-                                    <th scope="col">Date Created</th>
-                                    <th scope="col">Actions</th>
+                                    <th width="15%">Name</th>
+                                    <th width="15%">Phone</th>
+                                    <th>Tags</th>
+                                    <th width="20%">Notes</th>
+                                    <th width="15%">Date Created</th>
+                                    <th width="5%">Actions</th>
                                 </tr>
                             </thead>
                             <tbody></tbody>

@@ -19,17 +19,21 @@
     <script src="{{ asset('assets/system/plugins/jquery-asColorPicker-master/libs/jquery-asGradient.js') }}"></script>
     <script src="{{ asset('assets/system/plugins/jquery-asColorPicker-master/dist/jquery-asColorPicker.min.js') }}"></script>
 
-    {{-- <script src="{{ asset('assets/system/plugins/tables/js/dataTables.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/system/plugins/tables/js/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('assets/system/plugins/tables/js/responsive.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/system/plugins/tables/js/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('assets/system/plugins/tables/js/buttons.bootstrap5.min.js') }}"></script>
-    <script src="{{ asset('assets/system/plugins/tables/js/buttons.html5.min.js') }}"></script> --}}
+    
     <script src="{{ asset('assets/system/plugins/toastr/js/toastr.min.js') }}"></script>
     <script src="{{ asset('assets/system/plugins/toastr/js/toastr.init.js') }}"></script>
 
+    <script src="{{ asset('assets/system/plugins/moment/moment.js') }}"></script>  
+    
+
     <script src="{{ asset('assets/system/plugins/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/system/datetime-picker/jquery.datetimepicker.full.js') }}"></script>
+
+
+    <script src="{{ asset('assets/system/plugins/bootstrap-material-datetimepicker/js/bootstrap-material-datetimepicker.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
+    
     <script src="{{ asset('assets/axocall/js/widgets-init.js') }}"></script>
     <script src="{{ asset('assets/axocall/js/scripts.js') }}"></script> 
 </body>

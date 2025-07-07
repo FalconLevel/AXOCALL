@@ -41,7 +41,9 @@ function _renderExtensions(extensions) {
     }
     extensions.forEach(function (extension) {
         tbody.append(`
-            <tr>
+            <tr class="cursor-pointer" data-trigger="edit-extension" data-id="${
+                extension.id
+            }">
                 <td>${
                     extension.contact.first_name.charAt(0).toUpperCase() +
                     extension.contact.first_name.slice(1)
@@ -249,8 +251,9 @@ function _init_extension_actions() {
                                 "System Info"
                             );
                             $("#extension-modal-edit").modal("hide");
-                            $("#extension-modal-add").modal("hide");
+                            $("#extension-modal").modal("hide");
                             _fetchExtensions();
+                            _clearExtensionFields();
                         } else {
                             _show_toastr(
                                 "error",
@@ -276,7 +279,36 @@ function _init_extension_actions() {
                 let deleteId = $(this).data("id");
                 _deleteExtension(deleteId);
                 break;
+            case "export-extensions":
+                _exportExtensions();
+                break;
         }
+    });
+}
+
+function _exportExtensions() {
+    $.ajax({
+        url: "/api/extensions/export",
+        method: "POST",
+        headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
+        success: function (res) {
+            if (res.status === "success") {
+                window.location.href = res.data;
+            } else {
+                _show_toastr(
+                    "error",
+                    res.message || "Failed to export extensions",
+                    "System Error"
+                );
+            }
+        },
+        error: function () {
+            _show_toastr(
+                "error",
+                "Failed to export extensions",
+                "System Error"
+            );
+        },
     });
 }
 
@@ -490,4 +522,14 @@ function _show_numbers() {
     //     }
     // });
     // ``;
+}
+
+function _clearExtensionFields() {
+    $("#extension-modal")[0].reset();
+    $("#contact_id").val("");
+    $("#phone_number").val("");
+    $("#selected-contact-info").hide();
+    $("#contact-info-display").empty();
+    $("#extension-modal").modal("hide");
+    $("#notes").val("");
 }

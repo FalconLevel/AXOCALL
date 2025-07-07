@@ -37,7 +37,7 @@ function _renderContacts(contacts) {
         let tags = (contact.tags || [])
             .map(
                 (tag) =>
-                    `<span class="label label-pill tag-labels text-white" style="background:${tag.tag.tag_color}">${tag.tag.tag_name}</span>`
+                    `<span class="label label-pill tag-labels text-white mr-1" style="background:${tag.tag.tag_color}">${tag.tag.tag_name}</span>`
             )
             .join(" ");
         tbody.append(`
@@ -59,7 +59,7 @@ function _renderContacts(contacts) {
                               .join("<br />")
                         : ""
                 }</td>
-                <td>${tags}</td>
+                <td class="d-flex flex-wrap align-items-center">${tags}</td>
                 <td>${contact.notes || ""}</td>
                 <td>${_format_date(contact.created_at) || ""}</td>
                 <td>
@@ -335,6 +335,9 @@ function _init_actions() {
                 let viewId = $(this).data("id");
                 _viewContact(viewId);
                 break;
+            case "export-contacts":
+                _exportContacts();
+                break;
         }
     });
 }
@@ -512,6 +515,20 @@ function _viewContact(id) {
                 "Failed to load contact details",
                 "System Error"
             );
+        },
+    });
+}
+
+function _exportContacts() {
+    $.ajax({
+        url: "/api/contacts/export",
+        method: "POST",
+        headers: {
+            "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
+        },
+        success: function (res) {
+            console.log(res);
+            window.location.href = res.data;
         },
     });
 }

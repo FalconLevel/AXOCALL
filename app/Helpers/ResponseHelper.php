@@ -15,12 +15,14 @@ class ResponseHelper {
         switch ($exec) {    
             case 'fetch-tag':
                 $html = '';
-                foreach ($data as $tag) {
-                    $html .= '<span class="mr-2 p-2 text-white label label-pill tag-labels" style="background-color: '.$tag['tag_color'].' !important;">
-                    '.ucfirst(strtolower($tag['tag_name'])).' 
-                        <a href="javascript:void(0)" class="text-white" data-trigger="delete-tag" data-id="'.$tag['id'].'">
-                            <i class="fa fa-trash"></i></a>
-                        </span>';
+                if ($data) {
+                    foreach ($data as $tag) {
+                        $html .= '<span class="mr-2 p-2 text-white label label-pill tag-labels" style="background-color: '.$tag['tag_color'].' !important;">
+                        '.ucfirst(strtolower($tag['tag_name'])).' 
+                            <a href="javascript:void(0)" class="text-white" data-trigger="delete-tag" data-id="'.$tag['id'].'">
+                                <i class="fa fa-trash"></i></a>
+                            </span>';
+                    }
                 }
 
                 $script = "$('.existing-tags').html('".preg_replace('/\s+/', ' ', $html)."'); $('.tag-count').text('".count($data)."'); init_actions();";
@@ -30,9 +32,11 @@ class ResponseHelper {
                 $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."'); _fetch_tags();";
                 break;
             case 'fetch-extension-settings':
+                if ($data) {
                 $script = "$('[data-key=\"ExtensionExpirationDays\"]').val('".$data['extension_expiration_days']."'); 
-                $('[data-key=\"ExtensionExpirationHrs\"]').val('".$data['extension_expiration_hrs']."'); 
-                $('[data-key=\"IsRandomExtensionGeneration\"]').prop('checked', ".$data['random_extension_generation'].");";
+                    $('[data-key=\"ExtensionExpirationHrs\"]').val('".$data['extension_expiration_hrs']."'); 
+                    $('[data-key=\"IsRandomExtensionGeneration\"]').prop('checked', ".$data['random_extension_generation'].");";
+                }
                 break;
             case 'generate-extension':
                 $script = "$('[data-key=\"extension_number\"]').val('".$data['extension_number']."'); $('[data-key=\"expiration\"]').val('".$data['expiration_date']."');";

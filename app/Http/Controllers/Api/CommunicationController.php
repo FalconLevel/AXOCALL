@@ -8,6 +8,7 @@ use App\Models\Message;
 use App\Services\SentimentAnalysisService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\URL;
 
 class CommunicationController extends Controller {
     
@@ -384,4 +385,86 @@ class CommunicationController extends Controller {
             ], 500);
         }
     }
-}
+
+    public function export(Request $request)
+    {
+        try {
+            $report_type = $request->report_type;
+            if($report_type == 'call-logs') {
+                $communications = Communication::with('contact_from', 'contact_to')->get();
+
+                $filename = 'communications_'.date('Y-m-d_H-i-s').'.csv';
+                $path = public_path('assets/axocall/exports/'.$filename);
+                $file = fopen($path, 'w');
+                fputcsv($file, [
+                        'Type', 'From', 'To', 'Date & Time', 'Duration', 'Summary', 'Sentiment', 'Keywords', 'Is Booked', 'Created At']);
+                foreach ($communications as $communication) {
+                    fputcsv($file, [
+                        $communication->type, 
+                        ( $communication->contact_from ? 
+                            (
+                                $communication->contact_from->contact->first_name ?? ''
+                            ) . ' ' . ( $communication->contact_from->contact->last_name ?? ''
+                            ) : $communication->from_number
+                        ),
+                        ( $communication->contact_to ? 
+                            (
+                                $communication->contact_to->contact->first_name ?? ''
+                            ) . ' ' . ( $communication->contact_to->contact->last_name ?? ''
+                            ) : $communication->to_number
+                        ),
+                        formatHelper()->formatDate($communication->date_time), 
+                        formatHelper()->formatDuration($communication->duration), 
+                        $communication->summary, 
+                        $communication->sentiment, 
+                        " ".$communication->keywords,
+                        $communication->is_booked ? 'Yes' : 'No', 
+                        formatHelper()->formatDate($communication->created_at)
+                    ]);
+                }
+                fclose($file);
+            } else {
+                $messages = Message::with('contact_from', 'contact_to')->get();
+
+                $filename = 'messages_'.date('Y-m-d_H-i-s').'.csv';
+                $path = public_path('assets/axocall/exports/'.$filename);
+                $file = fopen($path, 'w');
+                fputcsv($file, [
+                    'Date & Time', 'From', 'To', 'Message', 'Type', 'Status']);
+                foreach ($messages as $message) {
+                    fputcsv($file, [
+                        formatHelper()->formatDate($message->date_sent),
+                        ( $message->contact_from ? 
+                            (
+                                $message->contact_from->contact->first_name ?? ''
+                            ) . ' ' . ( $message->contact_from->contact->last_name ?? ''
+                            ) : $message->from_number
+                        ),
+                        ( $message->contact_to ? 
+                            (
+                                $message->contact_to->contact->first_name ?? ''
+                            ) . ' ' . ( $message->contact_to->contact->last_name ?? ''
+                            ) : $message->to_number
+                        ),
+                        $message->message, 
+                        $message->type, 
+                        $message->status
+                    ]); 
+                }
+                fclose($file);
+            }
+
+            return response()->json([
+                    'status' => true,
+                    'data' => URL::to('assets/axocall/exports/'.$filename)
+                ]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to export data logs!'
+            ], 500);
+        }
+
+    }
+}   

@@ -1,29 +1,31 @@
 @if($xtype == 'dashboard')
     <ul class="nav nav-pills mb-3 justify-content-end">
         <li class="nav-item">
-            <a href="#navpills-1" class="nav-link active" data-toggle="tab" aria-expanded="false">
+            <a href="#navpills-1" class="nav-link active" data-trigger="dashboard-today" data-toggle="tab" aria-expanded="false">
                 Today
             </a>
         </li>
         <li class="nav-item">
-            <a href="#navpills-2" class="nav-link" data-toggle="tab" aria-expanded="false">
+            <a href="#navpills-2" class="nav-link" data-trigger="dashboard-week" data-toggle="tab" aria-expanded="false">
                 Week
             </a>
         </li>
         <li class="nav-item">
-            <a href="#navpills-3" class="nav-link" data-toggle="tab" aria-expanded="true">
+            <a href="#navpills-3" class="nav-link" data-trigger="dashboard-all-time" data-toggle="tab" aria-expanded="false">
                 All Time
             </a>
         </li>
         <li class="nav-item">
-            <a href="#navpills-3" class="nav-link" data-toggle="tab" aria-expanded="true">
+            <input class="form-control input-daterange-datepicker" type="hidden" name="daterange" value="01/01/2015 - 01/31/2015">
+            <a href="#navpills-3" class="nav-link" data-trigger="dashboard-custom" data-toggle="tab" aria-expanded="false">
+
                 Custom
             </a>
         </li>
 
         <li class="nav-item">
             {{-- <a href="#navpills-3" class="nav-link" data-toggle="tab" aria-expanded="true"> --}}
-                <button type="button" class="btn mb-1  btn-outline-danger">Export Report</button>
+                <button type="button" class="btn ml-1 mb-1  btn-outline-danger">Export Report</button>
                 
             {{-- </a> --}}
         </li>
@@ -33,7 +35,7 @@
         {{-- <input type="text" class="form-control form-control-xs w-50" placeholder="Search Contact"> --}}
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-outline-danger">
+                <button type="button" class="btn ml-1  btn-outline-danger" data-trigger="export-contacts">
                     <i class="fa fa-download"></i>
                     Export
                 </button>
@@ -50,7 +52,7 @@
     <div class="d-flex justify-content-end align-middle border-bottom">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-outline-danger">
+                <button type="button" class="btn ml-1  btn-outline-danger" data-trigger="export-extensions">
                     <i class="fa fa-download"></i>
                     Export
                 </button>
@@ -64,7 +66,7 @@
         </ul>
     </div>
 @elseif($xtype == 'communications')
-    <div class="d-flex justify-content-end align-middle border-bottom">
+    <div class="d-flex justify-content-end align-middle border-bottom" data-trigger="export-communications">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
                 <button type="button" class="btn ml-1  btn-outline-danger">

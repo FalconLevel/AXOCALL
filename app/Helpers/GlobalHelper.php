@@ -10,6 +10,7 @@ use App\Models\Message;
 use App\Models\PhoneNumber;
 use App\Models\SettingExtension;
 use App\Models\Tag;
+use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 
@@ -107,17 +108,67 @@ class GlobalHelper {
         return $last_extension ? $last_extension->extension_number + 1 : config('custom.extension_start');
     }
 
-    public function getDashboardData() {
-        $total_communications = Communication::count();
-        $total_messages = Message::count();
-        $total_extensions = Extension::where('status', 'active')->count();
-        $total_follow_ups = Communication::where('category', 'follow-up')->count();
-        $total_appointments_booked = Communication::where('is_booked', 'yes')->count();
+    public function getDashboardData($trigger = "dashboard-today", $daterange = null) {
+        if ($trigger == "dashboard-today") {
+            $total_communications = Communication::where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
+            $total_messages = Message::where('date_sent', '>=', now()->startOfDay())->where('date_sent', '<=', now()->endOfDay())->count();
+            $total_extensions = Extension::where('status', 'active')->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count();
+            $total_follow_ups = Communication::where('category', 'follow-up')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
+            $total_appointments_booked = Communication::where('is_booked', 'yes')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
 
-        $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->count();
-        $total_positive_calls = Communication::where('sentiment', 'positive')->count();
-        $total_neutral_calls = Communication::where('sentiment', 'neutral')->count();
-        $total_negative_calls = Communication::where('sentiment', 'negative')->count();
+            $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
+            $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
+            $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
+            $total_negative_calls = Communication::where('sentiment', 'negative')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
+        } else if ($trigger == "dashboard-week") {
+            $total_communications = Communication::where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
+            $total_messages = Message::where('date_sent', '>=', now()->startOfWeek())->where('date_sent', '<=', now()->endOfWeek())->count();
+            $total_extensions = Extension::where('status', 'active')->where('created_at', '>=', now()->startOfWeek())->where('created_at', '<=', now()->endOfWeek())->count();
+            $total_follow_ups = Communication::where('category', 'follow-up')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
+            $total_appointments_booked = Communication::where('is_booked', 'yes')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
+
+            $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
+            $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
+            $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
+            $total_negative_calls = Communication::where('sentiment', 'negative')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
+        } else if ($trigger == "dashboard-all-time") {
+            $total_communications = Communication::count();
+            $total_messages = Message::count();
+            $total_extensions = Extension::where('status', 'active')->count();
+            $total_follow_ups = Communication::where('category', 'follow-up')->count();
+            $total_appointments_booked = Communication::where('is_booked', 'yes')->count();
+
+            $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->count();
+            $total_positive_calls = Communication::where('sentiment', 'positive')->count();
+            $total_neutral_calls = Communication::where('sentiment', 'neutral')->count();
+            $total_negative_calls = Communication::where('sentiment', 'negative')->count();
+        } else if ($trigger == "dashboard-custom") {    
+            $daterange = explode(" - ", $daterange);
+            $start_date = Carbon::parse($daterange[0])->startOfDay();
+            $end_date = Carbon::parse($daterange[1])->endOfDay();
+
+            $total_communications = Communication::where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_messages = Message::where('date_sent', '>=', $start_date)->where('date_sent', '<=', $end_date)->count();
+            $total_extensions = Extension::where('status', 'active')->where('created_at', '>=', $start_date)->where('created_at', '<=', $end_date)->count();
+            $total_follow_ups = Communication::where('category', 'follow-up')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_appointments_booked = Communication::where('is_booked', 'yes')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+
+            $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_negative_calls = Communication::where('sentiment', 'negative')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+        }   
+        
+        // $total_communications = Communication::count();
+        // $total_messages = Message::count();
+        // $total_extensions = Extension::where('status', 'active')->count();
+        // $total_follow_ups = Communication::where('category', 'follow-up')->count();
+        // $total_appointments_booked = Communication::where('is_booked', 'yes')->count();
+
+        // $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->count();
+        // $total_positive_calls = Communication::where('sentiment', 'positive')->count();
+        // $total_neutral_calls = Communication::where('sentiment', 'neutral')->count();
+        // $total_negative_calls = Communication::where('sentiment', 'negative')->count();
 
         return [
             'total_communications' => $total_communications,    
