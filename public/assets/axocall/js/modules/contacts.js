@@ -530,5 +530,9 @@ function _exportContacts() {
             console.log(res);
             window.location.href = res.data;
         },
+        error: function (err) {
+            console.log(err);
+            _show_toastr("error", "Failed to export contacts!", "System Error");
+        },
     });
 }
