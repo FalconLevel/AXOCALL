@@ -1,4 +1,4 @@
-<div class="modal fade" id="extension-modal" tabindex="-1" role="dialog" aria-labelledby="extensionsModalLabel" aria-hidden="true">    
+<div class="modal fade" id="extension-modal" role="dialog" aria-labelledby="extensionsModalLabel" aria-hidden="true">    
     <form id="extension-form">
         <div class="modal-dialog modal-md modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -13,11 +13,7 @@
                         
                         <label for="contact_id">Contact</label>
                         <select class="form-control select2" id="contact_id" name="contact_id" required data-key="contact_id">
-                            <option value="">Select Contact</option>
-                            
-                            @foreach($contacts as $contact)
-                                <option value="{{ $contact->id }}">{{ $contact->first_name }} {{ $contact->last_name }}</option>
-                            @endforeach
+                            <option value="">Select Contact</option>    
                         </select>
                     </div>
                     <div class="form-group">

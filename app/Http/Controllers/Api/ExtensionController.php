@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Extension;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Validator;
 
@@ -52,7 +53,7 @@ class ExtensionController extends Controller
             }
     
             $validated = $validator->validated();
-            $validated['expiration'] = date('Y-m-d H:i:s', strtotime($validated['expiration']));
+            $validated['expiration'] = Carbon::parse($validated['expiration'])->format('Y-m-d H:i:s');
             
             
             $extension = Extension::create($validated);
@@ -189,4 +190,35 @@ class ExtensionController extends Controller
             ], 500);
         }
     }   
+
+    public function reActivate($id)
+    {
+        try {
+            $extension_data = globalHelper()->generateExtension();
+            $expiration_date = $extension_data['expiration_date'];
+            $extension = Extension::find($id);
+
+            if (!$extension) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Extension not found'
+                ], 404);
+            }
+
+            $extension->status = 'active';
+            $extension->expiration = Carbon::parse($expiration_date)->format('Y-m-d H:i:s');
+            $extension->save();
+
+            return response()->json([
+                'status' => 'success',
+                'message' => 'Extension re-activated successfully'
+            ]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to re-activate extension'
+            ], 500);
+        }
+    }
 }

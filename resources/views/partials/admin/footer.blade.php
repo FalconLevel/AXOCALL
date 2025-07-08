@@ -25,8 +25,6 @@
 
     <script src="{{ asset('assets/system/plugins/moment/moment.js') }}"></script>  
     
-
-    <script src="{{ asset('assets/system/plugins/select2/js/select2.min.js') }}"></script>
     <script src="{{ asset('assets/system/datetime-picker/jquery.datetimepicker.full.js') }}"></script>
 
 
@@ -34,6 +32,8 @@
     <script src="{{ asset('assets/system/plugins/bootstrap-datepicker/bootstrap-datepicker.min.js') }}"></script>
     <script src="{{ asset('assets/system/plugins/bootstrap-daterangepicker/daterangepicker.js') }}"></script>
     
+    <script src="{{ asset('assets/system/select2/dist/js/select2.min.js') }}"></script>
+
     <script src="{{ asset('assets/axocall/js/widgets-init.js') }}"></script>
     <script src="{{ asset('assets/axocall/js/scripts.js') }}"></script> 
 </body>

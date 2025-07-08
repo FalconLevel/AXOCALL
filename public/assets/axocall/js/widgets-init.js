@@ -28,10 +28,6 @@ $(document).ready(function () {
             input.val(numericValue);
         });
     }
-
-    if ($(".select2").length) {
-        $(".select2").select2();
-    }
 });
 
 function _show_toastr(type = "success", message = "", title = "") {

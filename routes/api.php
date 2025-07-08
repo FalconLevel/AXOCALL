@@ -64,6 +64,7 @@ Route::prefix('account')->group(function () {
         Route::post('/edit/{id}', [ExtensionController::class, 'edit']);
         Route::post('/update/{id}', [ExtensionController::class, 'update']);
         Route::post('/delete/{id}', [ExtensionController::class, 'delete']);
+        Route::post('/re-activate/{id}', [ExtensionController::class, 'reActivate']);
         Route::post('/export', [ExtensionController::class, 'export']);
     });
     

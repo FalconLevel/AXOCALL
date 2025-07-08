@@ -238,3 +238,11 @@ input:checked + .slider:before {
 .daterangepicker.opensright:before {
     color: "" !important;
 }
+
+.select2-selection {
+    height: 40px !important;
+    display: flex !important;
+    align-items: center !important;
+    padding-left: 9px !important;
+    border-radius: 0 !important;
+}

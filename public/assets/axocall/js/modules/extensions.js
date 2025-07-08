@@ -7,6 +7,10 @@ $(document).ready(function () {
         timepicker: true,
         datepicker: true,
     });
+
+    $("#extension-modal").on("shown.bs.modal", function () {
+        _getContacts();
+    });
 });
 
 function _fetchExtensions() {
@@ -32,7 +36,6 @@ function _fetchExtensions() {
 }
 
 function _renderExtensions(extensions) {
-    console.log(extensions);
     let tbody = $(".extensions-table tbody");
     tbody.empty();
     if (!extensions || extensions.length === 0) {
@@ -204,6 +207,7 @@ function _init_extension_actions() {
     $("[data-trigger]").off();
     $("[data-trigger]").click(function (e) {
         e.preventDefault();
+        e.stopPropagation();
         let trigger = $(this).data("trigger");
 
         let parentForm = $(this).closest("form");
@@ -278,6 +282,10 @@ function _init_extension_actions() {
             case "delete-extension":
                 let deleteId = $(this).data("id");
                 _deleteExtension(deleteId);
+                break;
+            case "re-activate-extension":
+                let reActivateId = $(this).data("id");
+                _reActivateExtension(reActivateId);
                 break;
             case "export-extensions":
                 _exportExtensions();
@@ -472,56 +480,6 @@ function _show_numbers() {
         $("#selected-contact-info").hide();
         $("#contact-info-display").empty();
     });
-
-    // $("#contact_id").on("change", function () {
-    //     var contactId = $(this).val();
-    //     var $phoneSelect = $("#phone_number");
-    //     $phoneSelect.empty();
-    //     $phoneSelect.append('<option value="">Select Phone Number</option>');
-
-    //     if (contactId) {
-    //         $.ajax({
-    //             url: "/api/contacts/" + contactId + "/phone-numbers",
-    //             type: "POST",
-    //             headers: {
-    //                 "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
-    //             },
-    //             success: function (res) {
-    //                 console.log(res);
-    //                 if (
-    //                     res.status === "success" &&
-    //                     res.data &&
-    //                     res.data.length > 0
-    //                 ) {
-    //                     res.data.forEach(function (phone) {
-    //                         var label = phone.phone_number;
-    //                         if (phone.phone_type) {
-    //                             label += " (" + phone.phone_type + ")";
-    //                         }
-    //                         $phoneSelect.append(
-    //                             '<option value="' +
-    //                                 phone.phone_number +
-    //                                 '">' +
-    //                                 label +
-    //                                 "</option>"
-    //                         );
-    //                     });
-    //                 } else {
-    //                     $phoneSelect.append(
-    //                         '<option value="">No phone numbers found</option>'
-    //                     );
-    //                 }
-    //             },
-    //             error: function (err) {
-    //                 console.log(err);
-    //                 $phoneSelect.append(
-    //                     '<option value="">Failed to load phone numbers</option>'
-    //                 );
-    //             },
-    //         });
-    //     }
-    // });
-    // ``;
 }
 
 function _clearExtensionFields() {
@@ -532,4 +490,59 @@ function _clearExtensionFields() {
     $("#contact-info-display").empty();
     $("#extension-modal").modal("hide");
     $("#notes").val("");
+}
+
+function _reActivateExtension(id) {
+    $.ajax({
+        url: `/api/extensions/re-activate/${id}`,
+        method: "POST",
+        headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
+        success: function (res) {
+            if (res.status === "success") {
+                _show_toastr(
+                    "success",
+                    "Extension re-activated successfully",
+                    "System Info"
+                );
+                _fetchExtensions();
+            } else {
+                _show_toastr(
+                    "error",
+                    res.message || "Failed to re-activate extension",
+                    "System Error"
+                );
+            }
+        },
+        error: function () {
+            _show_toastr(
+                "error",
+                "Failed to re-activate extension",
+                "System Error"
+            );
+        },
+    });
+}
+
+function _getContacts() {
+    $.ajax({
+        url: "/api/contacts/all",
+        method: "POST",
+        headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
+        success: function (res) {
+            if (res.status === "success") {
+                let data = res.data.map((contact) => ({
+                    id: contact.id,
+                    text: contact.first_name + " " + (contact?.last_name || ""),
+                }));
+                $("#contact_id").select2({
+                    placeholder: "Select Contact",
+                    data: data,
+                    width: "100%",
+                });
+            }
+        },
+        error: function () {
+            _show_toastr("error", "Failed to fetch contacts", "System Error");
+        },
+    });
 }
