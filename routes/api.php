@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ExtensionController;
 use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\TagController;
+use App\Http\Controllers\Api\TwilioController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -75,5 +76,9 @@ Route::prefix('account')->group(function () {
         Route::post('/un-follow-up/{id}/{type}', [CommunicationController::class, 'unFollowUp']);
         Route::post('/refresh-datatable', [CommunicationController::class, 'refreshDatatable']);
         Route::post('/export', [CommunicationController::class, 'export']);
+    });
+
+    Route::prefix('twilio')->group(function () {
+        Route::post('/voice-response', [TwilioController::class, 'getVoice']);
     });
 // });
