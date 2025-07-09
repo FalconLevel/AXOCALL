@@ -3,7 +3,7 @@
 
     @include('components.dashboard.totals')
     
-    @include('components.dashboard.sales')
+    @include('components.dashboard.calls')
 
     @include('components.dashboard.sentiments')
 </div>

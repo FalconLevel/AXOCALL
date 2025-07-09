@@ -54,7 +54,15 @@ return [
 
         'info' => [
             'driver' => 'daily',
-            'path' => storage_path('logs/laravel_'.date("Ymd").'.log'),
+            'path' => storage_path('logs/system/laravel_'.date("Ymd").'.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS', 14),
+            'replace_placeholders' => true,
+        ],
+
+        'twilio' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/twilio/twilio_'.date("Ymd").'.log'),
             'level' => env('LOG_LEVEL', 'debug'),
             'days' => env('LOG_DAILY_DAYS', 14),
             'replace_placeholders' => true,

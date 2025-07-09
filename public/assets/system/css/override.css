@@ -246,3 +246,26 @@ input:checked + .slider:before {
     padding-left: 9px !important;
     border-radius: 0 !important;
 }
+
+.morris-bar-chart-placeholder {
+    min-height: 300px !important;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.morris-hover {
+    background-image: none;
+    border: 1px solid #e0e0e0 !important;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1) !important;
+}
+.morris-hover-row-label,
+.morris-hover-point {
+    background-color: #ffffff !important;
+    color: #313131 !important;
+}
+
+.morris-hover-row-label,
+.morris-hover-point {
+    margin: 0px !important;
+}

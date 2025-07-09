@@ -13,12 +13,12 @@
                     
                     <div class="form-group">
                         <label for="edit_contact_id">Contact</label>
-                        <select class="form-control" id="edit_contact_id" name="contact_id" required data-key="contact_id">
+                        <select class="form-control select2" id="edit_contact_id" name="contact_id" required data-key="contact_id">
                             <option value="">Select Contact</option>
                             
-                            @foreach($contacts as $contact)
+                            {{-- @foreach($contacts as $contact)
                                 <option value="{{ $contact->id }}">{{ $contact->first_name }} {{ $contact->last_name }}</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
                     </div>
                     <div class="form-group">

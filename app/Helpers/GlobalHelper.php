@@ -116,6 +116,13 @@ class GlobalHelper {
             $total_follow_ups = Communication::where('category', 'follow-up')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
             $total_appointments_booked = Communication::where('is_booked', 'yes')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
 
+
+            $total_calls_by_hour = Communication::where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->get()->groupBy(function($item) {
+                return $item->date_time->format('H');
+            })->map(function($item) {
+                return $item->count();
+            })->toArray();
+
             $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
             $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
             $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
@@ -127,6 +134,13 @@ class GlobalHelper {
             $total_follow_ups = Communication::where('category', 'follow-up')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
             $total_appointments_booked = Communication::where('is_booked', 'yes')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
 
+
+            $total_calls_by_hour = Communication::where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->get()->groupBy(function($item) {
+                return $item->date_time->format('H');
+            })->map(function($item) {
+                return $item->count();
+            })->toArray();
+
             $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
             $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
             $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
@@ -137,6 +151,12 @@ class GlobalHelper {
             $total_extensions = Extension::where('status', 'active')->count();
             $total_follow_ups = Communication::where('category', 'follow-up')->count();
             $total_appointments_booked = Communication::where('is_booked', 'yes')->count();
+
+            $total_calls_by_hour = Communication::get()->groupBy(function($item) {
+                return $item->date_time->format('H');
+            })->map(function($item) {
+                return $item->count();
+            })->toArray();
 
             $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->count();
             $total_positive_calls = Communication::where('sentiment', 'positive')->count();
@@ -153,6 +173,12 @@ class GlobalHelper {
             $total_follow_ups = Communication::where('category', 'follow-up')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
             $total_appointments_booked = Communication::where('is_booked', 'yes')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
 
+            $total_calls_by_hour = Communication::where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->get()->groupBy(function($item) {
+                return $item->date_time->format('H');
+            })->map(function($item) {
+                return $item->count();
+            })->toArray();
+            
             $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
             $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
             $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
@@ -180,6 +206,8 @@ class GlobalHelper {
             'total_positive_calls' => $total_positive_calls,
             'total_neutral_calls' => $total_neutral_calls,
             'total_negative_calls' => $total_negative_calls,
+
+            'total_calls_by_hour' => $total_calls_by_hour,
         ];
     }
 }

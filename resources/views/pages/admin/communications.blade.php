@@ -42,8 +42,10 @@
                                         @if ($communications)
                                             
                                             @foreach ($communications as $communication)
+                                            
                                                 @php
                                                     $svg_class = $communication['type'] == 'inbound' ? 'text-primary' : 'text-success';
+                                                    $summary = $communication['summary'] ? explode('. ', $communication['summary']) : [];
                                                 @endphp
                                                 <tr>
                                                     <td class="{{ $svg_class }} svg-icon">{!! config('twilio.svg.' . $communication['type']) !!} </td>
@@ -63,7 +65,9 @@
                                                     </td>
                                                     <td>{{ formatHelper()->formatDate($communication['date_time']) }}</td>
                                                     <td>{{ formatHelper()->formatDuration($communication['duration']) }}</td>
-                                                    <td title="{{ $communication['summary'] }}">{{ Str::limit($communication['summary'], 20) }}</td>
+                                                    <td title="{{ $communication['summary'] }}">{{ 
+                                                        $summary[sizeof($summary) - 1] ?? ''
+                                                    }}</td>
                                                     <td>
                                                         <i class="{{ $communication['sentiment'] ? config('twilio.sentiment.' . $communication['sentiment']) : '' }}"></i>
                                                     </td>

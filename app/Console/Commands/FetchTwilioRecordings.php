@@ -12,6 +12,7 @@ use Illuminate\Console\Command;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Storage;
 use Twilio\Rest\Client;
 
@@ -38,19 +39,27 @@ class FetchTwilioRecordings extends Command
      */
     public function handle()
     {
-        // dd($this->option('start-date'), $this->option('end-date'));
+        Log::channel('twilio')->info("\n*********************************************\n");
+        
+        $start_date_time = Carbon::now()->format('Y-m-d H:i:s');
+        $end_date_time =  Carbon::now()->addHour(1)->format('Y-m-d H:i:s');
+                
+        Log::channel('twilio')->info("Start Date: " . $start_date_time . " | End Date: " . $end_date_time);
+
         DB::beginTransaction();
         try {
             $access_numbers = $this->getAccessNumbers();
-            $start_date = $this->option('start-date') ? date('Y-m-d', strtotime($this->option('start-date'))) : date('Y-m-d', strtotime('-1 day'));
-            $end_date = $this->option('end-date') ? date('Y-m-d', strtotime($this->option('end-date'))) : date('Y-m-d');
+            $start_date = $this->option('start-date') ? date('Y-m-d', strtotime($this->option('start-date'))) : $start_date_time;
+            $end_date = $this->option('end-date') ? date('Y-m-d', strtotime($this->option('end-date'))) : $end_date_time;
+            
             
             //get calls by date range
             $calls = $this->twilio_client->calls->read([
-                "startTimeAfter" => new \DateTime($start_date."T00:00:00Z"),
-                "startTimeBefore" => new \DateTime($end_date."T23:59:59Z"),
-            ], 20);
+                "startTimeAfter" => new \DateTime($start_date),
+                "startTimeBefore" => new \DateTime($end_date),
+            ]);
             
+            Log::channel('twilio')->info("Calls: " . json_encode($calls));
 
             $filtered_calls = [];
             $filtered_transcription = [];
@@ -95,7 +104,6 @@ class FetchTwilioRecordings extends Command
                     $filtered_calls[] = $callData;
                 }
             }
-        
             
             if ($filtered_calls) {
                 Communication::upsert($filtered_calls, ['call_sid']);
@@ -103,17 +111,19 @@ class FetchTwilioRecordings extends Command
                 if ($filtered_transcription) {
                     Transcription::upsert($filtered_transcription, ['transcript_id']);
                 }
+                
                 echo "Recordings fetched successfully\n";
+                Log::channel('twilio')->info("Recordings fetched successfully");
             } else {
+                
                 echo "No recordings found";
+                Log::channel('twilio')->info("No recordings found");
             }
         } catch (\Exception $e) {
             DB::rollBack();
             logInfo("Error: " . $e->getTraceAsString());
         }
-        
         DB::commit();
-        
     }
 
     private function getRecordingDetails(string $call_sid): array {

@@ -98,5 +98,38 @@ function _fetchDashboardData(trigger = "dashboard-today", daterange = null) {
                 );
             }
         },
+    }).done(function (response) {
+        const data = Object.entries(response.data.total_calls_by_hour).map(
+            function (item) {
+                return {
+                    y: item[0] + ":00",
+                    a: item[1],
+                };
+            }
+        );
+        console.log(data);
+        if (data.length > 0) {
+            $("#morris-bar-chart").removeClass("d-none");
+            $(".morris-bar-chart-placeholder")
+                .removeClass("d-none")
+                .addClass("d-none");
+
+            $("#morris-bar-chart").empty();
+            Morris.Bar({
+                element: "morris-bar-chart",
+                data: data,
+                xkey: "y",
+                ykeys: ["a"],
+                labels: ["Calls"],
+
+                barColors: ["#FC6C8E"],
+                hideHover: "auto",
+                resize: true,
+                width: "100%",
+            });
+        } else {
+            $("#morris-bar-chart").removeClass("d-none").addClass("d-none");
+            $(".morris-bar-chart-placeholder").removeClass("d-none");
+        }
     });
 }

@@ -34,6 +34,9 @@
     
     <script src="{{ asset('assets/system/select2/dist/js/select2.min.js') }}"></script>
 
+    <script src="{{ asset('assets/system/plugins/raphael/raphael.min.js') }}"></script>
+    <script src="{{ asset('assets/system/plugins/morris/morris.min.js') }}"></script>
+
     <script src="{{ asset('assets/axocall/js/widgets-init.js') }}"></script>
     <script src="{{ asset('assets/axocall/js/scripts.js') }}"></script> 
 </body>

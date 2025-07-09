@@ -44,9 +44,7 @@ function _renderExtensions(extensions) {
     }
     extensions.forEach(function (extension) {
         tbody.append(`
-            <tr class="cursor-pointer" data-trigger="edit-extension" data-id="${
-                extension.id
-            }">
+            <tr data-id="${extension.id}">
                 <td>${
                     extension.contact.first_name.charAt(0).toUpperCase() +
                     extension.contact.first_name.slice(1)
@@ -83,7 +81,7 @@ function _loadExtensionForEdit(extension) {
     $("#edit_notes").val(extension.notes);
 
     // Load phone numbers for the selected contact
-    _loadPhoneNumbersForContact(extension.contact_id, extension.phone_id);
+    _loadPhoneNumbersForContact(extension.id, extension.phone_id);
 
     // Show contact info if available
     if (extension.contact) {
@@ -95,8 +93,8 @@ function _loadExtensionForEdit(extension) {
     }
 }
 
-function _loadPhoneNumbersForContact(contactId, selectedPhoneId = null) {
-    if (!contactId) {
+function _loadPhoneNumbersForContact(extensionId, selectedPhoneId = null) {
+    if (!extensionId) {
         $("#edit_phone_number")
             .empty()
             .append('<option value="">Select Phone Number</option>');
@@ -104,8 +102,8 @@ function _loadPhoneNumbersForContact(contactId, selectedPhoneId = null) {
     }
 
     $.ajax({
-        url: `/api/contacts/${contactId}/phones`,
-        method: "GET",
+        url: `/api/extensions/edit/${extensionId}`,
+        method: "POST",
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
             if (res.status === "success") {
@@ -113,23 +111,24 @@ function _loadPhoneNumbersForContact(contactId, selectedPhoneId = null) {
                 phoneSelect
                     .empty()
                     .append('<option value="">Select Phone Number</option>');
-
-                res.data.forEach(function (phone) {
-                    const isSelected =
-                        selectedPhoneId && phone.id == selectedPhoneId;
-                    phoneSelect.append(`
-                        <option value="${
-                            phone.phone_number
-                        }" data-phone-id="${phone.id}" ${isSelected ? "selected" : ""}>
-                            ${
-                                phone.phone_number
-                            } ${phone.phone_ext ? `(${phone.phone_ext})` : ""} ${phone.phone_type ? `- ${phone.phone_type}` : ""}
-                        </option>
-                    `);
-                });
+                console.log(res.data);
+                // res.data.forEach(function (phone) {
+                //     const isSelected =
+                //         selectedPhoneId && phone.id == selectedPhoneId;
+                //     phoneSelect.append(`
+                //         <option value="${
+                //             phone.phone_number
+                //         }" data-phone-id="${phone.id}" ${isSelected ? "selected" : ""}>
+                //             ${
+                //                 phone.phone_number
+                //             } ${phone.phone_ext ? `(${phone.phone_ext})` : ""} ${phone.phone_type ? `- ${phone.phone_type}` : ""}
+                //         </option>
+                //     `);
+                // });
             }
         },
-        error: function () {
+        error: function (e) {
+            console.log(e);
             _show_toastr(
                 "error",
                 "Failed to load phone numbers",
@@ -152,6 +151,8 @@ function _editExtension(id) {
                     .attr("data-mode", "edit")
                     .attr("data-id", id);
                 $("#extension-modal-edit").modal("show");
+
+                _getContacts("edit");
             } else {
                 _show_toastr(
                     "error",
@@ -523,7 +524,7 @@ function _reActivateExtension(id) {
     });
 }
 
-function _getContacts() {
+function _getContacts(type = "extension") {
     $.ajax({
         url: "/api/contacts/all",
         method: "POST",
@@ -534,11 +535,19 @@ function _getContacts() {
                     id: contact.id,
                     text: contact.first_name + " " + (contact?.last_name || ""),
                 }));
-                $("#contact_id").select2({
-                    placeholder: "Select Contact",
-                    data: data,
-                    width: "100%",
-                });
+                if (type === "extension") {
+                    $("#contact_id").select2({
+                        placeholder: "Select Contact",
+                        data: data,
+                        width: "100%",
+                    });
+                } else {
+                    $("#edit_contact_id").select2({
+                        placeholder: "Select Contact",
+                        data: data,
+                        width: "100%",
+                    });
+                }
             }
         },
         error: function () {
