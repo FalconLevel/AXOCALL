@@ -77,6 +77,8 @@ Route::group(['prefix' => 'executor'], function () {
         Route::group(['prefix' => 'settings'], function () {
             Route::post('/extension-settings', [SettingsController::class, 'extensionSettings'])->name('executor.settings.extension-settings');
             Route::post('/save-extension-settings', [SettingsController::class, 'saveExtensionSettings'])->name('executor.settings.save-extension-settings');
+            Route::post('/save-keywords', [SettingsController::class, 'saveKeywords'])->name('executor.settings.save-keywords');
+            Route::post('/keyword-settings', [SettingsController::class, 'keywordSettings'])->name('executor.settings.keyword-settings');
         });
     });
 // });

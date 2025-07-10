@@ -97,8 +97,9 @@ class ExtensionController extends Controller
      */
     public function update(Request $request, $id)
     {
+        try {
         $extension = Extension::find($id);
-
+        
         if (!$extension) {
             return response()->json([
                 'status' => 'error',
@@ -107,26 +108,34 @@ class ExtensionController extends Controller
         }
 
         $validator = Validator::make($request->all(), [
-            'contact_id' => 'sometimes|required|exists:contacts,id',
-            'extension_number' => 'sometimes|required|string|max:255',
-            'expiration' => 'nullable|date',
+            'extension_number' => 'sometimes|required|string|max:255|unique:extensions,extension_number,' . $id,
+            'expiration' => 'nullable|string',
             'notes' => 'nullable|string',
-            'status' => 'nullable|string',
         ]);
 
         if ($validator->fails()) {
+            logInfo($validator->errors());
             return response()->json([
                 'status' => 'error',
                 'errors' => $validator->errors()
             ], 422);
         }
 
-        $extension->update($validator->validated());
+        $validated = $validator->validated();
+        $validated['expiration'] = Carbon::parse(str_replace([' AM', ' PM'], '', strtoupper($validated['expiration'])))->format('Y-m-d H:i:s');
+        $extension->update($validated);
 
         return response()->json([
             'status' => 'success',
-            'data' => $extension
-        ]);
+                'data' => $extension
+            ]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => 'error',
+                'message' => 'Failed to update extension'
+            ], 500);
+        }
     }
 
     /**
@@ -194,6 +203,7 @@ class ExtensionController extends Controller
     {
         try {
             $extension_data = globalHelper()->generateExtension();
+            
             $expiration_date = $extension_data['expiration_date'];
             $extension = Extension::find($id);
 

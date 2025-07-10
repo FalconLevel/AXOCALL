@@ -57,7 +57,7 @@ class FetchTwilioRecordings extends Command
             $calls = $this->twilio_client->calls->read([
                 "startTimeAfter" => new \DateTime($start_date),
                 "startTimeBefore" => new \DateTime($end_date),
-            ]);
+            ], 20);
             
             Log::channel('twilio')->info("Calls: " . json_encode($calls));
 
@@ -91,17 +91,15 @@ class FetchTwilioRecordings extends Command
                             
                             $transcription_text = implode(' ', array_column($transcription, 'transcript_sentence'));
                             $analysis = $this->sentimentService->analyzeCallRecording($transcription_text, $callData['type']);
-                            
+
                             $callData['summary'] = $analysis['summary'] ?? null;
                             $callData['sentiment'] = $analysis['sentiment'] ?? null;
-                            $callData['keywords'] = $analysis['sentiment_keyword_hits'][$analysis['sentiment']] ?? null;
+                            $callData['keywords'] = count($analysis['keywords']) . '/' . count($analysis['business_terms']);
                             $callData['is_booked'] = $analysis['is_booked'] ?? null;
                             
                             $filtered_transcription = array_merge($filtered_transcription, $transcription);
                         }
-                    }
-
-                    $filtered_calls[] = $callData;
+                    } $filtered_calls[] = $callData;
                 }
             }
             

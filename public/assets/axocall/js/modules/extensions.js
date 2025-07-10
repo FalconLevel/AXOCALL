@@ -44,7 +44,9 @@ function _renderExtensions(extensions) {
     }
     extensions.forEach(function (extension) {
         tbody.append(`
-            <tr data-id="${extension.id}">
+            <tr data-id="${
+                extension.id
+            }" class="cursor-pointer" data-trigger="edit-extension" data-id="${extension.id}">
                 <td>${
                     extension.contact.first_name.charAt(0).toUpperCase() +
                     extension.contact.first_name.slice(1)
@@ -70,15 +72,21 @@ function _renderExtensions(extensions) {
             </tr>
         `);
     });
+    $(".extensions-table").DataTable();
     _init_extension_actions();
 }
 function _loadExtensionForEdit(extension) {
     // Populate form fields with extension data
-    $("#edit_extension_id").val(extension.id);
-    $("#edit_contact_id").val(extension.contact_id);
-    $("#edit_extension_number").val(extension.extension_number);
-    $("#edit_expiration").val(extension.expiration);
-    $("#edit_notes").val(extension.notes);
+    let expiration = extension.expiration;
+    if (expiration) {
+        expiration = _formatExpirationDate(expiration);
+    }
+
+    $("#extension-modal-edit [data-key='extension_number']").val(
+        extension.extension_number
+    );
+    $("#extension-modal-edit [data-key='expiration']").val(expiration);
+    $("#extension-modal-edit [data-key='notes']").val(extension.notes);
 
     // Load phone numbers for the selected contact
     _loadPhoneNumbersForContact(extension.id, extension.phone_id);
@@ -279,15 +287,20 @@ function _init_extension_actions() {
                 });
                 break;
             case "edit-extension":
-                let editId = $(this).data("id");
+                let editId = $(this).attr("data-id");
                 _editExtension(editId);
                 break;
+            case "update-extension":
+                let updateId = $(this).attr("data-id");
+                console.log(updateId);
+                _updateExtension(updateId);
+                break;
             case "delete-extension":
-                let deleteId = $(this).data("id");
+                let deleteId = $(this).attr("data-id");
                 _deleteExtension(deleteId);
                 break;
             case "re-activate-extension":
-                let reActivateId = $(this).data("id");
+                let reActivateId = $(this).attr("data-id");
                 _reActivateExtension(reActivateId);
                 break;
             case "export-extensions":
@@ -500,6 +513,7 @@ function _reActivateExtension(id) {
         method: "POST",
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
+            console.log(res);
             if (res.status === "success") {
                 _show_toastr(
                     "success",
@@ -515,7 +529,8 @@ function _reActivateExtension(id) {
                 );
             }
         },
-        error: function () {
+        error: function (e) {
+            console.log(e);
             _show_toastr(
                 "error",
                 "Failed to re-activate extension",
@@ -555,4 +570,54 @@ function _getContacts(type = "extension") {
             _show_toastr("error", "Failed to fetch contacts", "System Error");
         },
     });
+}
+
+function _updateExtension(id) {
+    let extension_details = _collectExtensionFields(
+        $("#extension-modal-edit form")
+    );
+    if (!extension_details) return;
+    $.ajax({
+        url: `/api/extensions/update/${id}`,
+        method: "POST",
+        headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
+        data: extension_details,
+        success: function (res) {
+            console.log(res);
+            if (res.status === "success") {
+                _show_toastr(
+                    "success",
+                    "Extension updated successfully",
+                    "System Info"
+                );
+                _fetchExtensions();
+                $("#extension-modal-edit").modal("hide");
+                $("#extension-modal").modal("hide");
+                _clearExtensionFields();
+            } else {
+                _show_toastr(
+                    "error",
+                    "Failed to update extension",
+                    "System Error"
+                );
+            }
+        },
+        error: function (e) {
+            console.log(e);
+            _show_toastr("error", "Failed to update extension", "System Error");
+        },
+    });
+}
+
+function _formatExpirationDate(expiration) {
+    const dateObj = new Date(expiration);
+    const yyyy = dateObj.getFullYear();
+    const mm = String(dateObj.getMonth() + 1).padStart(2, "0");
+    const dd = String(dateObj.getDate()).padStart(2, "0");
+    let hours = dateObj.getHours();
+    const minutes = String(dateObj.getMinutes()).padStart(2, "0");
+    const ampm = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    return `${yyyy}-${mm}-${dd} ${hours}:${minutes} ${ampm}`;
 }

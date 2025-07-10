@@ -77,6 +77,7 @@ function _renderContacts(contacts) {
     //     contact.id
     // }" title="Edit"><i class="fa fa-pencil color-muted m-r-5"></i></a>
     _init_actions();
+    $(".contacts-table").DataTable();
 }
 
 function _editContact(id) {

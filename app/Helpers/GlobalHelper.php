@@ -84,7 +84,12 @@ class GlobalHelper {
                 $extension_new = $this->generateSequentialExtension();
             }
             
-            $expiration_date = now()->addDays($extension_expiration_days)->addHours($extension_expiration_hrs)->format('Y-m-d H:i A');
+            if ($extension_expiration_hrs <= 0) {
+                $expiration_date = now()->addDays($extension_expiration_days)->format('Y-m-d H:i:s');
+            } else {
+                $expiration_date = now()->addDays($extension_expiration_days)->addHours($extension_expiration_hrs)->format('Y-m-d H:i:s');
+            }
+            
             return [
                 'extension_number' => $extension_new,
                 'expiration_date' => $expiration_date,

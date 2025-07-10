@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Keyword;
 use Phpml\Classification\SVC;
 use Phpml\SupportVectorMachine\Kernel;
 use Phpml\Tokenization\WordTokenizer;
@@ -79,9 +80,11 @@ class SentimentAnalysisService
 
         $transcription = strtolower(trim($transcription));
         $sentimentKeywordHits = $this->countSentimentKeywordHits($transcription);
+        $extractedKeywords = $this->extractKeywords($transcription);
         return [
             'sentiment' => $this->analyzeSentiment($transcription),
-            'keywords' => $this->extractKeywords($transcription),
+            'keywords' => $extractedKeywords['keywords'],
+            'business_terms' => $extractedKeywords['business_terms'],
             'summary' => $this->generateSummary($transcription, $callType),
             'is_booked' => $this->detectBooking($transcription),
             'urgency_level' => $this->detectUrgency($transcription),
@@ -132,22 +135,17 @@ class SentimentAnalysisService
     /**
      * Extract relevant keywords from the transcription
      */
-    private function extractKeywords(string $text): string
-    {
-        $keywords = [];
-        $allKeywords = array_merge($this->positiveKeywords, $this->negativeKeywords, $this->bookingKeywords, $this->urgencyKeywords);
-        
-        foreach ($allKeywords as $keyword) {
-            if (strpos($text, $keyword) !== false) {
-                $keywords[] = $keyword;
-            }
-        }
-        
+    private function extractKeywords(string $text): array
+    {        
         // Add business-specific keywords
         $businessKeywords = $this->extractBusinessKeywords($text);
-        $keywords = array_merge($keywords, $businessKeywords);
+        $keywords = $businessKeywords['business_keywords'];
+        $businessTerms = $businessKeywords['business_terms'];
         
-        return implode(', ', array_unique($keywords));
+        return [
+            'keywords' => array_unique($keywords),
+            'business_terms' => $businessTerms
+        ];
     }
 
     /**
@@ -319,19 +317,26 @@ class SentimentAnalysisService
         $businessKeywords = [];
         
         // Common business terms
-        $businessTerms = [
-            'service', 'product', 'price', 'cost', 'payment', 'invoice', 'quote',
-            'consultation', 'meeting', 'session', 'treatment', 'therapy', 'care',
-            'health', 'medical', 'dental', 'legal', 'financial', 'insurance'
-        ];
+        // $businessTerms = [
+        //     'service', 'product', 'price', 'cost', 'payment', 'invoice', 'quote',
+        //     'consultation', 'meeting', 'session', 'treatment', 'therapy', 'care',
+        //     'health', 'medical', 'dental', 'legal', 'financial', 'insurance'
+        // ];
+
+        $keywords = Keyword::first();
+        $businessTerms = $keywords ? explode(',', $keywords->keywords) : [];
         
         foreach ($businessTerms as $term) {
-            if (strpos($text, $term) !== false) {
-                $businessKeywords[] = $term;
+            $term = trim($term);
+            if ($term != "" && strpos($text, $term) !== false) {
+                $businessKeywords[] = trim($term);
             }
         }
         
-        return $businessKeywords;
+        return [
+            'business_terms' => $businessTerms,
+            'business_keywords' => $businessKeywords,
+        ];
     }
 
     /**

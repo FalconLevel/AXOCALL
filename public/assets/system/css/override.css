@@ -140,7 +140,8 @@ textarea {
     width: 200px !important;
 }
 
-.zero-configuration {
+.zero-configuration,
+.table-hover {
     background-color: #ffffff !important;
 }
 

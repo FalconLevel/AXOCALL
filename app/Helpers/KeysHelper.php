@@ -38,6 +38,7 @@ class KeysHelper {
         'ExtensionExpirationHrs' => 'extension_expiration_hrs',
         'IsRandomExtensionGeneration' => 'random_extension_generation',
         'IsActive' => 'is_active',
+        'Keywords' => 'keywords',
     ];
 
     public function getKey(string $key_index): string {

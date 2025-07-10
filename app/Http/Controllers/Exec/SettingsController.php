@@ -26,6 +26,25 @@ class SettingsController extends Controller
         }
     }
 
+    public function keywordSettings(Request $request)
+    {
+        try {
+            $response = apiHelper()->execute($request, '/api/settings/keyword-settings');
+
+            return globalHelper()->ajaxSuccessResponse(
+                'scripts',
+                'success',
+                'fetch-keywords',
+                '',   
+                '',
+                $response['data'] ? $response['data'] : []
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
     public function saveExtensionSettings(Request $request)
     {
         try {
@@ -48,5 +67,27 @@ class SettingsController extends Controller
             return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
         }
         
+    }
+
+    public function saveKeywords(Request $request)
+    {
+        try {
+            $response = apiHelper()->execute($request, '/api/settings/save-keywords');
+
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'User Error');
+            }
+            
+            return globalHelper()->ajaxSuccessResponse(
+                'toast',
+                'success',
+                'save-keywords',
+                $response['response'],   
+                'System Info'
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
     }
 }

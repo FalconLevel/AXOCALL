@@ -48,6 +48,12 @@ class ResponseHelper {
             case 'account-logout':
                 $script = "window.location.href = '".route('login')."';";
             break;
+            case 'save-keywords':
+                $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."');";
+                break;
+            case 'fetch-keywords':
+                $script = "$('[data-key=\"Keywords\"]').val('".$data['keywords']."');";
+                break;
         }
 
         return ['js' => $script];

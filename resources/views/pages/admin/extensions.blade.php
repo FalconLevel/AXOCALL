@@ -5,7 +5,7 @@
             
                     
             <div class="table-responsive">
-                <table class="table table-hover verticle-middle zero-configuration extensions-table" cellspacing="0">
+                <table class="table table-hover verticle-middle extensions-table" cellspacing="0">
                     <thead>
                         <tr>
                             <th scope="col">Name</th>

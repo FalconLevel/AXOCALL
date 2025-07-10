@@ -6,7 +6,7 @@
                 {{-- <div class="card-body">
                     <h4 class="card-title">Contacts</h4> --}}
                     <div class="table-responsive">
-                        <table class="table table-hover verticle-middle zero-configuration" cellspacing="0">
+                        <table class="table table-hover verticle-middle contacts-table" cellspacing="0">
                             <thead>
                                 <tr>
                                     <th width="15%">Name</th>

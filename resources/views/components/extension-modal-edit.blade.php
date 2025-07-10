@@ -9,24 +9,6 @@
                     </button>
                 </div>
                 <div class="modal-body">
-                    <input type="hidden" id="edit_extension_id" name="extension_id" data-key="extension_id">
-                    
-                    <div class="form-group">
-                        <label for="edit_contact_id">Contact</label>
-                        <select class="form-control select2" id="edit_contact_id" name="contact_id" required data-key="contact_id">
-                            <option value="">Select Contact</option>
-                            
-                            {{-- @foreach($contacts as $contact)
-                                <option value="{{ $contact->id }}">{{ $contact->first_name }} {{ $contact->last_name }}</option>
-                            @endforeach --}}
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="edit_phone_number">Phone Number</label>
-                        <select class="form-control" id="edit_phone_number" name="phone_number" required data-key="phone_number" data-key-id="phone_id">
-                            <option value="">Select Phone Number</option>
-                        </select>
-                    </div>
 
                     <div class="form-group" id="edit-selected-contact-info" style="display:none;">
                         <label>Selected Contact Info</label>
@@ -42,7 +24,7 @@
                     </div>
                     <div class="form-group">
                         <label for="edit_expiration">Expiration Date</label>
-                        <input type="date" class="form-control" id="edit_expiration" name="expiration" data-key="expiration">
+                        <input type="text" class="form-control datetimepicker" id="expiration" name="expiration" data-key="expiration">
                     </div>
                     <div class="form-group">
                         <label for="edit_notes">Notes</label>

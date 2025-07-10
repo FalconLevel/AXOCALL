@@ -77,6 +77,10 @@ class ValidatorHelper {
                     'email' => 'required|string|email|max:255',
                     'password' => 'required|string|min:8',
                 ];
+            case 'keywords_save':
+                return [
+                    'keywords' => 'required|string|max:255',
+                ];
         }
     }
 }

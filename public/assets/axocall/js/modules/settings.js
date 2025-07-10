@@ -1,6 +1,7 @@
 $(document).ready(function () {
     _fetch_tags();
     _fetch_extension_settings();
+    _fetch_keywords();
     init_actions();
 });
 
@@ -10,6 +11,10 @@ function _fetch_tags() {
 
 function _fetch_extension_settings() {
     ajaxRequest("/executor/settings/extension-settings", {}, "");
+}
+
+function _fetch_keywords() {
+    ajaxRequest("/executor/settings/keyword-settings", {}, "");
 }
 function init_actions() {
     $("[data-trigger]").off();
@@ -38,10 +43,31 @@ function init_actions() {
                     ...data,
                     IsRandomExtensionGeneration: randomExtensionGeneration,
                 };
+                console.log(data);
 
                 ajaxRequest(
                     "/executor/settings/save-extension-settings",
                     data,
+                    "POST"
+                );
+                break;
+            case "save-keywords":
+                let keywords = $("[data-key='Keywords']").val();
+
+                if (keywords == "") {
+                    _show_toastr(
+                        "error",
+                        "Please enter keywords",
+                        "User Error"
+                    );
+                    return;
+                }
+
+                ajaxRequest(
+                    "/executor/settings/save-keywords",
+                    {
+                        Keywords: keywords,
+                    },
                     "POST"
                 );
                 break;
