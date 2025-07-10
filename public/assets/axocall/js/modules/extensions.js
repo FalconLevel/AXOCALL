@@ -486,7 +486,6 @@ function _show_numbers() {
 }
 
 function _clearExtensionFields() {
-    $("#extension-modal")[0].reset();
     $("#contact_id").val("");
     $("#phone_number").val("");
     $("#selected-contact-info").hide();
