@@ -249,6 +249,7 @@ function _init_extension_actions() {
                         ),
                     },
                     success: function (res) {
+                        console.log(res);
                         if (res.status === "success") {
                             _show_toastr(
                                 "success",
@@ -267,7 +268,8 @@ function _init_extension_actions() {
                             );
                         }
                     },
-                    error: function () {
+                    error: function (e) {
+                        console.log(e);
                         _show_toastr(
                             "error",
                             "Failed to save extension",

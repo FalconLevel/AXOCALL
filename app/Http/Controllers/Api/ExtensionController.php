@@ -39,7 +39,7 @@ class ExtensionController extends Controller
                 'contact_id' => 'required|exists:contacts,id',
                 'phone_id' => 'required|exists:phone_numbers,id',
                 'extension_number' => 'required|string|max:255|unique:extensions,extension_number',
-                'expiration' => 'nullable|date',
+                'expiration' => 'nullable|string',
                 'notes' => 'nullable|string',
                 'status' => 'nullable|string',
             ]);
@@ -53,8 +53,7 @@ class ExtensionController extends Controller
             }
     
             $validated = $validator->validated();
-            $validated['expiration'] = Carbon::parse($validated['expiration'])->format('Y-m-d H:i:s');
-            
+            $validated['expiration'] = Carbon::parse(str_replace([' AM', ' PM'], '', strtoupper($validated['expiration'])))->format('Y-m-d H:i:s');
             
             $extension = Extension::create($validated);
     
@@ -206,7 +205,7 @@ class ExtensionController extends Controller
             }
 
             $extension->status = 'active';
-            $extension->expiration = Carbon::parse($expiration_date)->format('Y-m-d H:i:s');
+            $extension->expiration = Carbon::parse(str_replace([' AM', ' PM'], '', strtoupper($expiration_date)))->format('Y-m-d H:i:s');
             $extension->save();
 
             return response()->json([
