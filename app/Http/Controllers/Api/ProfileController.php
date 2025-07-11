@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Profile;
 use App\Models\User;
+use Exception;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ProfileController extends Controller
@@ -29,10 +31,10 @@ class ProfileController extends Controller
                 array_flip(['company', 'street_address', 'apartment', 'city', 'state', 'zip_code', 'country'])
             );
 
+            $user = User::where('id', Auth::user()->id)->update($user_data);
+            $profile = Profile::updateOrCreate(['user_id' => Auth::user()->id], $profile_data);
             
-            $profile_data['user_id'] = auth()->user()->id;
-            $user = User::where('id', auth()->user()->id)->update($user_data);
-            $profile = Profile::updateOrCreate(['user_id' => auth()->user()->id], $profile_data);
+            DB::commit();
             
             return [
                 'status' => true,
@@ -43,14 +45,13 @@ class ProfileController extends Controller
                 ],
             ];
 
-            DB::commit();
-            return response()->json($profile, 200);
-        } catch (\Throwable $th) {
-            logInfo($th->getMessage());
-            DB::rollBack();
+            
+        } catch (Exception $e) {
+            logInfo($e->getMessage());
+            // DB::rollBack();
             return [
                 'status' => false,
-                'message' => $th->getMessage(),
+                'message' => $e->getMessage(),
             ];
         }
         
