@@ -52,7 +52,7 @@ class ResponseHelper {
                 $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."');";
                 break;
             case 'fetch-keywords':
-                $script = "$('[data-key=\"Keywords\"]').val('".$data['keywords']."');";
+                $script = isset($data['keywords']) ? "$('[data-key=\"Keywords\"]').val('".strtolower($data['keywords'])."');" : "$('[data-key=\"Keywords\"]').val('');";
                 break;
         }
 

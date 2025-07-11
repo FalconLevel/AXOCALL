@@ -262,6 +262,7 @@ class GlobalHelper {
             $total_positive_calls = Communication::where('sentiment', 'positive')->count();
             $total_neutral_calls = Communication::where('sentiment', 'neutral')->count();
             $total_negative_calls = Communication::where('sentiment', 'negative')->count();
+            
         } else if ($trigger == "dashboard-custom") {    
             
             $keywords_hits = [];
@@ -311,7 +312,6 @@ class GlobalHelper {
                 }
             }
         }   
-        
 
         return [
             'total_communications' => $total_communications,    
