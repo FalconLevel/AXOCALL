@@ -282,9 +282,19 @@ input:checked + .slider:before {
     padding-left: 15px !important;
     box-shadow: none !important;
 }
+
 .form-control:focus {
     border: 1px solid #e0e0e0 !important;
     padding-left: 15px !important;
     padding-right: 15px !important;
     box-shadow: none !important;
+}
+
+.form-control-static {
+    border: none !important;
+    padding-left: 0 !important;
+    padding-right: 0 !important;
+    box-shadow: none !important;
+    background-color: transparent !important;
+    pointer-events: none !important;
 }
