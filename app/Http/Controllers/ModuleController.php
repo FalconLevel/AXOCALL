@@ -30,6 +30,8 @@ class ModuleController extends Controller
         $this->data['panel_type'] = 'communications';
         $this->data['communications'] = globalHelper()->getCommunicationData();
         $this->data['messages'] = globalHelper()->getMessageData();
+        $this->data['keywords'] = globalHelper()->getKeywords();
+
         return view('pages.admin.communications', $this->data);
     }
 

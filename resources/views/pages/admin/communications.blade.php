@@ -71,7 +71,9 @@
                                                     <td>
                                                         <i class="{{ $communication['sentiment'] ? config('twilio.sentiment.' . $communication['sentiment']) : '' }}"></i>
                                                     </td>
-                                                    <td class="text-danger">{{ $communication['keywords'] }}</td>
+                                                    <td class="text-danger">{{ 
+                                                        $communication['keywords'] ? count(explode(',', $communication['keywords']) ) . '/' . count(explode(',', $keywords)) : ''
+                                                    }}</td>
                                                     <td class="text-center">
                                                         {!! 
                                                             $communication['is_booked'] ? '<i class="text-success fa-regular fa-check"></i>' : '<i class="text-danger fa-regular fa-xmark"></i>' 

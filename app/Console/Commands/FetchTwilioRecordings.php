@@ -94,7 +94,7 @@ class FetchTwilioRecordings extends Command
 
                             $callData['summary'] = $analysis['summary'] ?? null;
                             $callData['sentiment'] = $analysis['sentiment'] ?? null;
-                            $callData['keywords'] = count($analysis['keywords']) . '/' . count($analysis['business_terms']);
+                            $callData['keywords'] = implode(',', $analysis['keywords']);
                             $callData['is_booked'] = $analysis['is_booked'] ?? null;
                             
                             $filtered_transcription = array_merge($filtered_transcription, $transcription);

@@ -30,6 +30,42 @@ $(document).ready(function () {
             cancelClass: "btn-inverse",
         });
     }
+
+    $("[data-trigger='keywords-details-modal']").on("click", function () {
+        const keywordHits = JSON.parse($(this).attr("data-keyword-hits"));
+        const totalCommunications = $(this).attr("data-total-communications");
+        console.log(keywordHits, keywordHits.length, totalCommunications);
+        if (Object.keys(keywordHits).length > 0) {
+            $("#keywords-details-modal-body").empty();
+            for (const keyword in keywordHits) {
+                const percentage =
+                    (keywordHits[keyword] / totalCommunications) * 100;
+                $("#keywords-details-modal-body").append(
+                    ` <h5 class="mt-3">${keyword} 
+                        <span class="float-right">
+                            <font class="text-danger">
+                                ${percentage.toFixed(1)}%
+                            </font>
+                            <font class="text-muted text-small">
+                                (${keywordHits[keyword]}/${totalCommunications})
+                            </font>
+                        </span>
+                    </h5>
+                    <div class="progress mb-3" style="height: 9px">
+                        <div class="progress-bar bg-danger wow  progress-" style="width: ${percentage}%;" role="progressbar">
+                            <span class="sr-only">${
+                                keywordHits[keyword]
+                            }% </span>
+                        </div>
+                    </div>`
+                );
+            }
+
+            $("#keywords-details-modal").modal("show");
+        } else {
+            _show_toastr("error", "No keyword hits found", "System Info");
+        }
+    });
 });
 
 function _fetchDashboardData(trigger = "dashboard-today", daterange = null) {
@@ -44,6 +80,7 @@ function _fetchDashboardData(trigger = "dashboard-today", daterange = null) {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
         success: function (response) {
+            console.log(response);
             if (response.status) {
                 $(".total-communications").text(
                     response.data.total_communications
@@ -95,6 +132,34 @@ function _fetchDashboardData(trigger = "dashboard-today", daterange = null) {
                               "% of " +
                               response.data.total_calls_with_sentiment
                         : "0% of 0"
+                );
+                $(".total-keywords-hit-rate").text(
+                    response.data.keywords_hits.length > 0
+                        ? response.data.keywords_hits.length
+                        : 0
+                );
+                $(".total-missed-keywords").text(
+                    response.data.keywords_missed > 0
+                        ? response.data.keywords_missed
+                        : 0
+                );
+
+                $("[data-trigger='keywords-details-modal']").attr(
+                    "data-keyword-hits",
+                    JSON.stringify(response.data.keywords_hits)
+                );
+                $("[data-trigger='keywords-details-modal']").attr(
+                    "data-total-communications",
+                    response.data.total_communications
+                );
+                $(".total-keywords-hit-rate-percentage").text(
+                    response.data.keywords_missed
+                );
+
+                $(".total-keywords-hit-rate").text(
+                    response.data.overall_keywords_hit_rate > 0
+                        ? response.data.overall_keywords_hit_rate
+                        : 0
                 );
             }
         },

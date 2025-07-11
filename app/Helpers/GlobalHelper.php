@@ -6,6 +6,7 @@ namespace App\Helpers;
 use App\Models\Communication;
 use App\Models\Contact;
 use App\Models\Extension;
+use App\Models\Keyword;
 use App\Models\Message;
 use App\Models\PhoneNumber;
 use App\Models\SettingExtension;
@@ -49,6 +50,17 @@ class GlobalHelper {
             return $tags->toArray();
         } catch (\Exception $e) {
             $this->logInfo("Error fetching tags: " . $e->getMessage());
+            return [];
+        }
+    }
+
+    public function getKeywords() {
+        try {
+            return array_map(function($item) {
+                return strtolower(trim($item));
+            }, explode(",", Keyword::get()->pluck('keywords')->toArray()[0]));
+        } catch (\Exception $e) {
+            $this->logInfo("Error fetching keywords: " . $e->getMessage());
             return [];
         }
     }
@@ -114,13 +126,17 @@ class GlobalHelper {
     }
 
     public function getDashboardData($trigger = "dashboard-today", $daterange = null) {
+        $settings_keywords = $this->getKeywords();
+        
         if ($trigger == "dashboard-today") {
+            $keywords_hits = [];
+            $keywords_missed = 0;
+
             $total_communications = Communication::where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
             $total_messages = Message::where('date_sent', '>=', now()->startOfDay())->where('date_sent', '<=', now()->endOfDay())->count();
             $total_extensions = Extension::where('status', 'active')->where('created_at', '>=', now()->startOfDay())->where('created_at', '<=', now()->endOfDay())->count();
             $total_follow_ups = Communication::where('category', 'follow-up')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
             $total_appointments_booked = Communication::where('is_booked', 'yes')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
-
 
             $total_calls_by_hour = Communication::where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->get()->groupBy(function($item) {
                 return $item->date_time->format('H');
@@ -132,7 +148,36 @@ class GlobalHelper {
             $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
             $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
             $total_negative_calls = Communication::where('sentiment', 'negative')->where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->count();
+
+
+            $calls = Communication::where('date_time', '>=', now()->startOfDay())->where('date_time', '<=', now()->endOfDay())->get();
+
+            if ($calls) {
+                foreach ($calls as $call) {
+                    if ($call->keywords) {
+                        $keywords_hit = explode(",", $call->keywords);
+                        foreach ($settings_keywords as $setting_keyword) {
+                            if (in_array($setting_keyword, $keywords_hit)) {
+                                if (isset($keywords_hits[ucfirst(strtolower($setting_keyword))])) {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))]++;
+                                } else {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))] = 1;
+                                }
+                            } else {
+                                $keywords_hits[ucfirst(strtolower($setting_keyword))] = 0;
+                            }
+                        }
+                    } else {
+                        $keywords_missed++;
+                    }
+                }
+            }
+            
+
         } else if ($trigger == "dashboard-week") {
+            $keywords_hits = [];
+            $keywords_missed = 0;
+
             $total_communications = Communication::where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
             $total_messages = Message::where('date_sent', '>=', now()->startOfWeek())->where('date_sent', '<=', now()->endOfWeek())->count();
             $total_extensions = Extension::where('status', 'active')->where('created_at', '>=', now()->startOfWeek())->where('created_at', '<=', now()->endOfWeek())->count();
@@ -150,7 +195,34 @@ class GlobalHelper {
             $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
             $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
             $total_negative_calls = Communication::where('sentiment', 'negative')->where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->count();
+
+            $calls = Communication::where('date_time', '>=', now()->startOfWeek())->where('date_time', '<=', now()->endOfWeek())->get();
+
+            if ($calls) {
+                foreach ($calls as $call) {
+                    if ($call->keywords) {
+                        $keywords_hit = explode(",", $call->keywords);
+                        foreach ($settings_keywords as $setting_keyword) {
+                            if (in_array($setting_keyword, $keywords_hit)) {
+                                if (isset($keywords_hits[ucfirst(strtolower($setting_keyword))])) {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))]++;
+                                } else {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))] = 1;
+                                }
+                            } else {
+                                $keywords_hits[ucfirst(strtolower($setting_keyword))] = 0;
+                            }
+                        }
+                    } else {
+                        $keywords_missed++;
+                    }
+                }
+            }
         } else if ($trigger == "dashboard-all-time") {
+            
+            $keywords_hits = [];
+            $keywords_missed = 0;
+            
             $total_communications = Communication::count();
             $total_messages = Message::count();
             $total_extensions = Extension::where('status', 'active')->count();
@@ -163,11 +235,38 @@ class GlobalHelper {
                 return $item->count();
             })->toArray();
 
+            $calls = Communication::get();
+
+            if ($calls) {
+                foreach ($calls as $call) {
+                    if ($call->keywords) {
+                        $keywords_hit = explode(",", $call->keywords);
+                        foreach ($settings_keywords as $setting_keyword) {
+                            if (in_array($setting_keyword, $keywords_hit)) {
+                                if (isset($keywords_hits[ucfirst(strtolower($setting_keyword))])) {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))]++;
+                                } else {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))] = 1;
+                                }
+                            } else {
+                                $keywords_hits[ucfirst(strtolower($setting_keyword))] = 0;
+                            }
+                        }
+                    } else {
+                        $keywords_missed++;
+                    }
+                }
+            }
+            
             $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->count();
             $total_positive_calls = Communication::where('sentiment', 'positive')->count();
             $total_neutral_calls = Communication::where('sentiment', 'neutral')->count();
             $total_negative_calls = Communication::where('sentiment', 'negative')->count();
         } else if ($trigger == "dashboard-custom") {    
+            
+            $keywords_hits = [];
+            $keywords_missed = 0;
+            
             $daterange = explode(" - ", $daterange);
             $start_date = Carbon::parse($daterange[0])->startOfDay();
             $end_date = Carbon::parse($daterange[1])->endOfDay();
@@ -188,18 +287,31 @@ class GlobalHelper {
             $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
             $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
             $total_negative_calls = Communication::where('sentiment', 'negative')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+
+            $calls = Communication::where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->get();
+
+            if ($calls) {
+                foreach ($calls as $call) {
+                    if ($call->keywords) {
+                        $keywords_hit = explode(",", $call->keywords);
+                        foreach ($settings_keywords as $setting_keyword) {
+                            if (in_array($setting_keyword, $keywords_hit)) {
+                                if (isset($keywords_hits[ucfirst(strtolower($setting_keyword))])) {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))]++;
+                                } else {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))] = 1;
+                                }
+                            } else {
+                                $keywords_hits[ucfirst(strtolower($setting_keyword))] = 0;
+                            }
+                        }
+                    } else {
+                        $keywords_missed++;
+                    }
+                }
+            }
         }   
         
-        // $total_communications = Communication::count();
-        // $total_messages = Message::count();
-        // $total_extensions = Extension::where('status', 'active')->count();
-        // $total_follow_ups = Communication::where('category', 'follow-up')->count();
-        // $total_appointments_booked = Communication::where('is_booked', 'yes')->count();
-
-        // $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->count();
-        // $total_positive_calls = Communication::where('sentiment', 'positive')->count();
-        // $total_neutral_calls = Communication::where('sentiment', 'neutral')->count();
-        // $total_negative_calls = Communication::where('sentiment', 'negative')->count();
 
         return [
             'total_communications' => $total_communications,    
@@ -213,6 +325,9 @@ class GlobalHelper {
             'total_negative_calls' => $total_negative_calls,
 
             'total_calls_by_hour' => $total_calls_by_hour,
+            'keywords_hits' => $keywords_hits,
+            'keywords_missed' => $keywords_missed,
+            'overall_keywords_hit_rate' => array_sum($keywords_hits),
         ];
     }
 }

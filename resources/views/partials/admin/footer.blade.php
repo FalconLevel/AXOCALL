@@ -2,7 +2,7 @@
 </div>
     <div class="footer">
         <div class="copyright">
-            <p>Copyright &copy; AxoCall <a href="#">AxoCall</a> 2025</p>
+            <p>Copyright &copy; <a href="#">AxoCall</a> 2025</p>
         </div>
     </div>
 
