@@ -39,6 +39,14 @@ class KeysHelper {
         'IsRandomExtensionGeneration' => 'random_extension_generation',
         'IsActive' => 'is_active',
         'Keywords' => 'keywords',
+
+        'Company' => 'company',
+        'StreetAddress' => 'street_address',
+        'Apartment' => 'apartment',
+        'City' => 'city',
+        'State' => 'state',
+        'ZipCode' => 'zip_code',
+        'Country' => 'country',
     ];
 
     public function getKey(string $key_index): string {

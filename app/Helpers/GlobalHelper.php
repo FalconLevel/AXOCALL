@@ -11,6 +11,7 @@ use App\Models\Message;
 use App\Models\PhoneNumber;
 use App\Models\SettingExtension;
 use App\Models\Tag;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
@@ -329,5 +330,11 @@ class GlobalHelper {
             'keywords_missed' => $keywords_missed,
             'overall_keywords_hit_rate' => array_sum($keywords_hits),
         ];
+    }
+
+    public function getProfile() {
+        $profile = User::where('id', auth()->user()->id)->with('profile')->first();
+        
+        return $profile->toArray();
     }
 }

@@ -68,13 +68,8 @@ class ExtensionController extends Controller
                 'message' => 'Failed to save extension' 
             ], 500);
         }
-
-        
     }
 
-    /**
-     * Display the specified extension.
-     */
     public function edit($id)
     {
         $extension = Extension::with('contact', 'phone')->find($id);

@@ -41,7 +41,7 @@ class AccountController extends Controller
 
     public function login(Request $request): JsonResponse {
         try {
-            $validated = validatorHelper()->validate('account_login', $request);
+            $validated = validatorHelper()->validate('account_login', $request); 
 
             if (!$validated['status']) {
                 return response()->json([
@@ -85,7 +85,9 @@ class AccountController extends Controller
 
     public function logout(Request $request): JsonResponse {
         try {
-            $request->user()->tokens()->delete();
+            Auth::user()->tokens->each(function ($token, $key) {
+                $token->delete();
+            });
             return response()->json([
                 'status' => true,
                 'message' => 'Logged out successfully',

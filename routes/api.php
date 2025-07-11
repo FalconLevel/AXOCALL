@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CommunicationController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ExtensionController;
+use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\TagController;
 use App\Http\Controllers\Api\TwilioController;
@@ -83,5 +84,9 @@ Route::prefix('account')->group(function () {
 
     Route::prefix('twilio')->group(function () {
         Route::post('/voice-response', [TwilioController::class, 'getVoice']);
+    });
+
+    Route::prefix('profile')->group(function () {
+        Route::post('/update', [ProfileController::class, 'update']);
     });
 // });

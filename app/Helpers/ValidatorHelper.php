@@ -81,6 +81,20 @@ class ValidatorHelper {
                 return [
                     'keywords' => 'required|string|max:255',
                 ];
+            case 'profile_update':
+                return [
+                    'first_name' => 'required|string|max:255',
+                    'last_name' => 'required|string|max:255',
+                    'email' => 'required|string|email|max:255',
+                    'phone_number' => 'required|string|max:10',
+                    'company' => 'required|string|max:255',
+                    'apartment' => 'sometimes|string|max:255',
+                    'street_address' => 'required|string|max:255',
+                    'city' => 'required|string|max:255',
+                    'state' => 'required|string|max:255',
+                    'zip_code' => 'required|string|max:255',
+                    'country' => 'nullable|string|max:255',
+                ];
         }
     }
 }

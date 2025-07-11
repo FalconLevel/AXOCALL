@@ -3,6 +3,7 @@
 use App\Http\Controllers\Exec\AccountController;
 use App\Http\Controllers\Exec\ContactController;
 use App\Http\Controllers\Exec\ExtensionController;
+use App\Http\Controllers\Exec\ProfileController;
 use App\Http\Controllers\Exec\SettingsController;
 use App\Http\Controllers\Exec\TagController;
 use App\Http\Controllers\ModuleController;
@@ -12,24 +13,6 @@ Route::get('/', function () {
     return view('pages.login');
 })->name('login');
 
-Route::get('/sign-up', function () {
-    return view('pages.register');
-});
-
-Route::group(['prefix' => 'admin'], function () {
-    Route::get('/dashboard', [ModuleController::class, 'dashboard'])->name('admin.dashboard');
-    Route::get('/communications', [ModuleController::class, 'communications'])->name('admin.communications');
-    Route::get('/contacts', [ModuleController::class, 'contacts'])->name('admin.contacts');
-    Route::get('/extensions', [ModuleController::class, 'extensions'])->name('admin.extensions');
-    Route::get('/follow_ups', [ModuleController::class, 'follow_ups'])->name('admin.follow_ups');
-});
-
-Route::group(['prefix' => 'maintenance'], function () {
-    Route::get('/settings', [ModuleController::class, 'settings'])->name('maintenance.settings');
-    Route::get('/profile', [ModuleController::class, 'profile'])->name('maintenance.profile');  
-});
-
-
 Route::group(['prefix' => 'executor'], function () {
     Route::group(['prefix' => 'account'], function () {
         Route::post('/register', [AccountController::class, 'register'])->name('account.register');
@@ -38,7 +21,20 @@ Route::group(['prefix' => 'executor'], function () {
 });
 
 //Execution Routes
-// Route::middleware(['auth:sanctum'])->group(function () {
+Route::middleware(['auth', 'token_validator', 'revalidate_back_history'])->group(function () {
+    Route::group(['prefix' => 'admin'], function () {
+        Route::get('/dashboard', [ModuleController::class, 'dashboard'])->name('admin.dashboard');
+        Route::get('/communications', [ModuleController::class, 'communications'])->name('admin.communications');
+        Route::get('/contacts', [ModuleController::class, 'contacts'])->name('admin.contacts');
+        Route::get('/extensions', [ModuleController::class, 'extensions'])->name('admin.extensions');
+        Route::get('/follow_ups', [ModuleController::class, 'follow_ups'])->name('admin.follow_ups');
+    });
+
+    
+    Route::group(['prefix' => 'maintenance'], function () {
+        Route::get('/settings', [ModuleController::class, 'settings'])->name('maintenance.settings');
+        Route::get('/profile', [ModuleController::class, 'profile'])->name('maintenance.profile');  
+    });
     Route::group(['prefix' => 'executor'], function () {
         
         Route::group(['prefix' => 'account'], function () {
@@ -80,5 +76,9 @@ Route::group(['prefix' => 'executor'], function () {
             Route::post('/save-keywords', [SettingsController::class, 'saveKeywords'])->name('executor.settings.save-keywords');
             Route::post('/keyword-settings', [SettingsController::class, 'keywordSettings'])->name('executor.settings.keyword-settings');
         });
+
+        Route::group(['prefix' => 'profile'], function () {
+            Route::post('/update', [ProfileController::class, 'update'])->name('executor.profile.update');
+        });
     });
-// });
+});

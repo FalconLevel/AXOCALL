@@ -72,7 +72,7 @@
                                                         <i class="{{ $communication['sentiment'] ? config('twilio.sentiment.' . $communication['sentiment']) : '' }}"></i>
                                                     </td>
                                                     <td class="text-danger">{{ 
-                                                        $communication['keywords'] ? count(explode(',', $communication['keywords']) ) . '/' . count(explode(',', $keywords)) : ''
+                                                        $communication['keywords'] ? count(explode(',', $communication['keywords']) ) . '/' . count($keywords) : ''
                                                     }}</td>
                                                     <td class="text-center">
                                                         {!! 

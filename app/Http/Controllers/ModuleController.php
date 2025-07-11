@@ -29,8 +29,10 @@ class ModuleController extends Controller
         $this->data['description'] = 'Manage all your call logs and SMS messages in one place.';
         $this->data['panel_type'] = 'communications';
         $this->data['communications'] = globalHelper()->getCommunicationData();
+
         $this->data['messages'] = globalHelper()->getMessageData();
         $this->data['keywords'] = globalHelper()->getKeywords();
+        
 
         return view('pages.admin.communications', $this->data);
     }
@@ -72,9 +74,10 @@ class ModuleController extends Controller
     }
 
     public function profile() {
-        $this->data['title'] = 'Profile';
+        $this->data['title'] = 'My Profile';
         $this->data['description'] = 'Manage your profile and preferences.';
         $this->data['panel_type'] = 'profile';
+        $this->data['profile'] = globalHelper()->getProfile();
         return view('pages.admin.maintenance.profile', $this->data);
     }
 
