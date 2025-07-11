@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('recording_id')->constrained('communications');
             $table->string('media_channel')->nullable();
             $table->string('transcript_id')->nullable();
-            $table->string('transcript_sentence')->nullable();
+            $table->longText('transcript_sentence')->nullable();
             $table->string('service_sid')->nullable();
             $table->string('account_sid')->nullable();
             $table->timestamps();

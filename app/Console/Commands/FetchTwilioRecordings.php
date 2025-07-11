@@ -58,15 +58,16 @@ class FetchTwilioRecordings extends Command
                 "startTimeAfter" => new \DateTime($start_date),
                 "startTimeBefore" => new \DateTime($end_date),
             ], 20);
-            
             Log::channel('twilio')->info("Calls: " . json_encode($calls));
 
+            echo "Fetching calls from Twilio\n";
             $filtered_calls = [];
             $filtered_transcription = [];
             foreach ($calls as $call) {
                 $recordings_details = $this->getRecordingDetails($call->sid);
                 
                 foreach ($recordings_details as $recording_detail) {
+
                     $callData = array_merge($recording_detail, [
                         'type' => $this->getCallType($call->fromFormatted),
                         'from' => $call->from,
@@ -104,12 +105,13 @@ class FetchTwilioRecordings extends Command
             }
             
             if ($filtered_calls) {
+                
                 Communication::upsert($filtered_calls, ['call_sid']);
 
                 if ($filtered_transcription) {
                     Transcription::upsert($filtered_transcription, ['transcript_id']);
                 }
-                
+
                 echo "Recordings fetched successfully\n";
                 Log::channel('twilio')->info("Recordings fetched successfully");
             } else {
@@ -119,6 +121,7 @@ class FetchTwilioRecordings extends Command
             }
         } catch (\Exception $e) {
             DB::rollBack();
+            echo "Error: " . $e->getMessage();
             logInfo("Error: " . $e->getTraceAsString());
         }
         DB::commit();
