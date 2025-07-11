@@ -98,7 +98,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="card-footer">
+                <div class="card-footer d-none">
                     <button class="btn btn-outline-primary btn-block btn-flat" data-trigger="save-profile">Save Changes</button>
                 </div>
             </form>

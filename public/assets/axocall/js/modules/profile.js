@@ -15,10 +15,12 @@ $(document).ready(function () {
         let json_data = JSON.parse(_collectFields(parent));
         ajaxRequest("/executor/profile/update", json_data, "");
     });
+
     $('[data-trigger="edit-profile"]').off();
     $('[data-trigger="edit-profile"]').on("click", function (e) {
         e.preventDefault();
         let parent = $(this).closest("form");
         parent.find(".form-control-static").toggleClass("form-control-static");
+        parent.find(".card-footer").toggleClass("d-none");
     });
 });
