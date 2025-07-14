@@ -57,7 +57,7 @@ class FetchTwilioRecordings extends Command
             $calls = $this->twilio_client->calls->read([
                 "startTimeAfter" => new \DateTime($start_date),
                 "startTimeBefore" => new \DateTime($end_date),
-            ], 20);
+            ]);
             Log::channel('twilio')->info("Calls: " . json_encode($calls));
 
             echo "Fetching calls from Twilio\n";

@@ -13,12 +13,16 @@ class FormatHelper {
         
         return strlen($formatted_phone_number) == 10 ? 
             '+1' . $formatted_phone_number : 
-            $formatted_phone_number;
+            "+" . $formatted_phone_number;
     }
 
     public static function formatPhoneNumberWithParenthesis(string $phone_number): string {
         $formatted_phone_number = preg_replace('/[^0-9]/', '', $phone_number);
-        return '(' . substr($formatted_phone_number, 0, 3) . ') ' . substr($formatted_phone_number, 3, 3) . '-' . substr($formatted_phone_number, 6);
+        if (strlen($formatted_phone_number) == 10) {
+            return '(' . substr($formatted_phone_number, 0, 3) . ') ' . substr($formatted_phone_number, 3, 3) . '-' . substr($formatted_phone_number, 6);
+        } else {
+            return '(' . substr($formatted_phone_number, 1, 3) . ') ' . substr($formatted_phone_number, 4, 3) . '-' . substr($formatted_phone_number, 7);
+        }
     }
 
     /**

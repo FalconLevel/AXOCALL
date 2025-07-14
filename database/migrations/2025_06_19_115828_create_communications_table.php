@@ -22,7 +22,7 @@ return new class extends Migration
             $table->datetime('date_time');
             $table->string('duration');
             $table->string('recording_sid')->nullable();
-            $table->string('recording_url_twilio')->nullable();
+            $table->longText('recording_url_twilio')->nullable();
             $table->string('recording_url_axocall')->nullable();
             $table->string('recording_filename')->nullable();
             $table->longText('summary')->nullable();

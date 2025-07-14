@@ -68,6 +68,14 @@ return [
             'replace_placeholders' => true,
         ],
 
+        'webhook' => [
+            'driver' => 'daily',
+            'path' => storage_path('logs/webhook/webhook_'.date("Ymd").'.log'),
+            'level' => env('LOG_LEVEL', 'debug'),
+            'days' => env('LOG_DAILY_DAYS', 14),
+            'replace_placeholders' => true,
+        ],
+
         'stack' => [
             'driver' => 'stack',
             'channels' => explode(',', env('LOG_STACK', 'single')),
