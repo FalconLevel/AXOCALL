@@ -32,8 +32,8 @@ class TwilioController extends Controller
     public function getVoice(Request $request) {
         try {
             Log::channel('webhook')->info("REQUEST DATA: " . json_encode($request->all()) . "\n");
-            $transcript_sid = $request->transcript_sid;
-            // $transcript_sid = 'GT456e955b6a99d3b6c6080f8ca60553bb';
+            // $transcript_sid = $request->transcript_sid;
+            $transcript_sid = 'GT456e955b6a99d3b6c6080f8ca60553bb';
             $transcript = $this->twilio_client->intelligence->v2->transcripts($transcript_sid)->fetch();
 
             $participants = $this->getParticipants($transcript->channel['participants']);

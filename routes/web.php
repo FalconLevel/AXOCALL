@@ -13,6 +13,10 @@ Route::get('/', function () {
     return view('pages.login');
 })->name('login');
 
+Route::get('/register', function () {
+    return view('pages.register');
+})->name('register');
+
 Route::group(['prefix' => 'executor'], function () {
     Route::group(['prefix' => 'account'], function () {
         Route::post('/register', [AccountController::class, 'register'])->name('account.register');

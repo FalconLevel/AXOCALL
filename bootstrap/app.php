@@ -20,6 +20,7 @@ return Application::configure(basePath: dirname(__DIR__))
             'verified' => \App\Http\Middleware\EnsureEmailIsVerified::class,
             'token_validator' => \App\Http\Middleware\TokenValidator::class,
             'revalidate_back_history' => \App\Http\Middleware\RevalidateBackHistory::class, 
+            'SentimentAnalysis' => Antoineaugusti\LaravelSentimentAnalysis\SentimentAnalysis::class,
         ]);
 
         //
