@@ -3,11 +3,13 @@
 declare(strict_types=1);
 namespace App\Helpers;
 
+use App\Mail\AxoMailer;
 use App\Models\Communication;
 use App\Models\Contact;
 use App\Models\Extension;
 use App\Models\Keyword;
 use App\Models\Message;
+use App\Models\Otp;
 use App\Models\PhoneNumber;
 use App\Models\SettingExtension;
 use App\Models\Tag;
@@ -15,6 +17,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
 
 class GlobalHelper {
     
@@ -336,5 +339,84 @@ class GlobalHelper {
         $profile = User::where('id', auth()->user()->id)->with('profile')->first();
         
         return $profile->toArray();
+    }
+
+    public function getProfileViaEmail($email) {
+        try {
+            $user = User::where('email', $email)->first();
+            
+            return $user->toArray();
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return [];
+        }
+    }
+
+    public function getEmailDetails($type, $data=[]) {
+        
+        switch ($type) {
+            case 'otp':
+                $user_id = $data['id'];
+                $otp_data = $this->generateOtp($user_id);
+                $data['otp'] = $otp_data['otp'] ?? '';
+                $data['verification_url'] = config('app.url') . '/verify-otp?token=' . $otp_data['token'];
+                return [
+                    'subject' => 'OTP Verification - AxoCall',
+                    'view' => 'mail.otp',
+                    'data' => $data,
+                ];
+            default:
+                return [
+                    'subject' => 'OTP Verification - AxoCall',
+                    'view' => 'mail.otp',
+                ];
+        }
+    }
+
+    public function generateOtp($user_id) {
+
+        try {
+        $otp = rand(100000, 999999);
+        $token = md5(random_bytes(32).$otp);
+        $otp_expiration = now()->addMinutes(5);
+
+        $otp_data = [
+            'user_id' => $user_id,
+            'otp' => $otp,
+            'expires_at' => $otp_expiration,
+            'type' => 'otp',
+            'token' => $token,
+        ];
+
+        $otp = Otp::create($otp_data);
+
+        return $otp;
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return [];
+        }
+    }
+
+    public function sendOtp($data) {
+        try {
+
+            $recipient = $data['email'];
+            $profile = $this->getProfileViaEmail($recipient);
+            $emailDetails = $this->getEmailDetails('otp', $profile);
+            
+            Mail::to("$recipient")->send(new AxoMailer($emailDetails));
+
+            return [
+                'status' => true,
+                'message' => 'OTP sent successfully',
+                'js' => 'location = "'.$emailDetails['data']['verification_url'].'"',
+            ];
+        } catch (\Exception $e) {   
+            logInfo($e->getMessage());
+            return [
+                'status' => false,
+                'message' => 'Failed to send OTP',
+            ];
+        }
     }
 }

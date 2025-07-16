@@ -42,6 +42,8 @@ class ResponseHelper {
                 $script = "$('[data-key=\"extension_number\"]').val('".$data['extension_number']."'); $('[data-key=\"expiration\"]').val('".$data['expiration_date']."');";
                 break;
             case 'account-register':
+                $script = $data['js'];
+                break;
             case 'account-login':
                 $script = "window.location.href = '".route('admin.dashboard')."';";
             break;

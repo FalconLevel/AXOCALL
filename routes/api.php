@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
 Route::prefix('account')->group(function () {
     Route::post('/register', [AccountController::class, 'register']);
     Route::post('/login', [AccountController::class, 'login']);
+    Route::post('/send-otp', [AccountController::class, 'sendOtp']);    
 });
 
 // Route::middleware('auth:sanctum')->group(function () {

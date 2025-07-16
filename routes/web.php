@@ -7,6 +7,7 @@ use App\Http\Controllers\Exec\ProfileController;
 use App\Http\Controllers\Exec\SettingsController;
 use App\Http\Controllers\Exec\TagController;
 use App\Http\Controllers\ModuleController;
+use App\Models\Otp;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -17,12 +18,19 @@ Route::get('/register', function () {
     return view('pages.register');
 })->name('register');
 
+Route::get('/verify-otp', [AccountController::class, 'verifyOtp'])->name('verify-otp');
+
 Route::group(['prefix' => 'executor'], function () {
     Route::group(['prefix' => 'account'], function () {
         Route::post('/register', [AccountController::class, 'register'])->name('account.register');
         Route::post('/login', [AccountController::class, 'login'])->name('account.login');
     });
+
+    Route::get('/resend-otp', [AccountController::class, 'resendOtp'])->name('account.resend-otp');
+    Route::get('/countdown', [AccountController::class, 'countdown'])->name('account.countdown');
+    Route::get('/validate-otp', [AccountController::class, 'validateOtp'])->name('account.validate-otp');
 });
+
 
 //Execution Routes
 Route::middleware(['auth', 'token_validator', 'revalidate_back_history'])->group(function () {

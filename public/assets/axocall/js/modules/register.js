@@ -48,6 +48,6 @@ $(document).ready(function () {
             return;
         }
 
-        ajaxRequest("/executor/account/register", formData, "");
+        ajaxRequest("/executor/account/register", formData, $(this));
     });
 });
