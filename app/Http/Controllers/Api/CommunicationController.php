@@ -8,6 +8,7 @@ use App\Models\Message;
 use App\Services\SentimentAnalysisService;
 use Illuminate\Http\Request;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\URL;
 
 class CommunicationController extends Controller {
@@ -390,8 +391,15 @@ class CommunicationController extends Controller {
     {
         try {
             $report_type = $request->report_type;
+            $daterange = explode(' - ', $request->daterange);
+            $date_from = Carbon::parse($daterange[0])->format('Y-m-d');
+            $date_to = Carbon::parse($daterange[1])->format('Y-m-d');
             if($report_type == 'call-logs') {
-                $communications = Communication::with('contact_from', 'contact_to')->get();
+                $communications = Communication::with('contact_from', 'contact_to');
+                if($date_from && $date_to) {
+                    $communications->whereBetween('date_time', [$date_from, $date_to]);
+                }
+                $communications = $communications->get();
 
                 $filename = 'communications_'.date('Y-m-d_H-i-s').'.csv';
                 $path = public_path('assets/axocall/exports/'.$filename);

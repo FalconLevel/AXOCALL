@@ -222,52 +222,7 @@ class GlobalHelper {
                     }
                 }
             }
-        } else if ($trigger == "dashboard-all-time") {
-            
-            $keywords_hits = [];
-            $keywords_missed = 0;
-            
-            $total_communications = Communication::count();
-            $total_messages = Message::count();
-            $total_extensions = Extension::where('status', 'active')->count();
-            $total_follow_ups = Communication::where('category', 'follow-up')->count();
-            $total_appointments_booked = Communication::where('is_booked', 'yes')->count();
-
-            $total_calls_by_hour = Communication::get()->groupBy(function($item) {
-                return $item->date_time->format('H');
-            })->map(function($item) {
-                return $item->count();
-            })->toArray();
-
-            $calls = Communication::get();
-
-            if ($calls) {
-                foreach ($calls as $call) {
-                    if ($call->keywords) {
-                        $keywords_hit = explode(",", $call->keywords);
-                        foreach ($settings_keywords as $setting_keyword) {
-                            if (in_array($setting_keyword, $keywords_hit)) {
-                                if (isset($keywords_hits[ucfirst(strtolower($setting_keyword))])) {
-                                    $keywords_hits[ucfirst(strtolower($setting_keyword))]++;
-                                } else {
-                                    $keywords_hits[ucfirst(strtolower($setting_keyword))] = 1;
-                                }
-                            } else {
-                                $keywords_hits[ucfirst(strtolower($setting_keyword))] = 0;
-                            }
-                        }
-                    } else {
-                        $keywords_missed++;
-                    }
-                }
-            }
-            
-            $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->count();
-            $total_positive_calls = Communication::where('sentiment', 'positive')->count();
-            $total_neutral_calls = Communication::where('sentiment', 'neutral')->count();
-            $total_negative_calls = Communication::where('sentiment', 'negative')->count();
-            
-        } else if ($trigger == "dashboard-custom") {    
+        }  else if ($trigger == "dashboard-custom") {    
             
             $keywords_hits = [];
             $keywords_missed = 0;
@@ -315,7 +270,105 @@ class GlobalHelper {
                     }
                 }
             }
-        }   
+        }
+        
+        if ($daterange == "All Time") {
+            
+            $keywords_hits = [];
+            $keywords_missed = 0;
+            
+            $total_communications = Communication::count();
+            $total_messages = Message::count();
+            $total_extensions = Extension::where('status', 'active')->count();
+            $total_follow_ups = Communication::where('category', 'follow-up')->count();
+            $total_appointments_booked = Communication::where('is_booked', 'yes')->count();
+
+            $total_calls_by_hour = Communication::get()->groupBy(function($item) {
+                return $item->date_time->format('H');
+            })->map(function($item) {
+                return $item->count();
+            })->toArray();
+
+            $calls = Communication::get();
+
+            if ($calls) {
+                foreach ($calls as $call) {
+                    if ($call->keywords) {
+                        $keywords_hit = explode(",", $call->keywords);
+                        foreach ($settings_keywords as $setting_keyword) {
+                            if (in_array($setting_keyword, $keywords_hit)) {
+                                if (isset($keywords_hits[ucfirst(strtolower($setting_keyword))])) {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))]++;
+                                } else {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))] = 1;
+                                }
+                            } else {
+                                $keywords_hits[ucfirst(strtolower($setting_keyword))] = 0;
+                            }
+                        }
+                    } else {
+                        $keywords_missed++;
+                    }
+                }
+            }
+            
+            $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->count();
+            $total_positive_calls = Communication::where('sentiment', 'positive')->count();
+            $total_neutral_calls = Communication::where('sentiment', 'neutral')->count();
+            $total_negative_calls = Communication::where('sentiment', 'negative')->count();
+            
+        } else {
+            $keywords_hits = [];
+            $keywords_missed = 0;
+            
+            if($daterange) {
+                $daterange = explode(" - ", $daterange);
+            } else {
+                $daterange = [now()->startOfDay(), now()->endOfDay()];
+            }
+            $start_date = Carbon::parse($daterange[0])->startOfDay();
+            $end_date = Carbon::parse($daterange[1])->endOfDay();
+
+            $total_communications = Communication::where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_messages = Message::where('date_sent', '>=', $start_date)->where('date_sent', '<=', $end_date)->count();
+            $total_extensions = Extension::where('status', 'active')->where('created_at', '>=', $start_date)->where('created_at', '<=', $end_date)->count();
+            $total_follow_ups = Communication::where('category', 'follow-up')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_appointments_booked = Communication::where('is_booked', 'yes')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+
+            $total_calls_by_hour = Communication::where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->get()->groupBy(function($item) {
+                return $item->date_time->format('H');
+            })->map(function($item) {
+                return $item->count();
+            })->toArray();
+            
+            $total_calls_with_sentiment = Communication::where('sentiment', '!=', null)->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_positive_calls = Communication::where('sentiment', 'positive')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_neutral_calls = Communication::where('sentiment', 'neutral')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+            $total_negative_calls = Communication::where('sentiment', 'negative')->where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->count();
+
+            $calls = Communication::where('date_time', '>=', $start_date)->where('date_time', '<=', $end_date)->get();
+
+            if ($calls) {
+                foreach ($calls as $call) {
+                    if ($call->keywords) {
+                        $keywords_hit = explode(",", $call->keywords);
+                        foreach ($settings_keywords as $setting_keyword) {
+                            if (in_array($setting_keyword, $keywords_hit)) {
+                                if (isset($keywords_hits[ucfirst(strtolower($setting_keyword))])) {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))]++;
+                                } else {
+                                    $keywords_hits[ucfirst(strtolower($setting_keyword))] = 1;
+                                }
+                            } else {
+                                $keywords_hits[ucfirst(strtolower($setting_keyword))] = 0;
+                            }
+                        }
+                    } else {
+                        $keywords_missed++;
+                    }
+                }
+            }
+        }
 
         return [
             'total_communications' => $total_communications,    

@@ -3,6 +3,29 @@ $(document).ready(function () {
     $("table").on("draw.dt", function () {
         _initWidgets();
     });
+
+    if ($(".input-daterange-datepicker").length > 0) {
+        $(".input-daterange-datepicker").daterangepicker({
+            buttonClasses: ["btn", "btn-sm"],
+            applyClass: "btn-danger",
+            cancelClass: "btn-inverse",
+            locale: {
+                format: "MM/DD/YYYY",
+            },
+            position: "left",
+            ranges: {
+                Today: [moment(), moment()],
+                Yesterday: [
+                    moment().subtract(1, "days"),
+                    moment().subtract(1, "days"),
+                ],
+                "Last 7 Days": [moment().subtract(6, "days"), moment()],
+                "Last 30 Days": [moment().subtract(29, "days"), moment()],
+            },
+            startDate: moment().subtract(6, "days"),
+            endDate: moment(),
+        });
+    }
     // refreshDataTab();
 
     // Fixed: Remove <script> tag, avoid nested DOMContentLoaded, use jQuery for consistency
@@ -71,6 +94,8 @@ $(document).ready(function () {
     });
 
     $("[data-trigger='export-communications']").on("click", function () {
+        let daterange = $(".input-daterange-datepicker").val();
+
         let report_type = $(".nav-link.active").attr("href").split("#")[1];
 
         $.ajax({
@@ -81,8 +106,10 @@ $(document).ready(function () {
             },
             data: {
                 report_type: report_type,
+                daterange: daterange,
             },
             success: function (response) {
+                console.log(response);
                 if (response.status) {
                     window.location.href = response.data;
                 } else {

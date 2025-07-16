@@ -81,12 +81,11 @@
                                                     </td>
                                                     <td>
                                                         <a 
-                                                            href="javascript:void(0)" 
+                                                            href="javascript:void(0)"
                                                             class="text-primary svg-icon btn-show-transcription"
                                                             title="View Transcription"
                                                             data-id="{{ $communication['id'] }}"
                                                             data-transcription="{{ $communication['transcriptions'] }}"
-
                                                         >
                                                             <i class="fa-regular fa-file-lines"></i>
                                                         </a>&nbsp;

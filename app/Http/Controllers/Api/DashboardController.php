@@ -34,6 +34,8 @@ class DashboardController extends Controller
         try {
             $trigger = request()->get('trigger');
             $daterange = request()->get('daterange');
+
+            
             $data = globalHelper()->getDashboardData($trigger, $daterange);
 
             return response()->json([

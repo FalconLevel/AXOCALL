@@ -1,26 +1,5 @@
 $(document).ready(function () {
-    _fetchDashboardData();
-
-    $(".nav-link").on("click", function () {
-        const trigger = $(this).data("trigger");
-        if (trigger == "dashboard-custom") {
-            $(".input-daterange-datepicker").click();
-            $(".input-daterange-datepicker").on(
-                "apply.daterangepicker",
-                function (ev, picker) {
-                    console.log(picker);
-                    const daterange =
-                        picker.startDate.format("MM/DD/YYYY") +
-                        " - " +
-                        picker.endDate.format("MM/DD/YYYY");
-                    $(".input-daterange-datepicker").val(daterange);
-                    _fetchDashboardData(trigger, daterange);
-                }
-            );
-        } else {
-            _fetchDashboardData(trigger);
-        }
-    });
+    _fetchDashboardData("", $(".input-daterange-datepicker").val());
 
     if ($(".input-daterange-datepicker").length > 0) {
         $(".input-daterange-datepicker").off();
@@ -28,13 +7,46 @@ $(document).ready(function () {
             buttonClasses: ["btn", "btn-sm"],
             applyClass: "btn-danger",
             cancelClass: "btn-inverse",
+            locale: {
+                format: "MM/DD/YYYY",
+            },
+            ranges: {
+                Today: [moment(), moment()],
+                Yesterday: [
+                    moment().subtract(1, "days"),
+                    moment().subtract(1, "days"),
+                ],
+                Week: [moment().subtract(6, "days"), moment()],
+                Month: [moment().subtract(29, "days"), moment()],
+                AllTime: [moment("1970-01-01"), moment("1970-01-01")],
+            },
+            startDate: moment().subtract(6, "days"),
+            endDate: moment(),
         });
+
+        $(".input-daterange-datepicker").on(
+            "apply.daterangepicker",
+            function (ev, picker) {
+                let daterange = "";
+                let startDate = picker.startDate.format("YYYY-MM-DD");
+                let endDate = picker.endDate.format("YYYY-MM-DD");
+
+                if (startDate == "1970-01-01" && endDate == "1970-01-01") {
+                    daterange = "All Time";
+                } else {
+                    daterange = startDate + " - " + endDate;
+                }
+
+                $(".input-daterange-datepicker").val(daterange);
+                _fetchDashboardData("", daterange);
+            }
+        );
     }
 
     $("[data-trigger='keywords-details-modal']").on("click", function () {
         const keywordHits = JSON.parse($(this).attr("data-keyword-hits"));
         const totalCommunications = $(this).attr("data-total-communications");
-        console.log(keywordHits, keywordHits.length, totalCommunications);
+
         if (Object.keys(keywordHits).length > 0) {
             $("#keywords-details-modal-body").empty();
             for (const keyword in keywordHits) {
@@ -68,7 +80,7 @@ $(document).ready(function () {
     });
 });
 
-function _fetchDashboardData(trigger = "dashboard-today", daterange = null) {
+function _fetchDashboardData(trigger = "", daterange = null) {
     $.ajax({
         url: "/api/dashboard/stats",
         type: "GET",
@@ -80,7 +92,6 @@ function _fetchDashboardData(trigger = "dashboard-today", daterange = null) {
             "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
         },
         success: function (response) {
-            console.log(response);
             if (response.status) {
                 $(".total-communications").text(
                     response.data.total_communications
