@@ -29,7 +29,7 @@
 
         <li class="nav-item">
             {{-- <a href="#navpills-3" class="nav-link" data-toggle="tab" aria-expanded="true"> --}}
-                <button type="button" class="btn ml-1 mb-1  btn-outline-danger">Export Report</button>
+                <button type="button" class="btn ml-1 mb-1  btn-outline-danger" data-trigger="export-dashboard">Export Report</button>
                 
             {{-- </a> --}}
         </li>

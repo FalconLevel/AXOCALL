@@ -50,4 +50,8 @@ return [
     'google' => [
         'speech_key' => env('GOOGLE_SPEECH_KEY'),
     ],
+
+    'openai' => [
+        'api_key' => env('OPENAI_API_KEY'),
+    ],
 ];

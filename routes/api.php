@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\CommunicationController;
 use App\Http\Controllers\Api\ContactController;
 use App\Http\Controllers\Api\DashboardController;
 use App\Http\Controllers\Api\ExtensionController;
+use App\Http\Controllers\Api\OpenAIController;
 use App\Http\Controllers\Api\ProfileController;
 use App\Http\Controllers\Api\SettingsController;
 use App\Http\Controllers\Api\TagController;
@@ -29,6 +30,7 @@ Route::prefix('account')->group(function () {
 
     Route::prefix('dashboard')->group(function () {
         Route::get('/stats', [DashboardController::class, 'stats']);
+        Route::post('/export', [DashboardController::class, 'export']);
     });
 
     Route::prefix('communications')->group(function () {
@@ -89,5 +91,9 @@ Route::prefix('account')->group(function () {
 
     Route::prefix('profile')->group(function () {
         Route::post('/update', [ProfileController::class, 'update']);
+    });
+
+    Route::prefix('openai')->group(function () {
+        Route::post('/sentiment-analysis', [OpenAIController::class, 'sentimentAnalysis']);
     });
 // });

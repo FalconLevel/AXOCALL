@@ -31,7 +31,7 @@ class AccountController extends Controller
             return response()->json([
                 'status' => true,
                 'token_type' => 'Bearer',
-                'message' => 'Account registered successfully',
+                'message' => 'Account registered successfully. Please check your email for OTP.',
                 'otp_details' => $send_otp,
             ], 200);    
         } catch (\Exception $e) {

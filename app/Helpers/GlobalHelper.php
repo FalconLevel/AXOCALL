@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use OpenAI\Laravel\Facades\OpenAI;
 
 class GlobalHelper {
     
@@ -380,7 +381,6 @@ class GlobalHelper {
             'total_positive_calls' => $total_positive_calls,
             'total_neutral_calls' => $total_neutral_calls,
             'total_negative_calls' => $total_negative_calls,
-
             'total_calls_by_hour' => $total_calls_by_hour,
             'keywords_hits' => $keywords_hits,
             'keywords_missed' => $keywords_missed,
@@ -472,4 +472,23 @@ class GlobalHelper {
             ];
         }
     }
+
+
+    public function sentimentAnalysis($text) {
+        try {
+            $response = OpenAI::chat()->create([
+                'model' => 'gpt-4o-mini',
+                'messages' => [
+                    ['role' => 'system', 'content' => 'You are a sentiment analysis expert. Analyze the following text and determine the sentiment of the text. The sentiment can be positive, negative, or neutral. Please return the sentiment in a JSON format with the key "sentiment" and the value can be "positive", "negative", or "neutral".'],
+                    ['role' => 'user', 'content' => $text],
+                ],
+            ]);
+            
+            return response()->json(['status' => true, 'data' => json_decode($response->choices[0]->message->content)]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json(['status' => false, 'message' => $e->getMessage()]);
+        }
+    }
+
 }

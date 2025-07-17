@@ -212,28 +212,3 @@ class TwilioController extends Controller
     }
 
 }
-
-// 'type' => $this->getCallType($call->fromFormatted),
-// 'from' => $call->from,
-// 'from_formatted' => $call->fromFormatted,
-// 'to' => $call->to,
-// 'to_formatted' => $call->toFormatted,
-// 'date_time' => Carbon::parse($call->dateCreated)->format('Y-m-d H:i:s'),
-// 'duration' => $call->duration,
-// 'call_sid' => $call->sid,
-// 'status' => $call->status,
-// 'summary' => null,
-// 'sentiment' => null,
-// 'keywords' => null,
-// 'is_booked' => null,
-
-// $callData['summary'] = $analysis['summary'] ?? null;
-// $callData['sentiment'] = $analysis['sentiment'] ?? null;
-// $callData['keywords'] = implode(',', $analysis['keywords']);
-// $callData['is_booked'] = $analysis['is_booked'] ?? null;
-                            
-
-// 'recording_url_twilio' => '',
-// 'recording_url_axocall' => '',
-// 'recording_filename' => '',
-// 'recording_sid' => '',

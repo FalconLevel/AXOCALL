@@ -78,6 +78,32 @@ $(document).ready(function () {
             _show_toastr("error", "No keyword hits found", "System Info");
         }
     });
+
+    $("[data-trigger='export-dashboard']").on("click", function () {
+        const daterange = $(".input-daterange-datepicker").val();
+
+        $.ajax({
+            url: "/api/dashboard/export",
+            type: "POST",
+            headers: {
+                "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
+            },
+            data: {
+                daterange: daterange,
+            },
+            success: function (response) {
+                console.log(response);
+                if (response.status) {
+                    window.location.href = response.data;
+                } else {
+                    _show_toastr("error", response.message, "System Error");
+                }
+            },
+            error: function (response) {
+                console.log(response);
+            },
+        });
+    });
 });
 
 function _fetchDashboardData(trigger = "", daterange = null) {
@@ -89,7 +115,7 @@ function _fetchDashboardData(trigger = "", daterange = null) {
             daterange: daterange,
         },
         headers: {
-            "X-CSRF-TOKEN": $('meta[name="csrf-token"]').attr("content"),
+            "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
         },
         success: function (response) {
             if (response.status) {

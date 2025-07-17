@@ -102,34 +102,41 @@ class SentimentAnalysisService
     {
         $positiveCount = 0;
         $negativeCount = 0;
-        
-        // Count positive keywords
-        foreach ($this->positiveKeywords as $keyword) {
-            $count = substr_count($text, $keyword);
-            $positiveCount += $count;
-        }
-        
-        // Count negative keywords
-        foreach ($this->negativeKeywords as $keyword) {
-            $count = substr_count($text, $keyword);
-            $negativeCount += $count;
-        }
-        
-        // Calculate sentiment score
-        $total = $positiveCount + $negativeCount;
-        if ($total === 0) {
-            return 'neutral';
-        }
-        
-        $sentimentScore = ($positiveCount - $negativeCount) / $total;
-        
-        if ($sentimentScore > 0.1) {
-            return 'positive';
-        } elseif ($sentimentScore < -0.1) {
-            return 'negative';
+
+        $sentiment = globalHelper()->sentimentAnalysis($text);
+        if ($sentiment['status']) {
+            return $sentiment['data']['sentiment'];
         } else {
             return 'neutral';
         }
+        
+        // // Count positive keywords
+        // foreach ($this->positiveKeywords as $keyword) {
+        //     $count = substr_count($text, $keyword);
+        //     $positiveCount += $count;
+        // }
+        
+        // // Count negative keywords
+        // foreach ($this->negativeKeywords as $keyword) {
+        //     $count = substr_count($text, $keyword);
+        //     $negativeCount += $count;
+        // }
+        
+        // // Calculate sentiment score
+        // $total = $positiveCount + $negativeCount;
+        // if ($total === 0) {
+        //     return 'neutral';
+        // }
+        
+        // $sentimentScore = ($positiveCount - $negativeCount) / $total;
+        
+        // if ($sentimentScore > 0.1) {
+        //     return 'positive';
+        // } elseif ($sentimentScore < -0.1) {
+        //     return 'negative';
+        // } else {
+        //     return 'neutral';
+        // }
     }
 
     /**
