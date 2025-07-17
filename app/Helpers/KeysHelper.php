@@ -47,6 +47,11 @@ class KeysHelper {
         'State' => 'state',
         'ZipCode' => 'zip_code',
         'Country' => 'country',
+
+        'EmailAddresses' => 'email_addresses',
+        'Frequency' => 'frequency',
+        'DayOfWeek' => 'day_of_week',
+        'IsEnabled' => 'is_enabled',
     ];
 
     public function getKey(string $key_index): string {

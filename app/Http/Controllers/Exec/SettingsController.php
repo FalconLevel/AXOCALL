@@ -90,4 +90,48 @@ class SettingsController extends Controller
             return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
         }
     }
+
+    public function saveEmailSettings(Request $request)
+    {
+        try {
+            $response = apiHelper()->execute($request, '/api/settings/save-email-settings');
+
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'User Error');
+            }
+            
+            return globalHelper()->ajaxSuccessResponse(
+                'toast',
+                'success',
+                'save-email-settings',
+                $response['response'],   
+                'System Info'
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+        
+    }
+
+    public function emailSettings(Request $request)
+    {
+        try {
+            $response = apiHelper()->execute($request, '/api/settings/email-settings');
+
+            
+
+            return globalHelper()->ajaxSuccessResponse(
+                'scripts',
+                'success',
+                'fetch-email-settings',
+                '',   
+                '',
+                $response['data'] ? $response['data'] : []
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }   
 }

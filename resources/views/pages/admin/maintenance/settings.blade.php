@@ -6,6 +6,8 @@
     @include('pages.admin.maintenance.settings.extenstions')
 
     @include('pages.admin.maintenance.settings.keywords')
+
+    @include('pages.admin.maintenance.settings.email_summaries')
 </div>
 @include('partials.admin.footer')
 

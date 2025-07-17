@@ -299,7 +299,3 @@ input:checked + .slider:before {
     background-color: transparent !important;
     pointer-events: none !important;
 }
-
-.show-calendar {
-    /* width: 250px !important; */
-}

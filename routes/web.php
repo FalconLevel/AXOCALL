@@ -87,6 +87,8 @@ Route::middleware(['auth', 'token_validator', 'revalidate_back_history'])->group
             Route::post('/save-extension-settings', [SettingsController::class, 'saveExtensionSettings'])->name('executor.settings.save-extension-settings');
             Route::post('/save-keywords', [SettingsController::class, 'saveKeywords'])->name('executor.settings.save-keywords');
             Route::post('/keyword-settings', [SettingsController::class, 'keywordSettings'])->name('executor.settings.keyword-settings');
+            Route::post('/save-email-settings', [SettingsController::class, 'saveEmailSettings'])->name('executor.settings.save-email-settings');
+            Route::post('/email-settings', [SettingsController::class, 'emailSettings'])->name('executor.settings.email-settings');
         });
 
         Route::group(['prefix' => 'profile'], function () {

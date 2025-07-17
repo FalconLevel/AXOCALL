@@ -96,6 +96,13 @@ class ValidatorHelper {
                     'zip_code' => 'required|string|max:255',
                     'country' => 'nullable|string|max:255',
                 ];
+            case 'email_settings_save':
+                return [
+                    'email_addresses' => 'required|string',
+                    'frequency' => 'required|string',
+                    'day_of_week' => 'sometimes|string',
+                    'is_enabled' => 'sometimes|boolean',
+                ];
         }
     }
 }

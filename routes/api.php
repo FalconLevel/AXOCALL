@@ -51,6 +51,8 @@ Route::prefix('account')->group(function () {
         Route::post('/save-extension-settings', [SettingsController::class, 'saveExtensionSettings']);
         Route::post('/save-keywords', [SettingsController::class, 'saveKeywords']);
         Route::post('/keyword-settings', [SettingsController::class, 'keywordSettings']);
+        Route::post('/save-email-settings', [SettingsController::class, 'saveEmailSettings']);  
+        Route::post('/email-settings', [SettingsController::class, 'emailSettings']);
     });
     
     Route::prefix('contacts')->group(function () {

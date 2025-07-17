@@ -35,11 +35,13 @@ class ResponseHelper {
                 if ($data) {
                 $script = "$('[data-key=\"ExtensionExpirationDays\"]').val('".$data['extension_expiration_days']."'); 
                     $('[data-key=\"ExtensionExpirationHrs\"]').val('".$data['extension_expiration_hrs']."'); 
-                    $('[data-key=\"IsRandomExtensionGeneration\"]').prop('checked', ".$data['random_extension_generation'].");";
+                    $('[data-key=\"RandomExtensionGeneration\"]').prop('checked', ".($data['random_extension_generation'] == 1 ? true : false).");";
                 }
                 break;
             case 'generate-extension':
-                $script = "$('[data-key=\"extension_number\"]').val('".$data['extension_number']."'); $('[data-key=\"expiration\"]').val('".$data['expiration_date']."');";
+                $script = "
+                    $('[data-key=\"extension_number\"]').val('".$data['extension_number']."'); 
+                    $('[data-key=\"expiration\"]').val('".$data['expiration_date']."');";
                 break;
             case 'account-register':
                 $script = $data['js'];
@@ -55,6 +57,18 @@ class ResponseHelper {
                 break;
             case 'fetch-keywords':
                 $script = isset($data['keywords']) ? "$('[data-key=\"Keywords\"]').val('".strtolower($data['keywords'])."');" : "$('[data-key=\"Keywords\"]').val('');";
+                break;
+            case 'fetch-email-settings':
+                $script = isset($data['email_addresses']) ? "$('[data-key=\"EmailAddresses\"]').val('".strtolower($data['email_addresses'])."');" : "$('[data-key=\"EmailAddresses\"]').val('');";
+                $script .= isset($data['frequency']) ? "$('[data-key=\"Frequency\"]').val('".strtolower($data['frequency'])."');" : "$('[data-key=\"Frequency\"]').val('');";
+                $script .= isset($data['day_of_week']) ? "$('[data-key=\"DayOfWeek\"]').val('".strtolower($data['day_of_week'])."');" : "$('[data-key=\"DayOfWeek\"]').val('');";
+                $script .= isset($data['is_enabled']) ? "$('[data-key=\"IsEmailSummaries\"]').prop('checked', ".($data['is_enabled'] == 1 ? true : false).");" : "$('[data-key=\"IsEmailSummaries\"]').prop('checked', false);";
+                $script .= "
+                    if ('".$data['frequency']."' == 'weekly') {
+                        $('#day-of-week-container').removeClass('d-none');
+                    } else {
+                        $('#day-of-week-container').removeClass('d-none').addClass('d-none');
+                    }";
                 break;
         }
 

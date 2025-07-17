@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\Keyword;
 use App\Models\SettingExtension;
+use App\Models\SettingEmailSummaries;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -80,6 +81,42 @@ class SettingsController extends Controller
         } catch (\Exception $e) {
             logInfo($e->getMessage());
             return response()->json(['status' => false, 'response' => $e->getMessage()], 500);
+        }
+    }
+
+    public function saveEmailSettings(Request $request): JsonResponse {
+        try {
+            
+            $validated = validatorHelper()->validate('email_settings_save', $request);
+
+            if (! $validated['status']) {
+                return response()->json($validated, 400);
+            }
+
+            $validated['validated']['is_enabled'] = $request->IsEnabled == 1 ? true : false;
+            $validated['validated']['day_of_week'] = $request->DayOfWeek == 'null' ? null : $request->DayOfWeek;
+            
+            $settings = SettingEmailSummaries::first();
+            if (! $settings) {
+                SettingEmailSummaries::create($validated['validated']);
+            } else {
+                $settings->update($validated['validated']);
+            }
+
+            return response()->json(['status' => true, 'response' => 'Email settings saved successfully']);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json(['status' => false, 'response' => $e->getMessage()], 500);
+        }
+    }
+
+    public function emailSettings(): JsonResponse {
+        try {
+            $settings = SettingEmailSummaries::first();
+            return response()->json(['status' => true, 'data' => $settings ? $settings : [] ]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json(['status' => false, 'data' => []], 500);
         }
     }
 }

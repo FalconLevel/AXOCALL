@@ -2,7 +2,19 @@ $(document).ready(function () {
     _fetch_tags();
     _fetch_extension_settings();
     _fetch_keywords();
+    _fetch_email_settings();
     init_actions();
+
+    $("[data-key='Frequency']").change(function () {
+        let frequency = $(this).val();
+        if (frequency == "weekly") {
+            $("#day-of-week-container").removeClass("d-none");
+        } else {
+            $("#day-of-week-container")
+                .removeClass("d-none")
+                .addClass("d-none");
+        }
+    });
 });
 
 function _fetch_tags() {
@@ -16,6 +28,11 @@ function _fetch_extension_settings() {
 function _fetch_keywords() {
     ajaxRequest("/executor/settings/keyword-settings", {}, "");
 }
+
+function _fetch_email_settings() {
+    ajaxRequest("/executor/settings/email-settings", {}, "");
+}
+
 function init_actions() {
     $("[data-trigger]").off();
     $("[data-trigger]").click(function (e) {
@@ -68,6 +85,30 @@ function init_actions() {
                     {
                         Keywords: keywords,
                     },
+                    "POST"
+                );
+                break;
+            case "save-email-settings":
+                if (!_checkFormFields(parentForm)) {
+                    _show_toastr(
+                        "error",
+                        "Please fill all the fields",
+                        "User Error"
+                    );
+                    return;
+                }
+
+                let emailData = {
+                    ...JSON.parse(_collectFields(parentForm)),
+                    IsEnabled: $("#email-summaries-toggle").is(":checked")
+                        ? 1
+                        : 0,
+                };
+                console.log(emailData);
+
+                ajaxRequest(
+                    "/executor/settings/save-email-settings",
+                    emailData,
                     "POST"
                 );
                 break;
