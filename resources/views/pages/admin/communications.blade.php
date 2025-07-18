@@ -116,7 +116,7 @@
                                                                 <i class="fa-regular fa-flag"></i>
                                                             </a>
                                                         @elseif($communication['category'] == 'follow-up')
-                                                            <a href="javascript:void(0)" class="text-light svg-icon" data-trigger="follow-up" data-id="{{ $communication['id'] }}" data-type="communication">
+                                                            <a href="javascript:void(0)" class="text-primary svg-icon" data-trigger="follow-up" data-id="{{ $communication['id'] }}" data-type="communication">
                                                                 <i class="fa-regular fa-flag"></i>
                                                             </a>
                                                         @else   
