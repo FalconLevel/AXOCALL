@@ -61,6 +61,7 @@ function _renderContacts(contacts) {
                 }</td>
                 <td class="d-flex flex-wrap align-items-center">${tags}</td>
                 <td>${contact.notes || ""}</td>
+                <td>${contact.timezone || ""}</td>
                 <td>${_format_date(contact.created_at) || ""}</td>
                 <td>
                     <span>
@@ -302,15 +303,15 @@ function _init_actions() {
                             $("#contacts-modal").modal("hide");
                             _fetchContacts();
                         } else {
-                            _show_toastr(
-                                "error",
-                                res.message || "Failed to save contact",
-                                "System Error"
-                            );
+                            eval(res.js);
+                            // _show_toastr(
+                            //     "error",
+                            //     res.message || "Failed to save contact",
+                            //     "System Error"
+                            // );
                         }
                     },
                     error: function (err) {
-                        console.log(err);
                         _show_toastr(
                             "error",
                             "Failed to save contact",
@@ -419,6 +420,7 @@ function _viewContact(id) {
         method: "POST",
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
+            console.log(res);
             if (res.status === "success") {
                 let contact = res.data;
 
@@ -436,7 +438,9 @@ function _viewContact(id) {
                 $("#contact-modal-view .view_created").text(
                     _format_date(contact.created_at)
                 );
-
+                $("#contact-modal-view .view_timezone").text(
+                    contact.timezone || "N/A"
+                );
                 $(
                     "#contact-modal-view [data-trigger='edit-contact-view']"
                 ).attr("data-id", id);

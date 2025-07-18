@@ -7,6 +7,7 @@ use App\Models\Contact;
 use App\Models\Extension;
 use App\Models\Message;
 use Illuminate\Http\Request;
+use jessedp\Timezones\Timezones;
 
 class ModuleController extends Controller
 {
@@ -38,6 +39,8 @@ class ModuleController extends Controller
     }
 
     public function contacts() {
+        $this->data['timezones'] = globalHelper()->getTimezones();
+        
         $this->data['title'] = 'Contacts';
         $this->data['description'] = 'Manage your contacts, extensions, and caller information.';
         $this->data['panel_type'] = 'contacts';

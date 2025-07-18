@@ -52,6 +52,7 @@ class ContactController extends Controller
 
     public function save(Request $request) {
         try {
+            
             $response = apiHelper()->execute($request, '/api/contacts/save');
             
             if (! $response['status']) {

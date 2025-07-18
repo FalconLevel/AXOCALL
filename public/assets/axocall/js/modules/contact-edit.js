@@ -48,6 +48,7 @@ $(document).ready(function () {
                     const contact = response.data;
 
                     // Populate basic fields
+                    $("#edit_timezone").val(contact.timezone);
                     $("#contact_id").val(contact.id);
                     $("#edit_first_name").val(contact.first_name);
                     $("#edit_last_name").val(contact.last_name);
@@ -233,7 +234,7 @@ function _updateContact(contactId) {
     const firstName = $("#edit_first_name").val();
     const lastName = $("#edit_last_name").val();
     const notes = $("#edit_notes").val();
-
+    const timezone = $("#edit_timezone").val();
     // Validate required fields
     if (!firstName) {
         _show_toastr("error", "First Name is required", "User Error");
@@ -294,6 +295,7 @@ function _updateContact(contactId) {
         Notes: notes,
         PhoneNumbers: phoneNumbers,
         Tags: selectedTags,
+        Timezone: timezone,
     };
 
     console.log(contactData);
@@ -307,6 +309,7 @@ function _updateContact(contactId) {
             "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
         },
         success: function (response) {
+            console.log(response);
             if (response.status === "success") {
                 $("#contact-modal-edit").modal("hide");
                 _show_toastr(
@@ -325,9 +328,10 @@ function _updateContact(contactId) {
         },
         error: function (xhr) {
             const response = xhr.responseJSON;
+            console.log(response);
             _show_toastr(
                 "error",
-                response.message || "Failed to update contact",
+                response.response || "Failed to update contact",
                 "System Error"
             );
         },

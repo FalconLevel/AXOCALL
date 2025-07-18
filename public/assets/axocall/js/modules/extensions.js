@@ -38,10 +38,10 @@ function _fetchExtensions() {
 function _renderExtensions(extensions) {
     let tbody = $(".extensions-table tbody");
     tbody.empty();
-    if (!extensions || extensions.length === 0) {
-        tbody.append('<tr><td colspan="5">No extensions found.</td></tr>');
-        return;
-    }
+    // if (!extensions || extensions.length === 0) {
+    //     tbody.append('<tr><td colspan="5">No extensions found.</td></tr>');
+    //     return;
+    // }
     extensions.forEach(function (extension) {
         tbody.append(`
             <tr data-id="${
@@ -234,7 +234,7 @@ function _init_extension_actions() {
                         .removeAttr("data-id");
                 }
                 _show_numbers();
-                _generateExtension();
+
                 $("#" + modal).modal("show");
                 break;
             case "save-extension":
@@ -371,7 +371,13 @@ function _format_date(date) {
 }
 
 function _generateExtension() {
-    ajaxRequest("/executor/extensions/generate", {}, "POST");
+    let contact_id = $("#contact_id").val();
+    console.log(contact_id);
+    ajaxRequest(
+        "/executor/extensions/generate",
+        { contact_id: contact_id },
+        "POST"
+    );
 }
 
 function _show_numbers() {
@@ -394,12 +400,9 @@ function _show_numbers() {
                     "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
                 },
                 success: function (res) {
-                    if (
-                        res.status === "success" &&
-                        res.data &&
-                        res.data.length > 0
-                    ) {
-                        if (res.data.length > 1) {
+                    if (res.status === "success") {
+                        _generateExtension();
+                        if (res.data && res.data.length > 1) {
                             // Show phone number dropdown, hide contact info
                             $phoneSelect.closest(".form-group").show();
                             $contactInfo.hide();
@@ -422,6 +425,10 @@ function _show_numbers() {
                             $contactInfo.show();
                             var phone = res.data[0];
                             // Optionally, you can set the value of phone_number input for form submission
+                            $phoneSelect.attr(
+                                "data-timezone",
+                                phone.contact.timezone
+                            );
                             $phoneSelect.html(
                                 '<option value="' +
                                     phone.id +
@@ -444,7 +451,9 @@ function _show_numbers() {
                                     phone.phone_number +
                                     (phone.phone_type
                                         ? " (" + phone.phone_type + ")"
-                                        : "")
+                                        : "") +
+                                    "<br><strong>Timezone:</strong> " +
+                                    phone.contact.timezone
                             );
                         }
                     } else {
@@ -474,6 +483,7 @@ function _show_numbers() {
         var phoneText = $("#phone_number option:selected").text();
         var contactId = $("#contact_id").val();
         var contactName = $("#contact_id option:selected").text();
+        var timezone = $(this).attr("data-timezone");
 
         if (phoneNumber && contactId) {
             $("#contact-info-display").html(
@@ -482,7 +492,9 @@ function _show_numbers() {
                     "</strong><br>" +
                     "<span>" +
                     phoneText +
-                    "</span>"
+                    "</span>" +
+                    "<br><strong>Timezone:</strong> " +
+                    timezone
             );
             $("#selected-contact-info").show();
         } else {

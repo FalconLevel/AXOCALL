@@ -36,10 +36,16 @@
         
                                     <div class="row">
                                         <div class="col-md-12">
-                                            <h6>Created</h6>
+                                            <h6>Timezone</h6>
+                                            <p class="text-muted view_timezone"></p>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h6>Date Created</h6>
                                             <p class="text-muted view_created"></p>
                                         </div>
-        
                                     </div>
         
                                 </div>
@@ -51,6 +57,9 @@
                                             <span class="view_phone_numbers"></span>
                                         </div>
                                     </div>
+
+
+
                                 </div>
                             </div>
                         </div>

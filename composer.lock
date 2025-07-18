@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "dd1ce17bcac90524f7c5ad4daae71f36",
+    "content-hash": "26ccfd8b500fb5e2ae1333975f8a5fef",
     "packages": [
         {
             "name": "antoineaugusti/laravel-sentiment-analysis",
@@ -1118,6 +1118,65 @@
                 }
             ],
             "time": "2025-02-03T10:55:03+00:00"
+        },
+        {
+            "name": "jessedp/php-timezones",
+            "version": "v0.2.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/jessedp/php-timezones.git",
+                "reference": "410589d2b58a361e0578c0983a0534d51d2a34b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/jessedp/php-timezones/zipball/410589d2b58a361e0578c0983a0534d51d2a34b6",
+                "reference": "410589d2b58a361e0578c0983a0534d51d2a34b6",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": ">=5.0",
+                "php": ">=7.2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0|^9.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "aliases": {
+                        "Timezones": "jessedp\\Timezones\\Facades\\Timezones"
+                    },
+                    "providers": [
+                        "jessedp\\Timezones\\TimezonesServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "jessedp\\Timezones\\": "src/Timezones"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "jessedp",
+                    "email": "jessedp@gmail.com"
+                }
+            ],
+            "description": "Basic Timezone utilities aimed at Laravel",
+            "keywords": [
+                "laravel",
+                "timezone",
+                "timezones"
+            ],
+            "support": {
+                "issues": "https://github.com/jessedp/php-timezones/issues",
+                "source": "https://github.com/jessedp/php-timezones/tree/v0.2.3"
+            },
+            "time": "2023-03-23T17:52:12+00:00"
         },
         {
             "name": "jwhennessey/phpinsight",

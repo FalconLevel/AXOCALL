@@ -179,9 +179,17 @@ class ExtensionController extends Controller
             $filename = 'extensions_'.date('Y-m-d_H-i-s').'.csv';
             $path = public_path('assets/axocall/exports/'.$filename);
             $file = fopen($path, 'w');
-            fputcsv($file, ['Name', 'Phone', 'Extension', 'Expiration', 'Notes', 'Status']);
+            fputcsv($file, ['Name', 'Phone', 'Extension', 'Timezone', 'Expiration', 'Notes', 'Status']);
             foreach ($extensions as $extension) {
-                fputcsv($file, [$extension->contact->first_name . ' ' . $extension->contact->last_name, $extension->phone->phone_number, $extension->extension_number, $extension->expiration, $extension->notes, $extension->status]);
+                fputcsv($file, [
+                    $extension->contact->first_name . ' ' . 
+                    $extension->contact->last_name, 
+                    $extension->phone->phone_number, 
+                    $extension->extension_number, 
+                    $extension->contact->timezone,
+                    $extension->expiration, 
+                    $extension->notes, 
+                    $extension->status]);
             }
             fclose($file);
             return response()->json(['status' => 'success', 'data' => URL::to('assets/axocall/exports/'.$filename)]);
@@ -197,10 +205,10 @@ class ExtensionController extends Controller
     public function reActivate($id)
     {
         try {
-            $extension_data = globalHelper()->generateExtension();
+            $extension = Extension::find($id);
+            $extension_data = globalHelper()->generateExtension($extension->contact_id);
             
             $expiration_date = $extension_data['expiration_date'];
-            $extension = Extension::find($id);
 
             if (!$extension) {
                 return response()->json([

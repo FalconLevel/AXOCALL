@@ -18,7 +18,7 @@
                     </div>
                     <div class="form-group">
                         <label for="phone_number">Phone Number</label>
-                        <select class="form-control" id="phone_number" name="phone_number" required data-key="phone_number" data-key-id="phone_id">
+                        <select class="form-control" id="phone_number" name="phone_number" required data-key="phone_number" data-key-id="phone_id" data-timezone="">
                             <option value="">Select Phone Number</option>
                         </select>
                     </div>

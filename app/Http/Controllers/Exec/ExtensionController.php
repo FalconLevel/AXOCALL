@@ -103,8 +103,8 @@ class ExtensionController extends Controller
 
     public function generate(Request $request)
     {
-        try {
-            $extension_data = globalHelper()->generateExtension();
+        try {            
+            $extension_data = globalHelper()->generateExtension($request->contact_id);
             
             return globalHelper()->ajaxSuccessResponse(
                 'scripts',

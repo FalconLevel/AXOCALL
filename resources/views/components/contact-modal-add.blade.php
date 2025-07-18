@@ -17,6 +17,17 @@
                         <div class="basic-form">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
+                                    <label class="text-label">Timezone <span class="text-danger">*</span></label>
+                                    <select class="form-control form-control-xs" data-key="Timezone" data="req">
+                                        <option value="">Select Timezone</option>
+                                        @foreach($timezones as $key => $timezone)
+                                            <option value="{{ $key }}">{{ $timezone }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>  
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
                                     <label class="text-label">First Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-xs" placeholder="John" data-key="FirstName" data="req">
                                 </div>
@@ -107,6 +118,9 @@
                         </div>
                     </div>
                     <div class="modal-footer">
+
+                        
+                            
                         <button type="button" class="btn btn-outline-danger" data-dismiss="modal">
                             <i class="fa fa-times"></i>
                             Cancel
@@ -115,6 +129,10 @@
                             <i class="fa fa-save"></i>
                             Save Contact
                         </button>
+                            
+
+                        
+
                     </div>
                 </div>
             </div>

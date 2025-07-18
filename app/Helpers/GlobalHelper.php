@@ -18,6 +18,7 @@ use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
+use jessedp\Timezones\Timezones;
 use OpenAI\Laravel\Facades\OpenAI;
 
 class GlobalHelper {
@@ -82,8 +83,10 @@ class GlobalHelper {
         return $messages;
     }
 
-    public function generateExtension() {
+    public function generateExtension($contact_id = null) {
         try {
+            
+            
             $setting_extension = SettingExtension::first();
             if (!$setting_extension) {
                 return [
@@ -91,6 +94,8 @@ class GlobalHelper {
                     'expiration_date' => '',
                 ];
             }
+            
+            $contact = Contact::where('id', $contact_id)->first();
             $extension_expiration_days = $setting_extension->extension_expiration_days;
             $extension_expiration_hrs = $setting_extension->extension_expiration_hrs;
             $random_extension_generation = $setting_extension->random_extension_generation;
@@ -102,9 +107,9 @@ class GlobalHelper {
             }
             
             if ($extension_expiration_hrs <= 0) {
-                $expiration_date = now()->addDays($extension_expiration_days)->format('Y-m-d H:i:s');
+                $expiration_date = now()->setTimezone($contact->timezone)->addDays($extension_expiration_days)->format('Y-m-d H:i A');
             } else {
-                $expiration_date = now()->addDays($extension_expiration_days)->addHours($extension_expiration_hrs)->format('Y-m-d H:i:s');
+                $expiration_date = now()->setTimezone($contact->timezone)->addDays($extension_expiration_days)->addHours($extension_expiration_hrs)->format('Y-m-d H:i A');
             }
             
             return [
@@ -488,6 +493,24 @@ class GlobalHelper {
         } catch (\Exception $e) {
             logInfo($e->getMessage());
             return response()->json(['status' => false, 'message' => $e->getMessage()]);
+        }
+    }
+
+    public function getTimezones() {
+        try {
+            $timezones = Timezones::toArray();
+            $timezones_list = [];
+            foreach ($timezones as $timezone) {
+                
+                foreach ($timezone as $timezone_key => $timezone_value) {
+                    $timezones_list[$timezone_key] = $timezone_key;
+                }
+            }
+            
+            return $timezones_list;
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return [];
         }
     }
 

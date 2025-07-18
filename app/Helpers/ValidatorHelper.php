@@ -55,6 +55,7 @@ class ValidatorHelper {
                     'first_name' => 'required|string|max:255',
                     'last_name' => 'nullable|string|max:255',
                     'notes' => 'nullable|string|max:255',
+                    'timezone' => 'required|string|max:255',
                 ];
             case 'extension_settings_save':
                 return [

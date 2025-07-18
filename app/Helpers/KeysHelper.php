@@ -16,6 +16,7 @@ class KeysHelper {
         'Role' => 'role',
         'Status' => 'status',
         'Attempts' => 'attempts',
+        'Timezone' => 'timezone',
 
         'PhoneNumber' => 'phone_number',
         'PhoneExt' => 'phone_ext',
