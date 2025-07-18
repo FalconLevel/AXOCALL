@@ -10,9 +10,9 @@
             <form id="editNotesForm" method="POST">
                 @csrf
                 <div class="modal-body">
-                    <input type="text" name="communication_id" id="editNotesCommunicationId" value="">
-                    <input type="text" name="is_follow_up" id="editNotesIsFollowUp" value="">
-                    <input type="text" name="category" id="editNotesCategory" value="">
+                    <input type="hidden" name="communication_id" id="editNotesCommunicationId" value="">
+                    <input type="hidden" name="is_follow_up" id="editNotesIsFollowUp" value="">
+                    <input type="hidden" name="category" id="editNotesCategory" value="">
                     <div class="form-group">
                         <label for="editNotesTextarea">Notes</label>
                         <textarea class="form-control" id="editNotesTextarea" name="notes" rows="5"></textarea>
