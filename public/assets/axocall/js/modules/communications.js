@@ -53,6 +53,8 @@ $(document).ready(function () {
         let notes = $(this).attr("data-notes");
 
         $("#editNotesCommunicationId").val(id);
+        $("#editNotesIsFollowUp").val("");
+        $("#editNotesCategory").val("");
         $("#editNotesTextarea").val(notes);
         $("#editNotesModal").modal("show");
     });
@@ -60,6 +62,8 @@ $(document).ready(function () {
     $("#editNotesForm").on("submit", function (e) {
         e.preventDefault();
         let id = $("#editNotesCommunicationId").val();
+        let is_follow_up = $("#editNotesIsFollowUp").val();
+        let category = $("#editNotesCategory").val();
         let notes = $("#editNotesTextarea").val();
         let token = $("meta[name='_token']").attr("content");
         $.ajax({
@@ -71,12 +75,20 @@ $(document).ready(function () {
             data: {
                 _token: token,
                 notes: notes,
+                is_follow_up: is_follow_up,
+                category: category,
             },
             success: function (response) {
+                console.log(response);
                 if (response.success) {
                     $("#editNotesModal").modal("hide");
                     $("a[data-id=" + id + "]").attr("data-notes", notes);
-                    _show_toastr("success", "Notes updated successfully.");
+
+                    $(`a[data-id="${id}"]`)
+                        .removeClass("text-light")
+                        .removeClass("text-primary")
+                        .addClass("text-primary");
+                    _show_toastr("success", response.message);
                 } else {
                     _show_toastr(
                         "error",
@@ -85,6 +97,7 @@ $(document).ready(function () {
                 }
             },
             error: function (xhr) {
+                console.log(xhr);
                 _show_toastr(
                     "error",
                     xhr.responseText || "Failed to update notes."
@@ -150,40 +163,50 @@ function _initWidgets() {
     // Message archive functionality
     $('[data-trigger="follow-up"]').off();
     $('[data-trigger="follow-up"]').on("click", function () {
-        const id = $(this).data("id");
-        const type = $(this).data("type");
+        let id = $(this).attr("data-id");
+        let is_follow_up =
+            $(this).attr("data-trigger") == "follow-up" ? "yes" : "no";
+        let category = $(this).attr("data-type");
 
-        $(this)
-            .removeClass("text-light")
-            .removeClass("text-primary")
-            .addClass("text-primary");
-        const url =
-            type == "message"
-                ? "/api/communications/follow-up/" + id + "/message"
-                : "/api/communications/follow-up/" + id + "/communication";
+        $("#editNotesCommunicationId").val(id);
+        $("#editNotesIsFollowUp").val(is_follow_up);
+        $("#editNotesCategory").val(category);
+        $("#editNotesModal").modal("show");
 
-        $.ajax({
-            url: url,
-            type: "POST",
-            headers: {
-                "X-CSRF-TOKEN": $("meta[name='_token']").attr("content"),
-            },
-            data: {
-                id: id,
-                type: type,
-            },
-            success: function (response) {
-                if (response.success) {
-                    _show_toastr("success", response.message);
-                } else {
-                    _show_toastr("error", response.message);
-                }
-            },
-            error: function (xhr, status, error) {
-                console.log(xhr);
-                _show_toastr("error", xhr.responseText);
-            },
-        });
+        // const id = $(this).data("id");
+        // const type = $(this).data("type");
+
+        // $(this)
+        //     .removeClass("text-light")
+        //     .removeClass("text-primary")
+        //     .addClass("text-primary");
+        // const url =
+        //     type == "message"
+        //         ? "/api/communications/follow-up/" + id + "/message"
+        //         : "/api/communications/follow-up/" + id + "/communication";
+
+        // $.ajax({
+        //     url: url,
+        //     type: "POST",
+        //     headers: {
+        //         "X-CSRF-TOKEN": $("meta[name='_token']").attr("content"),
+        //     },
+        //     data: {
+        //         id: id,
+        //         type: type,
+        //     },
+        //     success: function (response) {
+        //         if (response.success) {
+        //             _show_toastr("success", response.message);
+        //         } else {
+        //             _show_toastr("error", response.message);
+        //         }
+        //     },
+        //     error: function (xhr, status, error) {
+        //         console.log(xhr);
+        //         _show_toastr("error", xhr.responseText);
+        //     },
+        // });
     });
 }
 

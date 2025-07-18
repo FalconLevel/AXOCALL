@@ -174,18 +174,51 @@ class CommunicationController extends Controller {
      */
     public function updateNotes(Request $request, string $id): JsonResponse
     {
-        $request->validate([
-            'notes' => 'required|string|max:1000'
-        ]);
-        
-        $communication = Communication::findOrFail($id);
-        $communication->update(['notes' => $request->notes]);
-        
-        return response()->json([
-            'success' => true,
-            'message' => 'Notes updated successfully',
-            'data' => $communication
-        ]);
+        try {
+            $request->validate([
+                'notes' => 'required|string|max:1000',
+            ]);
+            
+    
+            if($request->is_follow_up && $request->is_follow_up == 'yes') {
+                   
+                if ($request->category == "communication") {
+                    $communication = Communication::find($id);
+                    $communication->update([
+                        'category' => 'follow-up'
+                    ]);
+                } elseif ($request->category == "message") {
+                    $message = Message::find($id);
+                    $message->update([
+                        'category' => 'follow-up'
+                    ]);
+                }
+
+                return response()->json([
+                    'success' => true,
+                    'message' => ucfirst($request->category) . ' archived successfully',
+                    'data' => $communication ?? $message
+                ]);
+            } else {
+                $communication = Communication::findOrFail($id);
+                $communication->update(['notes' => $request->notes]);
+
+                
+            return response()->json([
+                'success' => true,
+                'message' => 'Notes updated successfully',
+                'data' => $communication
+            ]);
+            }
+            
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to update notes',
+                'error' => $e->getMessage()
+            ], 500);
+        }
     }
 
     /**
