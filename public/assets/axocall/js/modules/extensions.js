@@ -222,22 +222,28 @@ function _init_extension_actions() {
         let parentForm = $(this).closest("form");
         switch (trigger) {
             case "add-extension":
-                let modal = $(this).data("modal");
-                if (modal === "extension") {
-                    // Reset modal for add
-                    $("#extensions-modal form")[0].reset();
-                    $("#extensions-modal .modal-title").text(
-                        "Add New Extension"
-                    );
-                    $('#extensions-modal [data-trigger="save-extension"]')
-                        .attr("data-mode", "add")
-                        .removeAttr("data-id");
-                }
+                // Reset modal for add
+                $("#extension-modal form")[0].reset();
+                $("#selected-contact-info").hide();
+                $("#contact-info-display").empty();
+                $("#extension-modal").modal("hide");
+
+                $("#extension-modal .modal-title").text("Add New Extension");
+                $('#extension-modal [data-trigger="save-extension"]')
+                    .attr("data-mode", "add")
+                    .removeAttr("data-id");
+
+                $("#selected-contact-info").hide();
+
+                $("#phone_number").html(
+                    '<option value="">Select Phone Number</option>'
+                );
+                $("#phone_number").closest(".form-group").show();
 
                 _generateExtension();
                 _show_numbers();
 
-                $("#" + modal).modal("show");
+                $("#extension-modal").modal("show");
                 break;
             case "save-extension":
                 let extension_details = _collectExtensionFields(parentForm);
@@ -259,7 +265,6 @@ function _init_extension_actions() {
                         ),
                     },
                     success: function (res) {
-                        console.log(res);
                         if (res.status === "success") {
                             _show_toastr(
                                 "success",
