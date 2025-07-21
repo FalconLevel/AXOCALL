@@ -1,4 +1,8 @@
 $(document).ready(function () {
+    $('[data-action="toggle-theme"]').on("click", function () {
+        console.log("toggle-theme");
+        // ajaxRequest("/executor/account/toggle-theme", "", "");
+    });
     $('[data-action="logout"]').on("click", function () {
         console.log("logout");
         ajaxRequest("/executor/account/logout", "", "");

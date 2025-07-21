@@ -1,5 +1,5 @@
 
-<div class="card">
+<div class="card card-border-radius-0">
     <div class="card-body pb-0 d-flex justify-content-between">
         <div>
             <h4 class="mb-1">Keyword Performance</h4>
@@ -18,7 +18,7 @@
     <div class="card-body py-0">
         <div class="row">
             <div class="col-lg-6">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm card-border-radius-0">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title">Overall Keywords Hit Rate</h5>
                         <div class="card-tools">
@@ -33,7 +33,7 @@
             </div>
 
             <div class="col-lg-6">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm card-border-radius-0">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title">Calls w/ Missed Keywords</h5>
                         <div class="card-tools">

@@ -1,26 +1,25 @@
 <div class="row">
     <div class="col-lg-12">
         <form>
-            <div class="card ">
+            <div class="card card-border-radius-0">
                 <div class="card-body">
                     <div class="d-flex justify-content-between align-items-center">
-                        <h4 class="card-title">
+                        <h4 class="card-title card-header-title">
                             <i class="fa fa-envelope"></i>
                             Email Summaries
-                        </h4>
+                        </h4> 
                         <label class="toggle-switch">
                             <input type="checkbox" id="email-summaries-toggle" data-key="IsEmailSummaries">
                             <span class="slider round"></span>
                         </label>
                     </div>
                     <p>Configure and toggle daily or weekly email summaries of dashboard activity.</p>
-                    
+                    <hr />
                     <form>
                         <div class="row">
-                            
                             <div class="col-lg-12">
                                 <div class="form-group">
-                                    <h5 class="box-title mt-3">
+                                    <h5 class="box-title">
                                         Daily Email Summary
                                     </h5>
                                     <input type="text" class="form-control form-control-xs" placeholder="Email Addresses" data-key="EmailAddresses" data="req">

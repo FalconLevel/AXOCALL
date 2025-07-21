@@ -1,14 +1,15 @@
 <div class="row">
     <div class="col-lg-12">
         <form>
-            <div class="card">
+            <div class="card card-border-radius-0">
                 <div class="card-body">
-                    <h4 class="card-title">
+                    <h4 class="card-title card-header-title">
                         <i class="fa fa-users"></i>
                         Call Keywords
                     </h4>
                     <p>Define keywords to track in call analysis</p>
-                    <h5 class="box-title m-t-30">
+                    <hr />
+                    <h5 class="box-title">
                         Keywords
                     </h5>
                     <form>

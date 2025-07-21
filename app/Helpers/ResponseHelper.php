@@ -72,6 +72,11 @@ class ResponseHelper {
                         $('#day-of-week-container').removeClass('d-none').addClass('d-none');
                     }";
                 break;
+            case 'fetch-smart-callback':
+                $script = isset($data['hours']) ? "$('[data-key=\"SmartCallbackHours\"]').val('".$data['hours']."');" : "$('[data-key=\"SmartCallbackHours\"]').val('');";
+                $script .= isset($data['minutes']) ? "$('[data-key=\"SmartCallbackMinutes\"]').val('".$data['minutes']."');" : "$('[data-key=\"SmartCallbackMinutes\"]').val('');";
+                $script .= isset($data['is_active']) ? "$('[data-key=\"SmartCallbackIsActive\"]').prop('checked', ".($data['is_active'] == 1 ? true : false).");" : "$('[data-key=\"SmartCallbackIsActive\"]').prop('checked', false);";
+                break;
         }
 
         return ['js' => $script];

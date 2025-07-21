@@ -16,13 +16,20 @@ use App\Models\Tag;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use jessedp\Timezones\Timezones;
 use OpenAI\Laravel\Facades\OpenAI;
+use GuzzleHttp\Client;
 
 class GlobalHelper {
-    
+    private $client;
+
+    public function __construct() {
+        $this->client = new Client();
+    }
+
     public function ajaxSuccessResponse(
         string $type="toast", 
         string $toast_type='success',
@@ -514,4 +521,41 @@ class GlobalHelper {
         }
     }
 
+
+    public function fetchSystemNumbers() {
+        try {
+            dd("https://api.twilio.com/2010-04-01/Accounts/'.config('twilio.twilio.sid').'/AvailablePhoneNumbers.json");
+            $available_numbers = $this->client->get('https://api.twilio.com/2010-04-01/Accounts/'.config('twilio.twilio.sid').'/AvailablePhoneNumbers.json', [
+                'query' => [
+                    'CountryCode' => 'US',
+                    'AreaCode' => '201',
+                    'PageSize' => 100,
+                ],
+            ],
+            [
+                'headers' => [
+                    'Authorization' => 'Basic ' . base64_encode(config('twilio.twilio.sid') . ':' . config('twilio.twilio.token')),
+                ],
+            ]);
+
+            dd($available_numbers);
+
+            // $account = $this->twilio_client->api->v2010->accounts(config('twilio.twilio.sid'))->fetch();
+            // $available_numbers = Http::get('https://api.twilio.com/2010-04-01/Accounts/'.config('twilio.twilio.sid').'/AvailablePhoneNumbers/US/Local.json', [
+            //     'PageSize' => 100,
+            // ]);
+            
+            
+            $numbers = [
+                'main_caller_id_number' => config('app.main_caller_id_number'),
+                'sms_sender_id' => config('app.sms_sender_id'),
+                'access_number' => config('app.access_number'),
+            ];
+
+            return $numbers;
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return [];
+        }
+    }
 }

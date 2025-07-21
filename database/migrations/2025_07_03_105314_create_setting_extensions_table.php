@@ -16,6 +16,7 @@ return new class extends Migration
             $table->integer('extension_expiration_days')->default(30);
             $table->integer('extension_expiration_hrs')->default(0);
             $table->boolean('random_extension_generation')->default(false); 
+            $table->text('timezone', 150)->nullable();
             $table->boolean('is_active')->default(true);
             $table->timestamps();
         });

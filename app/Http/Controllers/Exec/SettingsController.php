@@ -119,8 +119,6 @@ class SettingsController extends Controller
         try {
             $response = apiHelper()->execute($request, '/api/settings/email-settings');
 
-            
-
             return globalHelper()->ajaxSuccessResponse(
                 'scripts',
                 'success',
@@ -128,6 +126,47 @@ class SettingsController extends Controller
                 '',   
                 '',
                 $response['data'] ? $response['data'] : []
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
+    public function smartCallback(Request $request)
+    {
+        try {
+            $response = apiHelper()->execute($request, '/api/settings/smart-callback');
+
+            return globalHelper()->ajaxSuccessResponse(
+                'scripts',
+                'success',
+                'fetch-smart-callback',
+                '',   
+                '', 
+                $response['data'] ? $response['data'] : []
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
+    public function saveSmartCallback(Request $request)
+    {
+        try {
+            $response = apiHelper()->execute($request, '/api/settings/save-smart-callback');
+
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['response'], '', 'User Error');
+            }
+            
+            return globalHelper()->ajaxSuccessResponse(
+                'toast',
+                'success',
+                'save-smart-callback',
+                $response['response'],   
+                'System Info'
             );
         } catch (\Exception $e) {
             logInfo($e->getMessage());

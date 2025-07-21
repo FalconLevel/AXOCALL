@@ -53,6 +53,10 @@ Route::prefix('account')->group(function () {
         Route::post('/keyword-settings', [SettingsController::class, 'keywordSettings']);
         Route::post('/save-email-settings', [SettingsController::class, 'saveEmailSettings']);  
         Route::post('/email-settings', [SettingsController::class, 'emailSettings']);
+        Route::post('/smart-callback', [SettingsController::class, 'smartCallback']);
+        Route::post('/save-smart-callback', [SettingsController::class, 'saveSmartCallback']);
+
+        Route::post('/system-numbers', [SettingsController::class, 'systemNumbers']);
     });
     
     Route::prefix('contacts')->group(function () {

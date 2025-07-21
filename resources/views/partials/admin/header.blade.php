@@ -75,7 +75,11 @@
                 <div class="header-right">
                     <ul class="clearfix">
                         
-                        
+                        <li class="icons">
+                            <a href="javascript:void(0)" data-action="toggle-theme">
+                                <i class="fa fa-moon"></i>
+                            </a>
+                        </li>
                         <li class="icons dropdown">
                             <div class="user-img c-pointer position-relative"   data-toggle="dropdown">
                                 <span class="activity"></span>

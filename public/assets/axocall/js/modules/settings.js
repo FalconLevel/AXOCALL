@@ -3,6 +3,7 @@ $(document).ready(function () {
     _fetch_extension_settings();
     _fetch_keywords();
     _fetch_email_settings();
+    _fetch_smart_callback();
     init_actions();
 
     $("[data-key='Frequency']").change(function () {
@@ -31,6 +32,10 @@ function _fetch_keywords() {
 
 function _fetch_email_settings() {
     ajaxRequest("/executor/settings/email-settings", {}, "");
+}
+
+function _fetch_smart_callback() {
+    ajaxRequest("/executor/settings/smart-callback", {}, "");
 }
 
 function init_actions() {
@@ -109,6 +114,21 @@ function init_actions() {
                 ajaxRequest(
                     "/executor/settings/save-email-settings",
                     emailData,
+                    "POST"
+                );
+                break;
+
+            case "save-smart-callback":
+                let smartCallbackData = {
+                    ...JSON.parse(_collectFields(parentForm)),
+                    IsActive: $("#smart-callback-toggle").is(":checked")
+                        ? 1
+                        : 0,
+                };
+
+                ajaxRequest(
+                    "/executor/settings/save-smart-callback",
+                    smartCallbackData,
                     "POST"
                 );
                 break;

@@ -1,6 +1,6 @@
 <div class="dashboard-cards-row mb-4">
     <div class="dashboard-card-col">
-        <div class="card gradient-1">
+        <div class="card gradient-1 card-border-radius-0">
             <div class="card-body">
                 <h3 class="card-title text-white">Total Calls</h3>
                 <div class="d-inline-block">
@@ -12,7 +12,7 @@
         </div>
     </div>
     <div class="dashboard-card-col">
-        <div class="card gradient-2">
+        <div class="card gradient-2 card-border-radius-0">
             <div class="card-body">
                 <h3 class="card-title text-white">Appointments Booked</h3>
                 <div class="d-inline-block">
@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="dashboard-card-col">
-        <div class="card gradient-3">
+        <div class="card gradient-3 card-border-radius-0">
             <div class="card-body">
                 <h3 class="card-title text-white">Active Extensions</h3>
                 <div class="d-inline-block">
@@ -36,7 +36,7 @@
         </div>
     </div>
     <div class="dashboard-card-col">
-        <div class="card gradient-4">
+        <div class="card gradient-4 card-border-radius-0">
             <div class="card-body">
                 <h3 class="card-title text-white">Total SMS</h3>
                 <div class="d-inline-block">
@@ -48,7 +48,7 @@
         </div>
     </div>
     <div class="dashboard-card-col">
-        <div class="card gradient-5">
+        <div class="card gradient-5 card-border-radius-0">
             <div class="card-body">
                 <h3 class="card-title text-white">Follow Up Items</h3>
                 <div class="d-inline-block">

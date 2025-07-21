@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Keyword;
 use App\Models\SettingExtension;
 use App\Models\SettingEmailSummaries;
+use App\Models\SettingSmartCallback;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -114,6 +115,52 @@ class SettingsController extends Controller
         try {
             $settings = SettingEmailSummaries::first();
             return response()->json(['status' => true, 'data' => $settings ? $settings : [] ]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json(['status' => false, 'data' => []], 500);
+        }
+    }
+
+    public function smartCallback(): JsonResponse {
+        try {
+            $settings = SettingSmartCallback::first();
+            return response()->json(['status' => true, 'data' => $settings ? $settings : [] ]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json(['status' => false, 'data' => []], 500);
+        }
+    }
+
+    public function saveSmartCallback(Request $request): JsonResponse {
+        try {
+            $validated = validatorHelper()->validate('smart_callback_save', $request);
+
+            if (! $validated['status']) {
+                return response()->json($validated, 400);
+            }
+
+            $validated['validated']['is_active'] = $request->IsActive == 1 ? true : false;
+            
+            $settings = SettingSmartCallback::first();
+            if (! $settings) {
+                SettingSmartCallback::create($validated['validated']);
+            } else {
+                $settings->update($validated['validated']);
+            }
+
+            return response()->json(['status' => true, 'response' => 'Smart callback settings saved successfully']);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json(['status' => false, 'response' => $e->getMessage()], 500);
+        }
+    }
+
+    public function systemNumbers(): JsonResponse {
+        try {
+            $numbers = globalHelper()->fetchSystemNumbers();
+            
+            dd($numbers);
+            return response()->json(['status' => true, 'data' => $numbers]);
         } catch (\Exception $e) {
             logInfo($e->getMessage());
             return response()->json(['status' => false, 'data' => []], 500);

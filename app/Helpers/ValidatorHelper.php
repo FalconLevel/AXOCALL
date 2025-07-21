@@ -104,6 +104,12 @@ class ValidatorHelper {
                     'day_of_week' => 'sometimes|string',
                     'is_enabled' => 'sometimes|boolean',
                 ];
+            case 'smart_callback_save':
+                return [
+                    'hours' => 'required|integer|min:0|max:23',
+                    'minutes' => 'required|integer|min:0|max:59',
+                    'is_active' => 'sometimes|boolean',
+                ];
         }
     }
 }

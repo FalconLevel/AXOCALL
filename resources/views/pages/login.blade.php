@@ -6,7 +6,7 @@
         <div class="row justify-content-center h-100">
             <div class="col-xl-6">
                 <div class="form-input-content">
-                    <div class="card login-form mb-0">
+                    <div class="card login-form mb-0 card-border-radius-0">
                         <div class="card-body pt-5">
                             <div class="col-lg-12">
                                 <div class="brand-title text-center">

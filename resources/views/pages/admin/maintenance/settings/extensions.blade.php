@@ -1,16 +1,18 @@
 <div class="row">
     <div class="col-lg-12">
         <form>
-            <div class="card">
+            <div class="card card-border-radius-0">
                 <div class="card-body">
-                    <h4 class="card-title">
+                    <h4 class="card-title card-header-title">
                         <i class="fa fa-users"></i>
                         Default Extension Settings
                     </h4>
                     <p>Set default expiration times and extension number generation preferences for new customer extensions.</p>
-                    <h5 class="box-title m-t-30">
+                    <hr />
+                    <h5 class="box-title ">
                         Default Extension Expiration
                     </h5>
+                    
                     <form>
                         <div class="row">
                             <div class="col-lg-3">

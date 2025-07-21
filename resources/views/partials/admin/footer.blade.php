@@ -10,7 +10,7 @@
     <script src="{{ asset('assets/system/js/custom.min.js') }}"></script>
     <script src="{{ asset('assets/system/js/settings.js') }}"></script>
     <script src="{{ asset('assets/system/js/gleek.js') }}"></script>
-    <script src="{{ asset('assets/system/js/styleSwitcher.js') }}"></script>
+    {{-- <script src="{{ asset('assets/system/js/styleSwitcher.js') }}"></script> --}}
 
     <script src="{{ asset('assets/system/plugins/tables/js/jquery.dataTables.min.js') }}"></script>
     <script src="{{ asset('assets/system/plugins/tables/js/datatable/dataTables.bootstrap4.min.js') }}"></script>    

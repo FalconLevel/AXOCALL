@@ -89,6 +89,9 @@ Route::middleware(['auth', 'token_validator', 'revalidate_back_history'])->group
             Route::post('/keyword-settings', [SettingsController::class, 'keywordSettings'])->name('executor.settings.keyword-settings');
             Route::post('/save-email-settings', [SettingsController::class, 'saveEmailSettings'])->name('executor.settings.save-email-settings');
             Route::post('/email-settings', [SettingsController::class, 'emailSettings'])->name('executor.settings.email-settings');
+            Route::post('/smart-callback', [SettingsController::class, 'smartCallback'])->name('executor.settings.smart-callback');
+            Route::post('/save-smart-callback', [SettingsController::class, 'saveSmartCallback'])->name('executor.settings.save-smart-callback');
+            
         });
 
         Route::group(['prefix' => 'profile'], function () {

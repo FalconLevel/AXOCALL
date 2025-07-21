@@ -1,5 +1,5 @@
 
-<div class="card">
+<div class="card card-border-radius-0">
     <div class="card-body">
         <h4 class="card-title">Call Volume by Hour</h4>
         <div id="morris-bar-chart" class="d-none"></div>

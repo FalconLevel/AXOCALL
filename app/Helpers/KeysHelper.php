@@ -53,6 +53,9 @@ class KeysHelper {
         'Frequency' => 'frequency',
         'DayOfWeek' => 'day_of_week',
         'IsEnabled' => 'is_enabled',
+
+        'SmartCallbackHours' => 'hours',
+        'SmartCallbackMinutes' => 'minutes',
     ];
 
     public function getKey(string $key_index): string {
