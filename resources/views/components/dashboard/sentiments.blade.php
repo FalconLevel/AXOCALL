@@ -1,12 +1,12 @@
 
-<div class="card">
+<div class="card card-border-radius-0">
     <div class="card-body pb-0 d-flex justify-content-between">
         <div>
             <h4 class="mb-1">Call Sentiments</h4>
             <p>Distribution of call sentiments</p>
         </div>
     </div>
-    <div class="card-body py-0 card-border-radius-0">
+    <div class="card-body py-0">
         <div class="row">
             <div class="col-lg-4">
                 <div class="card shadow-sm card-border-radius-0">
