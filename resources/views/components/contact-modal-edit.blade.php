@@ -1,4 +1,4 @@
-<div class="modal fade" id="contact-modal-edit" tabindex="-1" role="dialog" aria-labelledby="contactEditModalLabel" aria-hidden="true">
+<div class="modal fade" id="contact-modal-edit" tabindex="-2" role="dialog" aria-labelledby="contactEditModalLabel" aria-hidden="true">
     <form id="contact-edit-form">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
@@ -12,17 +12,6 @@
                 <div class="modal-body">
                     <input type="hidden" id="contact_id" name="contact_id" data-key="contact_id">
                     <div class="basic-form">
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label class="text-label">Timezone <span class="text-danger">*</span></label>
-                                <select class="form-control form-control-xs" id="edit_timezone" data-key="Timezone" data="req">
-                                    <option value="">Select Timezone</option>
-                                    @foreach($timezones as $key => $timezone)
-                                        <option value="{{ $key }}">{{ $timezone }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-                        </div>  
                         <div class="form-row">
                             <div class="form-group col-md-6">
                                 <label class="text-label">First Name <span class="text-danger">*</span></label>

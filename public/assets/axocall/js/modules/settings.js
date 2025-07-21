@@ -42,7 +42,7 @@ function init_actions() {
         switch (trigger) {
             case "add-tag":
                 let fields = JSON.parse(_collectFields(parentForm));
-                console.log(fields);
+
                 ajaxRequest("/executor/tags/save", fields, "");
                 break;
             case "delete-tag":
@@ -56,11 +56,11 @@ function init_actions() {
                     ? 1
                     : 0;
                 let data = JSON.parse(_collectFields(parentForm));
+
                 data = {
                     ...data,
                     IsRandomExtensionGeneration: randomExtensionGeneration,
                 };
-                console.log(data);
 
                 ajaxRequest(
                     "/executor/settings/save-extension-settings",

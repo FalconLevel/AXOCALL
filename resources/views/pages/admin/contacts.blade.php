@@ -13,7 +13,6 @@
                                     <th width="15%">Phone</th>
                                     <th>Tags</th>
                                     <th width="20%">Notes</th>
-                                    <th width="15%">Timezone</th>
                                     <th width="15%">Date Created</th>
                                     <th width="5%">Actions</th>
                                 </tr>

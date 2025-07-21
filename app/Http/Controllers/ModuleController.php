@@ -39,7 +39,7 @@ class ModuleController extends Controller
     }
 
     public function contacts() {
-        $this->data['timezones'] = globalHelper()->getTimezones();
+        
         
         $this->data['title'] = 'Contacts';
         $this->data['description'] = 'Manage your contacts, extensions, and caller information.';
@@ -71,6 +71,9 @@ class ModuleController extends Controller
 
     public function settings() {
         $this->data['title'] = 'Application Settings';
+
+        $this->data['timezones'] = globalHelper()->getTimezones();
+        
         $this->data['description'] = 'Customize and manage your AXOCALL system preferences.';
         $this->data['panel_type'] = 'settings';
         return view('pages.admin.maintenance.settings', $this->data);

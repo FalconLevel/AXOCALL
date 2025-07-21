@@ -119,7 +119,7 @@
                                                             <a href="javascript:void(0)" class="text-primary svg-icon" data-trigger="follow-up" data-id="{{ $communication['id'] }}" data-type="communication">
                                                                 <i class="fa-regular fa-flag"></i>
                                                             </a>
-                                                        @else   
+                                                        @else
                                                             <a href="javascript:void(0)" class="text-info svg-icon">
                                                                 <i class="fa-regular fa-check-circle"></i>
                                                             </a>

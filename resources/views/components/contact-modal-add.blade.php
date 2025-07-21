@@ -17,17 +17,6 @@
                         <div class="basic-form">
                             <div class="form-row">
                                 <div class="form-group col-md-6">
-                                    <label class="text-label">Timezone <span class="text-danger">*</span></label>
-                                    <select class="form-control form-control-xs" data-key="Timezone" data="req">
-                                        <option value="">Select Timezone</option>
-                                        @foreach($timezones as $key => $timezone)
-                                            <option value="{{ $key }}">{{ $timezone }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div>  
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
                                     <label class="text-label">First Name <span class="text-danger">*</span></label>
                                     <input type="text" class="form-control form-control-xs" placeholder="John" data-key="FirstName" data="req">
                                 </div>
@@ -85,7 +74,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-12">
                                     <label >Available Tags</label>
-                                    <div class="bootstrap-label existing-tags">
+                                    <div class="bootstrap-label existing-tags" data-tags="{{ json_encode($tags) }}">
                                         @foreach($tags as $tag)
                                             <span 
                                                 class="mr-1 p-2 text-white label label-pill tag-labels cursor-pointer" 
@@ -94,10 +83,7 @@
                                                 data-id="{{ $tag['id'] }}"
                                             >
                                                 <i class="fa fa-tag"></i>
-                                                {{ ucfirst(strtolower($tag['tag_name'])) }} 
-                                                {{-- <a href="javascript:void(0)" class="text-white" data-trigger="delete-tag" data-id="{{$tag['id']}}">
-                                                    <i class="fa fa-trash"></i>
-                                                </a> --}}
+                                                {{ ucfirst(strtolower($tag['tag_name'])) }}
                                             </span>
 
                                         @endforeach

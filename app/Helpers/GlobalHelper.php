@@ -95,10 +95,10 @@ class GlobalHelper {
                 ];
             }
             
-            $contact = Contact::where('id', $contact_id)->first();
             $extension_expiration_days = $setting_extension->extension_expiration_days;
             $extension_expiration_hrs = $setting_extension->extension_expiration_hrs;
             $random_extension_generation = $setting_extension->random_extension_generation;
+            $timezone = $setting_extension->timezone ?? config('app.timezone');
 
             if ($random_extension_generation) {
                 $extension_new = $this->generateRandomExtension();
@@ -107,9 +107,9 @@ class GlobalHelper {
             }
             
             if ($extension_expiration_hrs <= 0) {
-                $expiration_date = now()->setTimezone($contact->timezone)->addDays($extension_expiration_days)->format('Y-m-d H:i A');
+                $expiration_date = now()->setTimezone($timezone)->addDays($extension_expiration_days)->format('Y-m-d H:i A');
             } else {
-                $expiration_date = now()->setTimezone($contact->timezone)->addDays($extension_expiration_days)->addHours($extension_expiration_hrs)->format('Y-m-d H:i A');
+                $expiration_date = now()->setTimezone($timezone)->addDays($extension_expiration_days)->addHours($extension_expiration_hrs)->format('Y-m-d H:i A');
             }
             
             return [

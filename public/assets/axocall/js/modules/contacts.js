@@ -61,11 +61,9 @@ function _renderContacts(contacts) {
                 }</td>
                 <td class="d-flex flex-wrap align-items-center">${tags}</td>
                 <td>${contact.notes || ""}</td>
-                <td>${contact.timezone || ""}</td>
                 <td>${_format_date(contact.created_at) || ""}</td>
                 <td>
                     <span>
-                        
                         <a href="#" data-trigger="delete-contact" data-id="${
                             contact.id
                         }" title="Delete"><i class="fa fa-trash text-danger"></i></a>
@@ -82,6 +80,7 @@ function _renderContacts(contacts) {
 }
 
 function _editContact(id) {
+    console.log(id);
     $.ajax({
         url: `/api/contacts/edit/${id}`,
         method: "POST",
@@ -186,6 +185,25 @@ function _init_actions() {
             case "modal":
                 let modal = $(this).data("modal");
                 if (modal === "contacts") {
+                    let existingTags = JSON.parse(
+                        $(".existing-tags").attr("data-tags")
+                    );
+
+                    $("#contacts-modal .existing-tags").empty();
+                    existingTags.forEach((tag) => {
+                        $("#contacts-modal .existing-tags").append(
+                            `<span 
+                                class="mr-1 p-2 text-white label label-pill tag-labels cursor-pointer" 
+                                style="background-color: ${tag.tag_color} !important;"
+                                data-trigger="select-tag"
+                                data-id="${tag.id}"
+                            >
+                                <i class="fa fa-tag"></i>
+                                ${tag.tag_name}
+                            </span>
+                        `
+                        );
+                    });
                     // Reset modal for add
                     $("#contacts-modal form")[0].reset();
                     $("#contacts-modal .modal-title").text("Add New Contact");
@@ -193,9 +211,16 @@ function _init_actions() {
                         .attr("data-mode", "add")
                         .removeAttr("data-id");
                     $("#contacts-modal .selected-tags").empty();
+                    // Remove all phone cards
+                    $(
+                        "#contacts-modal .phone-card-container .phone-card-clone"
+                    ).remove();
+
                     $("#contacts-modal .existing-tags .tag-labels").removeClass(
                         "d-none"
                     );
+
+                    _init_actions();
                 }
                 $("#" + modal + "-modal").modal("show");
                 break;
@@ -245,6 +270,7 @@ function _init_actions() {
                     ".phone-card-container .phone-card:first"
                 ).clone();
 
+                new_phone_card_html.addClass("phone-card-clone");
                 phone_card_container.append(new_phone_card_html);
 
                 $("[data-trigger='remove-phone']").removeClass("d-none");
@@ -335,6 +361,7 @@ function _init_actions() {
                 break;
             case "view-contact":
                 let viewId = $(this).data("id");
+                console.log(viewId);
                 _viewContact(viewId);
                 break;
             case "export-contacts":
@@ -438,9 +465,7 @@ function _viewContact(id) {
                 $("#contact-modal-view .view_created").text(
                     _format_date(contact.created_at)
                 );
-                $("#contact-modal-view .view_timezone").text(
-                    contact.timezone || "N/A"
-                );
+
                 $(
                     "#contact-modal-view [data-trigger='edit-contact-view']"
                 ).attr("data-id", id);
@@ -504,6 +529,7 @@ function _viewContact(id) {
                 }
 
                 // Show the modal
+
                 $("#contact-modal-view").modal("show");
             } else {
                 _show_toastr(

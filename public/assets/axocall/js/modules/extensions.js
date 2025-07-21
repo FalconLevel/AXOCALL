@@ -233,6 +233,8 @@ function _init_extension_actions() {
                         .attr("data-mode", "add")
                         .removeAttr("data-id");
                 }
+
+                _generateExtension();
                 _show_numbers();
 
                 $("#" + modal).modal("show");
@@ -401,7 +403,6 @@ function _show_numbers() {
                 },
                 success: function (res) {
                     if (res.status === "success") {
-                        _generateExtension();
                         if (res.data && res.data.length > 1) {
                             // Show phone number dropdown, hide contact info
                             $phoneSelect.closest(".form-group").show();
@@ -425,10 +426,7 @@ function _show_numbers() {
                             $contactInfo.show();
                             var phone = res.data[0];
                             // Optionally, you can set the value of phone_number input for form submission
-                            $phoneSelect.attr(
-                                "data-timezone",
-                                phone.contact.timezone
-                            );
+
                             $phoneSelect.html(
                                 '<option value="' +
                                     phone.id +
@@ -451,9 +449,7 @@ function _show_numbers() {
                                     phone.phone_number +
                                     (phone.phone_type
                                         ? " (" + phone.phone_type + ")"
-                                        : "") +
-                                    "<br><strong>Timezone:</strong> " +
-                                    phone.contact.timezone
+                                        : "")
                             );
                         }
                     } else {
@@ -483,7 +479,6 @@ function _show_numbers() {
         var phoneText = $("#phone_number option:selected").text();
         var contactId = $("#contact_id").val();
         var contactName = $("#contact_id option:selected").text();
-        var timezone = $(this).attr("data-timezone");
 
         if (phoneNumber && contactId) {
             $("#contact-info-display").html(
@@ -492,9 +487,7 @@ function _show_numbers() {
                     "</strong><br>" +
                     "<span>" +
                     phoneText +
-                    "</span>" +
-                    "<br><strong>Timezone:</strong> " +
-                    timezone
+                    "</span>"
             );
             $("#selected-contact-info").show();
         } else {

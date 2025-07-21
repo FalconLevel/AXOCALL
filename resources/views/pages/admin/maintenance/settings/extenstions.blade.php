@@ -13,14 +13,28 @@
                     </h5>
                     <form>
                         <div class="row">
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
                                 <div class="form-group">
+                                    <label class="form-control-label">No of days</label>
                                     <input type="number" class="form-control form-control-xs" placeholder="No of days" min="1" max="365" data-key="ExtensionExpirationDays" data="req">
                                 </div>
                             </div>
-                            <div class="col-lg-6">
+                            <div class="col-lg-3">
                                 <div class="form-group">
+                                    <label class="form-control-label">No of hrs</label>
                                     <input type="number" class="form-control form-control-xs" placeholder="No of hrs" min="0" max="24" data-key="ExtensionExpirationHrs">
+                                </div>
+                            </div>
+                            <div class="col-lg-4">
+                                <div class="form-group">
+                                    <label class="form-control-label">Timezone</label>
+                                    <select class="form-control form-control-xs" data-key="Timezone" data="req">
+                                        <option value="">Select Timezone</option>
+                                        @foreach($timezones as $key => $timezone)
+                                            <option value="{{ $key }}">{{ $timezone }}</option>
+                                        @endforeach
+                                    </select>
+                                    
                                 </div>
                             </div>
                         </div>

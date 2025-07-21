@@ -35,7 +35,9 @@ class ResponseHelper {
                 if ($data) {
                 $script = "$('[data-key=\"ExtensionExpirationDays\"]').val('".$data['extension_expiration_days']."'); 
                     $('[data-key=\"ExtensionExpirationHrs\"]').val('".$data['extension_expiration_hrs']."'); 
-                    $('[data-key=\"RandomExtensionGeneration\"]').prop('checked', ".($data['random_extension_generation'] == 1 ? true : false).");";
+                    $('[data-key=\"RandomExtensionGeneration\"]').prop('checked', ".($data['random_extension_generation'] == 1 ? true : false).");
+                    $('[data-key=\"Timezone\"]').val('".$data['timezone']."');";
+
                 }
                 break;
             case 'generate-extension':

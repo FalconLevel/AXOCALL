@@ -1,4 +1,4 @@
-<div class="modal fade" id="contact-modal-view" tabindex="-1" role="dialog" aria-labelledby="contactViewModalLabel" aria-hidden="true">
+<div class="modal fade" id="contact-modal-view" tabindex="-3" role="dialog" aria-labelledby="contactViewModalLabel" aria-hidden="true">
     <form id="contact-view-form">
         <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
             <div class="modal-content">
