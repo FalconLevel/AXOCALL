@@ -6,10 +6,10 @@
             <p>Distribution of call sentiments</p>
         </div>
     </div>
-    <div class="card-body py-0">
+    <div class="card-body py-0 card-border-radius-0">
         <div class="row">
             <div class="col-lg-4">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm card-border-radius-0">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title">Positive</h5>
                         <div class="card-tools">
@@ -24,7 +24,7 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm card-border-radius-0">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title">Neutral</h5>
                         <div class="card-tools">
@@ -39,7 +39,7 @@
             </div>
 
             <div class="col-lg-4">
-                <div class="card shadow-sm">
+                <div class="card shadow-sm card-border-radius-0">
                     <div class="card-header d-flex justify-content-between">
                         <h5 class="card-title">Negative</h5>
                         <div class="card-tools">
