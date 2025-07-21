@@ -65,12 +65,11 @@ class ResponseHelper {
                 $script .= isset($data['frequency']) ? "$('[data-key=\"Frequency\"]').val('".strtolower($data['frequency'])."');" : "$('[data-key=\"Frequency\"]').val('');";
                 $script .= isset($data['day_of_week']) ? "$('[data-key=\"DayOfWeek\"]').val('".strtolower($data['day_of_week'])."');" : "$('[data-key=\"DayOfWeek\"]').val('');";
                 $script .= isset($data['is_enabled']) ? "$('[data-key=\"IsEmailSummaries\"]').prop('checked', ".($data['is_enabled'] == 1 ? true : false).");" : "$('[data-key=\"IsEmailSummaries\"]').prop('checked', false);";
-                $script .= "
-                    if ('".$data['frequency']."' == 'weekly') {
-                        $('#day-of-week-container').removeClass('d-none');
-                    } else {
-                        $('#day-of-week-container').removeClass('d-none').addClass('d-none');
-                    }";
+                if (isset($data['frequency']) && $data['frequency'] == 'weekly') {
+                    $script .= "$('#day-of-week-container').removeClass('d-none');";
+                } else {
+                    $script .= "$('#day-of-week-container').removeClass('d-none').addClass('d-none');";
+                }
                 break;
             case 'fetch-smart-callback':
                 $script = isset($data['hours']) ? "$('[data-key=\"SmartCallbackHours\"]').val('".$data['hours']."');" : "$('[data-key=\"SmartCallbackHours\"]').val('');";

@@ -118,7 +118,7 @@ class SettingsController extends Controller
     {
         try {
             $response = apiHelper()->execute($request, '/api/settings/email-settings');
-
+            
             return globalHelper()->ajaxSuccessResponse(
                 'scripts',
                 'success',

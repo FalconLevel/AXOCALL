@@ -124,6 +124,7 @@ class SettingsController extends Controller
     public function smartCallback(): JsonResponse {
         try {
             $settings = SettingSmartCallback::first();
+            
             return response()->json(['status' => true, 'data' => $settings ? $settings : [] ]);
         } catch (\Exception $e) {
             logInfo($e->getMessage());
