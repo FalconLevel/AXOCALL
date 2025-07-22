@@ -55,8 +55,8 @@ Route::prefix('account')->group(function () {
         Route::post('/email-settings', [SettingsController::class, 'emailSettings']);
         Route::post('/smart-callback', [SettingsController::class, 'smartCallback']);
         Route::post('/save-smart-callback', [SettingsController::class, 'saveSmartCallback']);
-
         Route::post('/system-numbers', [SettingsController::class, 'systemNumbers']);
+        Route::post('/toggle-theme', [SettingsController::class, 'toggleTheme']);
     });
     
     Route::prefix('contacts')->group(function () {

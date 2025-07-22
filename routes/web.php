@@ -91,11 +91,13 @@ Route::middleware(['auth', 'token_validator', 'revalidate_back_history'])->group
             Route::post('/email-settings', [SettingsController::class, 'emailSettings'])->name('executor.settings.email-settings');
             Route::post('/smart-callback', [SettingsController::class, 'smartCallback'])->name('executor.settings.smart-callback');
             Route::post('/save-smart-callback', [SettingsController::class, 'saveSmartCallback'])->name('executor.settings.save-smart-callback');
-            
+            Route::post('/toggle-theme', [SettingsController::class, 'toggleTheme'])->name('executor.settings.toggle-theme');            
         });
 
         Route::group(['prefix' => 'profile'], function () {
             Route::post('/update', [ProfileController::class, 'update'])->name('executor.profile.update');
         });
+
+        
     });
 });

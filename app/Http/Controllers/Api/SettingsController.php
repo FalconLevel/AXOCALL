@@ -7,8 +7,10 @@ use App\Models\Keyword;
 use App\Models\SettingExtension;
 use App\Models\SettingEmailSummaries;
 use App\Models\SettingSmartCallback;
+use App\Models\Theme;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SettingsController extends Controller
 {
@@ -162,6 +164,30 @@ class SettingsController extends Controller
             
             dd($numbers);
             return response()->json(['status' => true, 'data' => $numbers]);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json(['status' => false, 'data' => []], 500);
+        }
+    }
+
+    public function toggleTheme(Request $request): JsonResponse {
+        try {
+            $validated = validatorHelper()->validate('toggle_theme', $request);
+
+            if (! $validated['status']) {
+                return response()->json($validated, 400);
+            }
+            $validated['validated']['user_id'] = Auth::user()->id;
+            
+            $theme = Theme::where('user_id', Auth::user()->id)->first();
+            
+            if (! $theme) {
+                Theme::create($validated['validated']);
+            } else {
+                $theme->update($validated['validated']);
+            }
+            return response()->json(['status' => true, 'data' => $validated['validated']]);
+            
         } catch (\Exception $e) {
             logInfo($e->getMessage());
             return response()->json(['status' => false, 'data' => []], 500);

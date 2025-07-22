@@ -13,6 +13,7 @@ use App\Models\Otp;
 use App\Models\PhoneNumber;
 use App\Models\SettingExtension;
 use App\Models\Tag;
+use App\Models\Theme;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\JsonResponse;
@@ -22,6 +23,8 @@ use Illuminate\Support\Facades\Mail;
 use jessedp\Timezones\Timezones;
 use OpenAI\Laravel\Facades\OpenAI;
 use GuzzleHttp\Client;
+use Illuminate\Support\Facades\Auth;
+use Symfony\Component\CssSelector\Node\FunctionNode;
 
 class GlobalHelper {
     private $client;
@@ -556,6 +559,16 @@ class GlobalHelper {
         } catch (\Exception $e) {
             logInfo($e->getMessage());
             return [];
+        }
+    }
+
+    public function getTheme() {
+        try {
+            $theme = Theme::where('user_id', Auth::user()->id)->first();
+            return $theme->theme ?? 'light';
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return 'light';
         }
     }
 }

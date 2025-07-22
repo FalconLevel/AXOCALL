@@ -173,4 +173,27 @@ class SettingsController extends Controller
             return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
         }
     }   
+
+    public function toggleTheme(Request $request)
+    {
+        try {
+            $response = apiHelper()->execute($request, '/api/settings/toggle-theme');
+            
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'User Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse(
+                'scripts',
+                'success',
+                'toggle-theme',
+                '',
+                '',
+                $response['data'] ?? []
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
 }

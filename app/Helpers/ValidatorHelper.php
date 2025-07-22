@@ -110,6 +110,11 @@ class ValidatorHelper {
                     'minutes' => 'required|integer|min:0|max:59',
                     'is_active' => 'sometimes|boolean',
                 ];
+
+            case 'toggle_theme':
+                return [
+                    'theme' => 'required|string',
+                ];
         }
     }
 }

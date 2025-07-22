@@ -1,7 +1,24 @@
 $(document).ready(function () {
     $('[data-action="toggle-theme"]').on("click", function () {
-        console.log("toggle-theme");
-        // ajaxRequest("/executor/account/toggle-theme", "", "");
+        let icon = $(this).find("i");
+        let theme = "";
+        if (icon.hasClass("fa-moon")) {
+            icon.removeClass("fa-moon").removeClass("text-secondary");
+            icon.addClass("fa-sun").addClass("text-warning");
+            theme = "dark";
+        } else {
+            icon.removeClass("fa-sun").removeClass("text-warning");
+            icon.addClass("fa-moon").addClass("text-secondary");
+            theme = "light";
+        }
+
+        ajaxRequest(
+            "/executor/settings/toggle-theme",
+            {
+                Theme: theme,
+            },
+            ""
+        );
     });
     $('[data-action="logout"]').on("click", function () {
         console.log("logout");
@@ -110,4 +127,24 @@ function _collectFields(parentForm) {
     }
 
     return JSON.stringify(sJsonFields);
+}
+
+function _applyTheme(sTheme) {
+    if (sTheme == "dark") {
+        new quixSettings({
+            version: "dark",
+            layout: "vertical",
+            navheaderBg: "color_2",
+            headerBg: "color_2",
+            sidebarBg: "color_2",
+        });
+    } else {
+        new quixSettings({
+            version: "light",
+            layout: "vertical",
+            navheaderBg: "color_1",
+            headerBg: "color_1",
+            sidebarBg: "color_1",
+        });
+    }
 }

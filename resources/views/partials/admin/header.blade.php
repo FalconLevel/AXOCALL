@@ -8,6 +8,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="_token" content="{!! csrf_token() !!}" />
     <meta name="_url" content="{!! URL::to('/') !!}" />
+    <meta name="theme" content="{{ $theme }}">
     <title> AXOCALL - Secure Communication Platform </title>
 
     <link rel="shortcut icon" href="{{ asset('assets/axocall/icons/logo.svg') }}" type="image/x-icon">
@@ -27,7 +28,7 @@
     <link href="{{ asset('assets/system/css/override.css') }}" type="text/css" rel="stylesheet">
 </head>
 
-<body class="h-100">
+<body class="h-100" >
 
     <div id="preloader">
         <div class="loader">
@@ -77,7 +78,11 @@
                         
                         <li class="icons">
                             <a href="javascript:void(0)" data-action="toggle-theme">
-                                <i class="fa fa-moon"></i>
+                                @if ($theme == 'light')
+                                    <i class="fa fa-moon text-secondary"></i>
+                                @else
+                                    <i class="fa fa-sun text-warning"></i>
+                                @endif
                             </a>
                         </li>
                         <li class="icons dropdown">

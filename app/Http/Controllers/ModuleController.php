@@ -12,8 +12,10 @@ use jessedp\Timezones\Timezones;
 class ModuleController extends Controller
 {
     public $data;
+    public $theme;
     public function __construct() {
         $this->data = [];
+        $this->data['theme'] = globalHelper()->getTheme();
     }
 
     public function dashboard() {

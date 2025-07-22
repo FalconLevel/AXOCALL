@@ -76,6 +76,9 @@ class ResponseHelper {
                 $script .= isset($data['minutes']) ? "$('[data-key=\"SmartCallbackMinutes\"]').val('".$data['minutes']."');" : "$('[data-key=\"SmartCallbackMinutes\"]').val('');";
                 $script .= isset($data['is_active']) ? "$('[data-key=\"SmartCallbackIsActive\"]').prop('checked', ".($data['is_active'] == 1 ? true : false).");" : "$('[data-key=\"SmartCallbackIsActive\"]').prop('checked', false);";
                 break;
+            case 'toggle-theme':
+                $script = "_applyTheme('".$data['theme']."');";
+                break;
         }
 
         return ['js' => $script];

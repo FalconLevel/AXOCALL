@@ -56,6 +56,7 @@ class KeysHelper {
 
         'SmartCallbackHours' => 'hours',
         'SmartCallbackMinutes' => 'minutes',
+        'Theme' => 'theme',
     ];
 
     public function getKey(string $key_index): string {
