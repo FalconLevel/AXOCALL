@@ -370,12 +370,13 @@ input:checked + .slider:before {
         background-color: #27394f !important;
         color: #ffffff !important;
         box-shadow: none !important;
+        border: 1px solid #8d8e8f !important;
 
         &:hover {
-            border: 1px solid #27394f !important;
+            border: 1px solid #ffffff !important;
         }
         &:focus {
-            border: 1px solid #27394f !important;
+            border: 1px solid #ffffff !important;
         }
     }
 

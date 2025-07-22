@@ -22,15 +22,18 @@ use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Mail;
 use jessedp\Timezones\Timezones;
 use OpenAI\Laravel\Facades\OpenAI;
-use GuzzleHttp\Client;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\CssSelector\Node\FunctionNode;
+use Twilio\Rest\Client;
+use GuzzleHttp\Client as GuzzleClient;
 
 class GlobalHelper {
-    private $client;
 
+    private $guzzle_client;
+    private $twilio_client;
     public function __construct() {
-        $this->client = new Client();
+        $this->guzzle_client = new GuzzleClient();
+        $this->twilio_client = new Client(config('twilio.twilio.sid'), config('twilio.twilio.token'));
     }
 
     public function ajaxSuccessResponse(
@@ -527,35 +530,17 @@ class GlobalHelper {
 
     public function fetchSystemNumbers() {
         try {
-            dd("https://api.twilio.com/2010-04-01/Accounts/'.config('twilio.twilio.sid').'/AvailablePhoneNumbers.json");
-            $available_numbers = $this->client->get('https://api.twilio.com/2010-04-01/Accounts/'.config('twilio.twilio.sid').'/AvailablePhoneNumbers.json', [
-                'query' => [
-                    'CountryCode' => 'US',
-                    'AreaCode' => '201',
-                    'PageSize' => 100,
-                ],
-            ],
-            [
-                'headers' => [
-                    'Authorization' => 'Basic ' . base64_encode(config('twilio.twilio.sid') . ':' . config('twilio.twilio.token')),
-                ],
-            ]);
+            $account = $this->twilio_client->api->v2010->accounts(config('twilio.twilio.sid'))->fetch();
+            $incoming_numbers_url = config('twilio.twilio.url') . $account->toArray()['subresourceUris']['incoming_phone_numbers'];
 
-            dd($available_numbers);
-
-            // $account = $this->twilio_client->api->v2010->accounts(config('twilio.twilio.sid'))->fetch();
-            // $available_numbers = Http::get('https://api.twilio.com/2010-04-01/Accounts/'.config('twilio.twilio.sid').'/AvailablePhoneNumbers/US/Local.json', [
-            //     'PageSize' => 100,
-            // ]);
+            $response = Http::withHeaders([
+                'Authorization' => 'Basic '.base64_encode(config('twilio.twilio.sid').':'.config('twilio.twilio.token')),
+            ])->get($incoming_numbers_url);
             
+            $response_body = json_decode($response->body(), true);
+            $incoming_numbers = array_map(function($number) { return FormatHelper::formatPhoneNumbersFull($number['phone_number']); }, $response_body['incoming_phone_numbers']);
             
-            $numbers = [
-                'main_caller_id_number' => config('app.main_caller_id_number'),
-                'sms_sender_id' => config('app.sms_sender_id'),
-                'access_number' => config('app.access_number'),
-            ];
-
-            return $numbers;
+            return $incoming_numbers;
         } catch (\Exception $e) {
             logInfo($e->getMessage());
             return [];

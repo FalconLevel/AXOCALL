@@ -25,6 +25,15 @@ class FormatHelper {
         }
     }
 
+    public static function formatPhoneNumbersFull(string $phone_number): string {
+        $formatted_phone_number = preg_replace('/[^0-9]/', '', $phone_number);
+        if (strlen($formatted_phone_number) == 10) {
+            return '+1 (' . substr($formatted_phone_number, 0, 3) . ') ' . substr($formatted_phone_number, 3, 3) . '-' . substr($formatted_phone_number, 6);
+        } else {
+            return '+1 (' . substr($formatted_phone_number, 1, 3) . ') ' . substr($formatted_phone_number, 4, 3) . '-' . substr($formatted_phone_number, 7);
+        }
+    }
+
     /**
      * Convert seconds to hh:mm:ss format
      */

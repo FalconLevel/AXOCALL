@@ -75,7 +75,7 @@ class ModuleController extends Controller
         $this->data['title'] = 'Application Settings';
 
         $this->data['timezones'] = globalHelper()->getTimezones();
-        
+        $this->data['system_numbers'] = globalHelper()->fetchSystemNumbers();
         $this->data['description'] = 'Customize and manage your AXOCALL system preferences.';
         $this->data['panel_type'] = 'settings';
         return view('pages.admin.maintenance.settings', $this->data);
