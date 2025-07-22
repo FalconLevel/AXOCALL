@@ -425,14 +425,18 @@ input:checked + .slider:before {
         border-left: 1px solid #ffffff !important;
     }
 
-    /* .pagination li a:hover {
-        background: #27394f !important;
-    } */
-
     .daterangepicker {
         background-color: #27394f !important;
         li {
             background-color: #162336 !important;
+        }
+    }
+
+    .drop-down {
+        background-color: #1b2b42 !important;
+
+        hr {
+            display: none !important;
         }
     }
 }
