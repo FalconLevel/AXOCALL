@@ -402,4 +402,37 @@ input:checked + .slider:before {
     .modal-content::-webkit-scrollbar-thumb:hover {
         background: #1e2a3a;
     }
+
+    .pagination li a,
+    .calendar-table {
+        background-color: #27394f !important;
+        color: #ffffff !important;
+    }
+
+    .calendar-table {
+        td.in-range,
+        td.off {
+            color: #000000 !important;
+        }
+    }
+
+    .calendar.left .calendar-table {
+        border-right: 1px solid #ffffff !important;
+        padding-right: 2px !important;
+    }
+
+    .calendar.right .calendar-table {
+        border-left: 1px solid #ffffff !important;
+    }
+
+    /* .pagination li a:hover {
+        background: #27394f !important;
+    } */
+
+    .daterangepicker {
+        background-color: #27394f !important;
+        li {
+            background-color: #162336 !important;
+        }
+    }
 }
