@@ -102,6 +102,10 @@
                                             <a href="{{ route('maintenance.profile') }}"><i class="icon-user"></i> <span>Profile</span></a>
                                         </li>                                        
                                         <hr class="my-2">
+                                        <li>
+                                            <a href="{{ route('maintenance.users') }}"><i class="icon-people"></i> <span>User Maintenace</span></a>
+                                        </li>
+                                        <hr class="my-2">
                                         <li><a href="javascript:void(0)" data-action="logout"><i class="icon-key"></i> <span>Logout</span></a></li>
                                     </ul>
                                 </div>

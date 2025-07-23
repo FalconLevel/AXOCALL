@@ -45,12 +45,15 @@ Route::middleware(['auth', 'token_validator', 'revalidate_back_history'])->group
     
     Route::group(['prefix' => 'maintenance'], function () {
         Route::get('/settings', [ModuleController::class, 'settings'])->name('maintenance.settings');
-        Route::get('/profile', [ModuleController::class, 'profile'])->name('maintenance.profile');  
+        Route::get('/profile', [ModuleController::class, 'profile'])->name('maintenance.profile');
+
+        Route::get('/users', [ModuleController::class, 'users'])->name('maintenance.users');
     });
     Route::group(['prefix' => 'executor'], function () {
         
         Route::group(['prefix' => 'account'], function () {
             Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout');
+            Route::post('/get-users', [AccountController::class, 'getUsers'])->name('account.get-users');
         });
 
         Route::group(['prefix' => 'tags'], function () {

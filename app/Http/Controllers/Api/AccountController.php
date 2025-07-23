@@ -129,4 +129,21 @@ class AccountController extends Controller
             ], 500);
         }
     }
+
+    public function getUsers() {
+        try {
+            $users = User::all();
+            return response()->json([
+                'status' => true,
+                'message' => 'Users fetched successfully',
+                'data' => $users,
+            ], 200);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),  
+            ], 500);
+        }
+    }
 }

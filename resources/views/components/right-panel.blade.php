@@ -29,7 +29,7 @@
 
         <li class="nav-item">
             {{-- <a href="#navpills-3" class="nav-link" data-toggle="tab" aria-expanded="true"> --}}
-                <button type="button" class="btn ml-1 mb-1  btn-outline-danger" data-trigger="export-dashboard">Export Report</button>
+                <button type="button" class="btn ml-1 mb-1 btn-flat btn-outline-danger" data-trigger="export-dashboard">Export Report</button>
                 
             {{-- </a> --}}
         </li>
@@ -39,13 +39,13 @@
         {{-- <input type="text" class="form-control form-control-xs w-50" placeholder="Search Contact"> --}}
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-outline-danger" data-trigger="export-contacts">
+                <button type="button" class="btn ml-1 btn-flat btn-outline-danger" data-trigger="export-contacts">
                     <i class="fa fa-download"></i>
                     Export
                 </button>
             </li>
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-outline-primary" data-trigger="modal"  data-modal="{{$xtype}}">
+                <button type="button" class="btn ml-1 btn-flat  btn-outline-primary" data-trigger="modal"  data-modal="{{$xtype}}">
                     <i class="fa fa-user-plus"></i>
                     Add Contact
                 </button>
@@ -56,13 +56,13 @@
     <div class="d-flex justify-content-end align-middle border-bottom">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-outline-danger" data-trigger="export-extensions">
+                <button type="button" class="btn ml-1 btn-flat btn-outline-danger" data-trigger="export-extensions">
                     <i class="fa fa-download"></i>
                     Export
                 </button>
             </li>
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-outline-primary" data-trigger="add-extension" data-modal="extension-modal">
+                <button type="button" class="btn ml-1 btn-flat btn-outline-primary" data-trigger="add-extension" data-modal="extension-modal">
                     <i class="fa fa-user-plus"></i>
                     Add Extension
                 </button>
@@ -76,7 +76,7 @@
                 <input class="form-control form-control-xs input-daterange-datepicker" type="text" name="daterange" value="01/01/2015 - 01/31/2015">
             </li>
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-outline-danger" data-trigger="export-communications">
+                <button type="button" class="btn ml-1 btn-flat btn-outline-danger" data-trigger="export-communications">
                     <i class="fa fa-download"></i>
                     Export
                 </button>
@@ -101,4 +101,21 @@
             </li>
         </ul>
     
+@elseif($xtype == 'users')
+    <div class="d-flex justify-content-end align-middle border-bottom">
+        <ul class="nav nav-pills mb-3 justify-content-end align-middle">
+            <li class="nav-item">
+                <button type="button" class="btn ml-1 btn-flat btn-outline-info" data-trigger="add-user" data-modal="user-modal">
+                    <i class="fa fa-user-plus"></i>
+                    Add User
+                </button>
+            </li>
+            <li class="nav-item">
+                <button type="button" class="btn ml-1  btn-flat btn-outline-primary" data-trigger="add-permissions" data-modal="permissions-modal">
+                    <i class="fa fa-cog"></i>
+                    Add Permissions
+                </button>
+            </li>
+        </ul>
+    </div>
 @endif

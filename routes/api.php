@@ -26,6 +26,7 @@ Route::prefix('account')->group(function () {
 // Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('account')->group(function () {
         Route::post('/logout', [AccountController::class, 'logout']);
+        Route::post('/get-users', [AccountController::class, 'getUsers']);
     });
 
     Route::prefix('dashboard')->group(function () {

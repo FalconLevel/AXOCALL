@@ -79,6 +79,11 @@ class ResponseHelper {
             case 'toggle-theme':
                 $script = "_applyTheme('".$data['theme']."');";
                 break;
+            case 'users':
+                $script = "
+                    $('.users-table tbody').html('".preg_replace('/\s+/', ' ', $this->usersResponse($data))."');
+                ";
+                break;
         }
 
         return ['js' => $script];
@@ -86,5 +91,34 @@ class ResponseHelper {
 
     function contactResponse(array $data, string $message='', string $toast_type = 'success', string $title = 'System Info'): array {
         return [];
+    }
+
+    private function usersResponse(array $data): string {
+        $html = '';
+        if ($data) {
+            foreach ($data as $user) {
+                $html .= '<tr>
+                    <td>'.$user['first_name'].' '.$user['last_name'].'</td>
+                    <td>'.$user['email'].'</td>
+                    <td>'.$user['role'].'</td>
+                    <td>'.($user['status'] == 'active' ? 'Active' : 'Inactive').'</td>
+                    <td>
+                        <a href="javascript:void(0)" class="text-success mr-2" data-trigger="edit-user" data-id="'.$user['id'].'" title="Edit User">
+                            <i class="fa fa-edit"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-info mr-2" data-trigger="edit-permissions" data-id="'.$user['id'].'" title="Edit Permissions">
+                            <i class="fa fa-cog"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-primary mr-2" data-trigger="reset-password" data-id="'.$user['id'].'" title="Reset Password">
+                            <i class="fa fa-user-lock"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-danger" data-trigger="delete-user" data-id="'.$user['id'].'" title="Block User">
+                            <i class="fa fa-user-times"></i>
+                        </a>
+                    </td>
+                </tr>';
+            }
+        }
+        return $html;
     }
 }

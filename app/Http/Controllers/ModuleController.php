@@ -6,6 +6,7 @@ use App\Models\Communication;
 use App\Models\Contact;
 use App\Models\Extension;
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
 use jessedp\Timezones\Timezones;
 
@@ -35,7 +36,6 @@ class ModuleController extends Controller
 
         $this->data['messages'] = globalHelper()->getMessageData();
         $this->data['keywords'] = globalHelper()->getKeywords();
-        
 
         return view('pages.admin.communications', $this->data);
     }
@@ -87,6 +87,13 @@ class ModuleController extends Controller
         $this->data['panel_type'] = 'profile';
         $this->data['profile'] = globalHelper()->getProfile();
         return view('pages.admin.maintenance.profile', $this->data);
+    }
+
+    public function users() {
+        $this->data['title'] = 'User Maintenance';
+        $this->data['description'] = 'Manage your users and their permissions.';
+        $this->data['panel_type'] = 'users';
+        return view('pages.admin.maintenance.users', $this->data);
     }
 
 }

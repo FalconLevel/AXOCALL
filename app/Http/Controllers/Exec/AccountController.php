@@ -150,5 +150,25 @@ class AccountController extends Controller
         }
     }
 
-    
+    public function getUsers() {
+        try {
+            $response = apiHelper()->execute(new Request(), '/api/account/get-users');
+            
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse( 
+                'scripts',
+                'success',
+                'users',
+                $response['message'],
+                'System Info',
+                $response['data']
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
 }
