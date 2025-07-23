@@ -63,10 +63,10 @@ function _renderExtensions(extensions) {
                     <span>
                         <a href="#" data-trigger="re-activate-extension" data-id="${
                             extension.id
-                        }" title="Reset"><i class="fa fa-refresh text-success m-r-5"></i></a>&nbsp;
+                        }" title="Reset"><i class="fa fa-refresh text-success m-r-5 fa-action"></i></a>&nbsp;
                         <a href="#" data-trigger="delete-extension" data-id="${
                             extension.id
-                        }" title="Delete"><i class="fa fa-trash text-danger"></i></a>
+                        }" title="Delete"><i class="fa fa-trash text-danger fa-action"></i></a>
                     </span>
                 </td>
             </tr>

@@ -84,7 +84,7 @@
                                                                     data-transcription="{{ $communication['transcriptions'] }}"
 
                                                                 >
-                                                                    <i class="fa-regular fa-file-lines"></i>
+                                                                    <i class="fa-regular fa-file-lines fa-action"></i>
                                                                 </a>&nbsp;
                                                                 
                                                                 <a 
@@ -93,7 +93,7 @@
                                                                     data-trigger="recording"
                                                                     data-recording-url="{{ $communication['recording_url_axocall'] ? asset($communication['recording_url_axocall']) : '' }}"
                                                                 >
-                                                                    <i class="fa-regular fa-circle-play"></i>
+                                                                    <i class="fa-regular fa-circle-play fa-action"></i>
                                                                 </a>&nbsp;
                                                                 
                                                                 <a 
@@ -103,7 +103,7 @@
                                                                     data-id="{{ $communication['id'] }}"
                                                                     data-notes="{{ htmlspecialchars($communication['notes'] ?? '', ENT_QUOTES) }}"
                                                                 >
-                                                                    <i class="fa-regular fa-note-sticky"></i>
+                                                                    <i class="fa-regular fa-note-sticky fa-action"></i>
                                                                 </a>
 
                                                             </td>
@@ -114,7 +114,7 @@
                                                                     data-type="communication"
                                                                     data-category="{{ $communication['category'] }}"
                                                                 >
-                                                                    <i class="fa-regular fa-flag"></i>
+                                                                    <i class="fa-regular fa-flag fa-action"></i>
                                                                 </a>
                                                                 &nbsp;
                                                                 <a 
@@ -123,7 +123,7 @@
                                                                     data-type="communication"
                                                                     data-category="{{ $communication['category'] }}"
                                                                 >
-                                                                    <i class="fa-regular fa-archive"></i>
+                                                                    <i class="fa-regular fa-archive fa-action"></i>
                                                                 </a>
                                                             </td>
                                                             
@@ -173,7 +173,7 @@
                                                             <a href="javascript:void(0)" 
                                                             class="text-warning svg-icon view-message"
                                                             data-message="{{ $message->message_body }}">
-                                                                <i class="fa-regular fa-note-sticky"></i>
+                                                                <i class="fa-regular fa-note-sticky fa-action"></i>
                                                             </a>&nbsp;
 
                                                             <a 
@@ -182,7 +182,7 @@
                                                                 data-type="message"
                                                                 data-category="{{ $message->category }}"
                                                             >
-                                                                <i class="fa-regular fa-flag"></i>
+                                                                <i class="fa-regular fa-flag fa-action"></i>
                                                             </a>
                                                             &nbsp;
                                                             <a 
@@ -191,7 +191,7 @@
                                                                 data-type="message"
                                                                 data-category="{{ $message->category }}"
                                                             >
-                                                                <i class="fa-regular fa-archive"></i>
+                                                                <i class="fa-regular fa-archive fa-action"></i>
                                                             </a>
                                                             
                                                         </td>
@@ -291,7 +291,7 @@
                                                                     data-transcription="{{ $communication['transcriptions'] }}"
 
                                                                 >
-                                                                    <i class="fa-regular fa-file-lines"></i>
+                                                                    <i class="fa-regular fa-file-lines fa-action"></i>
                                                                 </a>&nbsp;
                                                                 
                                                                 <a 
@@ -300,7 +300,7 @@
                                                                     data-trigger="recording"
                                                                     data-recording-url="{{ $communication['recording_url_axocall'] ? asset($communication['recording_url_axocall']) : '' }}"
                                                                 >
-                                                                    <i class="fa-regular fa-circle-play"></i>
+                                                                    <i class="fa-regular fa-circle-play fa-action"></i>
                                                                 </a>&nbsp;
                                                                 
                                                                 <a 
@@ -310,7 +310,7 @@
                                                                     data-id="{{ $communication['id'] }}"
                                                                     data-notes="{{ htmlspecialchars($communication['notes'] ?? '', ENT_QUOTES) }}"
                                                                 >
-                                                                    <i class="fa-regular fa-note-sticky"></i>
+                                                                    <i class="fa-regular fa-note-sticky fa-action"></i>
                                                                 </a>
 
                                                             </td>
@@ -321,7 +321,7 @@
                                                                     data-type="communication"
                                                                     data-category="{{ $communication['category'] }}"
                                                                 >
-                                                                    <i class="fa-regular fa-undo"></i>
+                                                                    <i class="fa-regular fa-undo fa-action"></i>
                                                                 </a>
                                                             </td>
                                                             
@@ -376,7 +376,7 @@
                                                                 data-type="message"
                                                                 data-category="{{ $message['category'] }}"
                                                             >
-                                                                <i class="fa-regular fa-undo"></i>
+                                                                <i class="fa-regular fa-undo fa-action"></i>
                                                             </a>
                                                             
                                                         </td>

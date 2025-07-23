@@ -470,3 +470,8 @@ input[type="file"]::file-selector-button {
     cursor: pointer;
     transition: background 0.2s;
 }
+
+.fa-action:hover {
+    transform: scale(1.2);
+    transition: transform 0.2s;
+}

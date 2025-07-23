@@ -66,7 +66,7 @@ function _renderContacts(contacts) {
                     <span>
                         <a href="#" data-trigger="delete-contact" data-id="${
                             contact.id
-                        }" title="Delete"><i class="fa fa-trash text-danger"></i></a>
+                        }" title="Delete"><i class="fa fa-trash text-danger fa-action"></i></a>
                     </span>
                 </td>
             </tr>

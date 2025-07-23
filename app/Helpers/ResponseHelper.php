@@ -80,9 +80,7 @@ class ResponseHelper {
                 $script = "_applyTheme('".$data['theme']."');";
                 break;
             case 'users':
-                $script = "
-                    $('.users-table tbody').html('".preg_replace('/\s+/', ' ', $this->usersResponse($data))."');
-                ";
+                $script = "$('.users-table tbody').html('".preg_replace('/\s+/', ' ', $this->usersResponse($data))."');";
                 break;
         }
 
@@ -104,16 +102,16 @@ class ResponseHelper {
                     <td>'.($user['status'] == 'active' ? 'Active' : 'Inactive').'</td>
                     <td>
                         <a href="javascript:void(0)" class="text-success mr-2" data-trigger="edit-user" data-id="'.$user['id'].'" title="Edit User">
-                            <i class="fa fa-edit"></i>
+                            <i class="fa fa-edit fa-action"></i>
                         </a>
                         <a href="javascript:void(0)" class="text-info mr-2" data-trigger="edit-permissions" data-id="'.$user['id'].'" title="Edit Permissions">
-                            <i class="fa fa-cog"></i>
+                            <i class="fa fa-cog fa-action"></i>
                         </a>
                         <a href="javascript:void(0)" class="text-primary mr-2" data-trigger="reset-password" data-id="'.$user['id'].'" title="Reset Password">
-                            <i class="fa fa-user-lock"></i>
+                            <i class="fa fa-user-lock fa-action"></i>
                         </a>
                         <a href="javascript:void(0)" class="text-danger" data-trigger="delete-user" data-id="'.$user['id'].'" title="Block User">
-                            <i class="fa fa-user-times"></i>
+                            <i class="fa fa-user-times fa-action"></i>
                         </a>
                     </td>
                 </tr>';

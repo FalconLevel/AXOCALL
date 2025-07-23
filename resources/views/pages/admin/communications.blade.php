@@ -87,37 +87,37 @@
                                                             data-id="{{ $communication['id'] }}"
                                                             data-transcription="{{ $communication['transcriptions'] }}"
                                                         >
-                                                            <i class="fa-regular fa-file-lines"></i>
+                                                            <i class="fa-regular fa-file-lines fa-action"></i>
                                                         </a>&nbsp;
                                                         
                                                         <a 
                                                             href="javascript:void(0)" 
-                                                            class="text-info svg-icon"
+                                                            class="text-info svg-icon fa-action"
                                                             data-trigger="recording"
                                                             data-recording-url="{{ $communication['recording_url_axocall'] ? asset($communication['recording_url_axocall']) : '' }}"
                                                         >
-                                                            <i class="fa-regular fa-circle-play"></i>
+                                                            <i class="fa-regular fa-circle-play fa-action"></i>
                                                         </a>&nbsp;
                                                         
                                                         <a 
                                                             href="javascript:void(0)" 
-                                                            class="text-warning svg-icon btn-edit-notes"
+                                                            class="text-warning svg-icon btn-edit-notes fa-action"
                                                             title="Edit Notes"
                                                             data-id="{{ $communication['id'] }}"
                                                             data-notes="{{ htmlspecialchars($communication['notes'] ?? '', ENT_QUOTES) }}"
                                                         >
-                                                            <i class="fa-regular fa-note-sticky"></i>
+                                                            <i class="fa-regular fa-note-sticky fa-action"></i>
                                                         </a>
 
                                                     </td>
                                                     <td class="text-center">
                                                         @if($communication['category'] == null)
-                                                            <a href="javascript:void(0)" class="text-light svg-icon" data-trigger="follow-up" data-id="{{ $communication['id'] }}" data-type="communication">
-                                                                <i class="fa-regular fa-flag"></i>
+                                                            <a href="javascript:void(0)" class="text-light svg-icon fa-action" data-trigger="follow-up" data-id="{{ $communication['id'] }}" data-type="communication">
+                                                                <i class="fa-regular fa-flag fa-action"></i>
                                                             </a>
                                                         @elseif($communication['category'] == 'follow-up')
                                                             <a href="javascript:void(0)" class="text-primary svg-icon" data-trigger="follow-up" data-id="{{ $communication['id'] }}" data-type="communication">
-                                                                <i class="fa-regular fa-flag"></i>
+                                                                <i class="fa-regular fa-flag fa-action"></i>
                                                             </a>
                                                         @else
                                                             <a href="javascript:void(0)" class="text-info svg-icon">
@@ -188,15 +188,15 @@
                                                     <a href="javascript:void(0)" 
                                                        class="text-warning svg-icon view-message"
                                                        data-message="{{ $message->message_body }}">
-                                                        <i class="fa-regular fa-note-sticky"></i>
+                                                        <i class="fa-regular fa-note-sticky fa-action"></i>
                                                     </a>&nbsp;
                                                     @if($message->category == null)
                                                         <a href="javascript:void(0)" class="text-secondary svg-icon" data-trigger="follow-up" data-id="{{ $message->id }}" data-type="message">
-                                                            <i class="fa-regular fa-flag"></i>
+                                                            <i class="fa-regular fa-flag fa-action"></i>
                                                         </a>
                                                     @elseif($message->category == 'follow-up')
                                                         <a href="javascript:void(0)" class="text-primary svg-icon" data-trigger="follow-up" data-id="{{ $message->id }}" data-type="message">
-                                                            <i class="fa-regular fa-flag"></i>
+                                                            <i class="fa-regular fa-flag fa-action"></i>
                                                         </a>
                                                     @else   
                                                         <a href="javascript:void(0)" class="text-success svg-icon">
