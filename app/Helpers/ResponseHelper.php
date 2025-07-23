@@ -114,9 +114,6 @@ class ResponseHelper {
                     <td>'.ucfirst(strtolower($user['role'])).'</td>
                     <td>'.($user['status'] == 'active' ? 'Active' : ($user['status'] == 'blocked' ? 'Blocked' : 'Inactive')).'</td>
                     <td>
-                        <a href="javascript:void(0)" class="text-warning mr-2" data-trigger="edit-user" data-id="'.$user['id'].'" title="Edit User">
-                            <i class="fa fa-edit fa-action"></i>
-                        </a>
                         <a href="javascript:void(0)" class="text-info mr-2" data-trigger="edit-permissions" data-id="'.$user['id'].'" title="Edit Permissions">
                             <i class="fa fa-cog fa-action"></i>
                         </a>

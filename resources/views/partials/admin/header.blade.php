@@ -87,9 +87,9 @@
                         <li class="icons">
                             <a href="javascript:void(0)" data-action="toggle-theme">
                                 @if ($theme == 'light')
-                                    <i class="fa fa-moon text-secondary"></i>
+                                    <i class="fa fa-moon text-secondary fa-action"></i>
                                 @else
-                                    <i class="fa fa-sun text-warning"></i>
+                                    <i class="fa fa-sun text-warning fa-action"></i>
                                 @endif
                             </a>
                         </li>

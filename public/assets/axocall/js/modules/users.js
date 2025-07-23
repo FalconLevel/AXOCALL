@@ -13,9 +13,6 @@ function _init_actions() {
     $("[data-trigger").on("click", function () {
         let trigger = $(this).data("trigger");
         switch (trigger) {
-            case "edit-user":
-                _editUser($(this).data("id"));
-                break;
             case "edit-permissions":
                 _editPermissions($(this).data("id"));
                 break;
@@ -33,10 +30,6 @@ function _init_actions() {
 }
 
 function _editUser(id) {
-    console.log(id);
-}
-
-function _editPermissions(id) {
     console.log(id);
 }
 

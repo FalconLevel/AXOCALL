@@ -3,29 +3,29 @@
         <ul class="metismenu" id="menu">
             <li>
                 <a href="{{ route('admin.dashboard') }}" aria-expanded="false">
-                    <i class="fa-solid fa-gauge menu-icon"></i><span class="nav-text">Dashboard</span>
+                    <i class="fa-solid fa-gauge menu-icon fa-action"></i><span class="nav-text">Dashboard</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.contacts') }}" aria-expanded="false">
-                    <i class="fa-solid fa-users menu-icon"></i><span class="nav-text">Contacts</span>
+                    <i class="fa-solid fa-users menu-icon fa-action"></i><span class="nav-text">Contacts</span>
                 </a>            
             </li>
             <li>
                 <a href="{{ route('admin.extensions') }}" aria-expanded="false">
-                    <i class="fa-regular fa-address-book menu-icon"></i><span class="nav-text">Extensions</span>
+                    <i class="fa-regular fa-address-book menu-icon fa-action"></i><span class="nav-text">Extensions</span>
                 </a>
             </li>
             <li>
                 <a href="{{ route('admin.communications') }}" aria-expanded="false">
-                    <i class="fa-solid fa-phone menu-icon"></i><span class="nav-text">Communications</span>
+                    <i class="fa-solid fa-phone menu-icon fa-action"></i><span class="nav-text">Communications</span>
                 </a>
             </li>
             
             
             <li>
                 <a href="{{ route('admin.follow_ups') }}" aria-expanded="false">
-                    <i class="far fa-flag menu-icon"></i><span class="nav-text">Follow Up</span>
+                    <i class="far fa-flag menu-icon fa-action"></i><span class="nav-text">Follow Up</span>
                 </a>
             </li>
             {{-- <li>

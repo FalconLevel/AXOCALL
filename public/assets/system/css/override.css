@@ -472,8 +472,8 @@ input[type="file"]::file-selector-button {
 }
 
 .fa-action:hover {
-    transform: scale(1.2);
-    transition: transform 0.2s;
+    transform: scale(1.2) !important;
+    transition: transform 0.2s !important;
 }
 
 #system-loader {
@@ -482,4 +482,10 @@ input[type="file"]::file-selector-button {
     z-index: 999999999999 !important;
     opacity: 0.5 !important;
     position: absolute !important;
+}
+
+.dataTables_wrapper input,
+.dataTables_wrapper select {
+    height: 40px !important;
+    border-radius: 0 !important;
 }
