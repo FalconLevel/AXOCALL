@@ -48,6 +48,7 @@ Route::middleware(['auth', 'token_validator', 'revalidate_back_history'])->group
         Route::get('/profile', [ModuleController::class, 'profile'])->name('maintenance.profile');
 
         Route::get('/users', [ModuleController::class, 'users'])->name('maintenance.users');
+        Route::get('/users/roles', [ModuleController::class, 'roles'])->name('maintenance.users.roles');
     });
     Route::group(['prefix' => 'executor'], function () {
         

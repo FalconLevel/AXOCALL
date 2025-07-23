@@ -105,7 +105,7 @@
     <div class="d-flex justify-content-end align-middle border-bottom">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
-                <button type="button" class="btn ml-1  btn-flat btn-outline-primary" data-trigger="add-role" data-modal="role-modal">
+                <button type="button" class="btn ml-1  btn-flat btn-outline-primary" data-trigger="add-role" data-url="/maintenance/users/roles">
                     <i class="fa fa-user-cog"></i>
                     Add Role
                 </button>

@@ -96,4 +96,11 @@ class ModuleController extends Controller
         return view('pages.admin.maintenance.users', $this->data);
     }
 
+    public function roles() {
+        $this->data['title'] = 'Role Maintenance';
+        $this->data['description'] = 'Manage your roles and their permissions.';
+        $this->data['panel_type'] = 'roles';
+        return view('pages.admin.maintenance.roles', $this->data);
+    }
+
 }

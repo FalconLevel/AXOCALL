@@ -13,8 +13,8 @@ function _init_actions() {
     $("[data-trigger").on("click", function () {
         let trigger = $(this).data("trigger");
         switch (trigger) {
-            case "edit-permissions":
-                _editPermissions($(this).data("id"));
+            case "add-role":
+                location = $(this).attr("data-url");
                 break;
             case "reset-password":
                 _resetPassword($(this).data("id"));
@@ -27,10 +27,6 @@ function _init_actions() {
                 break;
         }
     });
-}
-
-function _editUser(id) {
-    console.log(id);
 }
 
 function _resetPassword(id) {

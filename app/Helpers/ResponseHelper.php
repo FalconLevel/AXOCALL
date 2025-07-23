@@ -111,7 +111,7 @@ class ResponseHelper {
                 $html .= '<tr>
                     <td>'.ucfirst(strtolower($user['first_name'])).' '.ucfirst(strtolower($user['last_name'])).'</td>
                     <td>'.$user['email'].'</td>
-                    <td>'.ucfirst(strtolower($user['role'])).'</td>
+                    <td>'.($user['role'] ? ucfirst(strtolower($user['role']->role)) : '-').'</td>
                     <td>'.($user['status'] == 'active' ? 'Active' : ($user['status'] == 'blocked' ? 'Blocked' : 'Inactive')).'</td>
                     <td>
                         <a href="javascript:void(0)" class="text-info mr-2" data-trigger="edit-permissions" data-id="'.$user['id'].'" title="Edit Permissions">

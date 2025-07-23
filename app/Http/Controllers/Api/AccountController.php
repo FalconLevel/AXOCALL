@@ -134,7 +134,8 @@ class AccountController extends Controller
 
     public function getUsers() {
         try {
-            $users = User::all();
+            $users = User::with('role')->get();
+            
             return response()->json([
                 'status' => true,
                 'message' => 'Users fetched successfully',

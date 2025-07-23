@@ -51,4 +51,8 @@ class User extends Authenticatable
     {
         return $this->hasOne(Theme::class, 'user_id', 'id');
     }
+
+    public function role() {
+        return $this->belongsTo(Role::class, 'role', 'role');
+    }
 }
