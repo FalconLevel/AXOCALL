@@ -171,4 +171,69 @@ class AccountController extends Controller
             return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
         }
     }
+
+    public function resetPassword(Request $request) {
+        try {
+            $response = apiHelper()->execute($request, '/api/account/reset-password');
+            
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse( 
+                'toast',
+                'success',
+                '',
+                $response['message'],
+                'System Info',
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
+    public function blockUser(Request $request) {
+        try {
+            $response = apiHelper()->execute($request, '/api/account/block-user');
+            
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse( 
+                'scripts',
+                'success',
+                'block-user',
+                $response['message'],
+                'System Info',
+                $response['data'] ?? []
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
+    public function activateUser(Request $request) {
+        try {
+            $response = apiHelper()->execute($request, '/api/account/activate-user');
+
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse( 
+                'scripts',
+                'success',
+                'activate-user',
+                $response['message'],
+                'System Info',
+                $response['data'] ?? []
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        } 
+    }
 }

@@ -27,6 +27,9 @@ Route::prefix('account')->group(function () {
     Route::prefix('account')->group(function () {
         Route::post('/logout', [AccountController::class, 'logout']);
         Route::post('/get-users', [AccountController::class, 'getUsers']);
+        Route::post('/reset-password', [AccountController::class, 'resetPassword']);
+        Route::post('/block-user', [AccountController::class, 'blockUser']);
+        Route::post('/activate-user', [AccountController::class, 'activateUser']);
     });
 
     Route::prefix('dashboard')->group(function () {

@@ -26,6 +26,7 @@ use Illuminate\Support\Facades\Auth;
 use Symfony\Component\CssSelector\Node\FunctionNode;
 use Twilio\Rest\Client;
 use GuzzleHttp\Client as GuzzleClient;
+use Illuminate\Support\Str;
 
 class GlobalHelper {
 
@@ -424,7 +425,7 @@ class GlobalHelper {
     }
 
     public function getEmailDetails($type, $data=[]) {
-        
+
         switch ($type) {
             case 'otp':
                 $user_id = $data['id'];
@@ -434,6 +435,12 @@ class GlobalHelper {
                 return [
                     'subject' => 'OTP Verification - AxoCall',
                     'view' => 'mail.otp',
+                    'data' => $data,
+                ];
+            case 'reset_password':
+                return [
+                    'subject' => 'Reset Password - AxoCall',
+                    'view' => 'mail.reset_password',
                     'data' => $data,
                 ];
             default:
@@ -554,6 +561,15 @@ class GlobalHelper {
         } catch (\Exception $e) {
             logInfo($e->getMessage());
             return 'light';
+        }
+    }
+
+    public function generatePassword() {
+        try {
+            return Str::password(8, true,true,true,false);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return '';
         }
     }
 }

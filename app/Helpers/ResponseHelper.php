@@ -80,8 +80,14 @@ class ResponseHelper {
                 $script = "_applyTheme('".$data['theme']."');";
                 break;
             case 'users':
-                $script = "$('.users-table tbody').html('".preg_replace('/\s+/', ' ', $this->usersResponse($data))."');";
+                $script = "$('.users-table tbody').html('".preg_replace('/\s+/', ' ', $this->usersResponse($data))."'); _init_actions();";
                 break;
+            case 'block-user':
+                $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."'); _fetchUsers();";
+                break;
+            case 'activate-user':
+                $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."'); _fetchUsers();";
+                break;  
         }
 
         return ['js' => $script];
@@ -95,24 +101,29 @@ class ResponseHelper {
         $html = '';
         if ($data) {
             foreach ($data as $user) {
+                $user_status_action = ($user['status'] == 'blocked') ? 
+                    '<a href="javascript:void(0)" class="text-success" data-trigger="activate-user" data-id="'.$user['id'].'" title="Activate User">
+                            <i class="fa fa-user-check fa-action"></i>
+                    </a>': 
+                    '<a href="javascript:void(0)" class="text-danger" data-trigger="block-user" data-id="'.$user['id'].'" title="Block User">
+                            <i class="fa fa-user-times fa-action"></i>
+                    </a>';
                 $html .= '<tr>
-                    <td>'.$user['first_name'].' '.$user['last_name'].'</td>
+                    <td>'.ucfirst(strtolower($user['first_name'])).' '.ucfirst(strtolower($user['last_name'])).'</td>
                     <td>'.$user['email'].'</td>
-                    <td>'.$user['role'].'</td>
-                    <td>'.($user['status'] == 'active' ? 'Active' : 'Inactive').'</td>
+                    <td>'.ucfirst(strtolower($user['role'])).'</td>
+                    <td>'.($user['status'] == 'active' ? 'Active' : ($user['status'] == 'blocked' ? 'Blocked' : 'Inactive')).'</td>
                     <td>
-                        <a href="javascript:void(0)" class="text-success mr-2" data-trigger="edit-user" data-id="'.$user['id'].'" title="Edit User">
+                        <a href="javascript:void(0)" class="text-warning mr-2" data-trigger="edit-user" data-id="'.$user['id'].'" title="Edit User">
                             <i class="fa fa-edit fa-action"></i>
                         </a>
                         <a href="javascript:void(0)" class="text-info mr-2" data-trigger="edit-permissions" data-id="'.$user['id'].'" title="Edit Permissions">
                             <i class="fa fa-cog fa-action"></i>
                         </a>
                         <a href="javascript:void(0)" class="text-primary mr-2" data-trigger="reset-password" data-id="'.$user['id'].'" title="Reset Password">
-                            <i class="fa fa-user-lock fa-action"></i>
+                            <i class="fa fa-key fa-action"></i>
                         </a>
-                        <a href="javascript:void(0)" class="text-danger" data-trigger="delete-user" data-id="'.$user['id'].'" title="Block User">
-                            <i class="fa fa-user-times fa-action"></i>
-                        </a>
+                        '.$user_status_action.'
                     </td>
                 </tr>';
             }

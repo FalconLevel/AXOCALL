@@ -2,12 +2,14 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\AxocallEnum;
 use App\Http\Controllers\Controller;
 use App\Mail\AxoMailer;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 
 class AccountController extends Controller
@@ -146,4 +148,70 @@ class AccountController extends Controller
             ], 500);
         }
     }
+
+    public function resetPassword(Request $request) {
+        try {
+            $user = User::find($request->id);
+            $new_password = globalHelper()->generatePassword();
+            $emailDetails = globalHelper()->getEmailDetails('reset_password', ['new_password' => $new_password]);
+            $emailDetails['data']['first_name'] = $user->first_name;
+            
+            Mail::to("$user->email")->send(new AxoMailer($emailDetails));
+            
+            $user->password = Hash::make($new_password);
+            $user->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Password reset successfully',
+            ], 200);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function blockUser(Request $request) {
+        try { 
+            $user = User::find($request->id);
+            $user->status = AxocallEnum::USER_STATUS_BLOCKED->label();
+            $user->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User blocked successfully',
+                'data' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }   
+
+    public function activateUser(Request $request) {
+        try {
+            $user = User::find($request->id);
+            $user->status = AxocallEnum::USER_STATUS_ACTIVE->label();
+            $user->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User activated successfully',
+                'data' => $user,
+            ], 200);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }   
+
 }

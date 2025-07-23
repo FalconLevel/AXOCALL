@@ -54,6 +54,9 @@ Route::middleware(['auth', 'token_validator', 'revalidate_back_history'])->group
         Route::group(['prefix' => 'account'], function () {
             Route::post('/logout', [AccountController::class, 'logout'])->name('account.logout');
             Route::post('/get-users', [AccountController::class, 'getUsers'])->name('account.get-users');
+            Route::post('/reset-password', [AccountController::class, 'resetPassword'])->name('account.reset-password');
+            Route::post('/block-user', [AccountController::class, 'blockUser'])->name('account.block-user');    
+            Route::post('/activate-user', [AccountController::class, 'activateUser'])->name('account.activate-user');
         });
 
         Route::group(['prefix' => 'tags'], function () {

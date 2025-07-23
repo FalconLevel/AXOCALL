@@ -475,3 +475,11 @@ input[type="file"]::file-selector-button {
     transform: scale(1.2);
     transition: transform 0.2s;
 }
+
+#system-loader {
+    width: 100vw;
+    height: 100vh;
+    z-index: 999999999999 !important;
+    opacity: 0.5 !important;
+    position: absolute !important;
+}

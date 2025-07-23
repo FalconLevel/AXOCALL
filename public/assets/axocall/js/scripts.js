@@ -32,12 +32,16 @@ function ajaxRequest(sUrl = "", sData = "", sLoadParent = "") {
         type: "POST",
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         data: sData,
-        beforeSend: function () {},
+        beforeSend: function () {
+            $("#system-loader").show();
+        },
         success: function (result) {
+            $("#system-loader").fadeOut(500);
             console.log(result);
             eval(result.js);
         },
         error: function (e) {
+            $("#system-loader").fadeOut(500);
             console.log(e);
 
             _show_toastr(
@@ -59,14 +63,15 @@ function ajaxSubmit(sUrl = "", sFormData = "", sLoadParent = "") {
         processData: false,
         contentType: false,
         beforeSend: function () {
-            $(".div-loader").show();
+            $("#system-loader").show();
         },
         success: function (result) {
-            $(".div-loader").hide();
+            $("#system-loader").fadeOut(500);
             console.log(result);
             eval(result.js);
         },
         error: function (e) {
+            $("#system-loader").fadeOut(500);
             console.log(e);
             _show_toastr(
                 "error",
