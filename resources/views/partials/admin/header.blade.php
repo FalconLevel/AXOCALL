@@ -134,6 +134,12 @@
                     <p class="module-description">{{ $description }}</p>
                 </div>
                 <div class="col-6">
-                    <x-right-panel xtype='{{ $panel_type }}'/>
+                    @include('components.right-panel')
+                    {{-- <x-right-panel 
+                        xtype='{{ $panel_type }}'
+                        xread='{{ $permissions[$panel_type]['read']  ?? false }}'
+                        xwrite='{{ $permissions[$panel_type]['edit']  ?? false }}'
+                        xdelete='{{ $permissions[$panel_type]['delete']  ?? false }}'
+                    /> --}}
                 </div>
             </div>

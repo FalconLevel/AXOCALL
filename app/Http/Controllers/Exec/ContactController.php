@@ -40,7 +40,8 @@ class ContactController extends Controller
             }
 
             return response()->json([
-                'data' => $data
+                'data' => $data,
+                'permissions' => globalHelper()->getPermissions()['contacts'],
             ]);
            
             

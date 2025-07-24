@@ -25,7 +25,8 @@ class ExtensionController extends Controller
 
         return response()->json([
             'status' => 'success',
-            'data' => $extensions
+            'data' => $extensions,
+            'permissions' => globalHelper()->getPermissions()['extensions'],
         ]);
     }
 

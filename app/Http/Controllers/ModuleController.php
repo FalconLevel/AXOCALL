@@ -17,9 +17,11 @@ class ModuleController extends Controller
     public function __construct() {
         $this->data = [];
         $this->data['theme'] = globalHelper()->getTheme();
+        $this->data['permissions'] = globalHelper()->getPermissions();
     }
 
     public function dashboard() {
+        
         $this->data['title'] = 'Dashboard Overview';
         $this->data['description'] = "Welcome back! Here's what's happening with your communications.";
         $this->data['panel_type'] = 'dashboard';
@@ -92,7 +94,7 @@ class ModuleController extends Controller
     public function users() {
         $this->data['title'] = 'User Maintenance';
         $this->data['description'] = 'Manage your users and their permissions.';
-        $this->data['panel_type'] = 'users';
+        $this->data['panel_type'] = 'user_management';
         $this->data['roles'] = globalHelper()->getRoles();
         return view('pages.admin.maintenance.users', $this->data);
     }

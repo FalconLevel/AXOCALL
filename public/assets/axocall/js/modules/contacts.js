@@ -10,7 +10,7 @@ function _fetchContacts() {
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
             if (res.status === "success") {
-                _renderContacts(res.data);
+                _renderContacts(res.data, res.permissions);
             } else {
                 _show_toastr(
                     "error",
@@ -26,7 +26,7 @@ function _fetchContacts() {
     });
 }
 
-function _renderContacts(contacts) {
+function _renderContacts(contacts, permissions) {
     let tbody = $(".table tbody");
     tbody.empty();
     if (!contacts || contacts.length === 0) {
@@ -62,13 +62,16 @@ function _renderContacts(contacts) {
                 <td class="d-flex flex-wrap align-items-center">${tags}</td>
                 <td>${contact.notes || ""}</td>
                 <td>${_format_date(contact.created_at) || ""}</td>
-                <td>
-                    <span>
-                        <a href="#" data-trigger="delete-contact" data-id="${
-                            contact.id
-                        }" title="Delete"><i class="fa fa-trash text-danger fa-action"></i></a>
-                    </span>
-                </td>
+                ${
+                    permissions.delete
+                        ? `<td>
+                            <span>
+                                <a href="#" data-trigger="delete-contact" data-id="${contact.id}" title="Delete"><i class="fa fa-trash text-danger fa-action"></i></a>
+                            </span>
+                        </td>`
+                        : ""
+                }
+                
             </tr>
         `);
     });

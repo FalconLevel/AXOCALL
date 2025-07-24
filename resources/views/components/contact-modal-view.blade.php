@@ -7,8 +7,9 @@
                         <h5 class="modal-title">View Contact</h5>
                         <p class="modal-description">Contact details and assigned extension.</p>
                     </div>
-                    
-                    <a href="#" data-trigger="edit-contact-view" data-id="" title="Edit"><i class="fa fa-pencil text-info m-r-5"></i></a>
+                    @if ($permissions['contacts']['edit'])
+                        <a href="#" data-trigger="edit-contact-view" data-id="" title="Edit"><i class="fa fa-pencil text-info m-r-5"></i></a>
+                    @endif
                 </div>
                 <div class="modal-body">
                     <div class="card shadow-sm">

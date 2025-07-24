@@ -20,7 +20,7 @@ function _fetchExtensions() {
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
             if (res.status === "success") {
-                _renderExtensions(res.data);
+                _renderExtensions(res.data, res.permissions);
             } else {
                 _show_toastr(
                     "error",
@@ -35,7 +35,7 @@ function _fetchExtensions() {
     });
 }
 
-function _renderExtensions(extensions) {
+function _renderExtensions(extensions, permissions) {
     let tbody = $(".extensions-table tbody");
     tbody.empty();
     // if (!extensions || extensions.length === 0) {
@@ -46,7 +46,7 @@ function _renderExtensions(extensions) {
         tbody.append(`
             <tr data-id="${
                 extension.id
-            }" class="cursor-pointer" data-trigger="edit-extension" data-id="${extension.id}">
+            }" class="cursor-pointer" ${permissions.edit ? `data-trigger="edit-extension" data-id="${extension.id}"` : ""}>
                 <td>${
                     extension.contact.first_name.charAt(0).toUpperCase() +
                     extension.contact.first_name.slice(1)
@@ -64,9 +64,11 @@ function _renderExtensions(extensions) {
                         <a href="#" data-trigger="re-activate-extension" data-id="${
                             extension.id
                         }" title="Reset"><i class="fa fa-refresh text-success m-r-5 fa-action"></i></a>&nbsp;
-                        <a href="#" data-trigger="delete-extension" data-id="${
-                            extension.id
-                        }" title="Delete"><i class="fa fa-trash text-danger fa-action"></i></a>
+                        ${
+                            permissions.delete
+                                ? `<a href="#" data-trigger="delete-extension" data-id="${extension.id}" title="Delete"><i class="fa fa-trash text-danger fa-action"></i></a>`
+                                : ""
+                        }
                     </span>
                 </td>
             </tr>

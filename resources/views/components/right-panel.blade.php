@@ -1,4 +1,4 @@
-@if($xtype == 'dashboard')
+@if($panel_type == 'dashboard')
     <ul class="nav nav-pills mb-3 justify-content-end">
         <li class="nav-item">
             <input class="form-control form-control-xs input-daterange-datepicker" type="text" name="daterange" value="">
@@ -8,8 +8,9 @@
             <button type="button" class="btn ml-1 mb-1 btn-flat btn-outline-danger" data-trigger="export-dashboard">Export Report</button>
         </li>
     </ul>
-@elseif($xtype == 'contacts')
+@elseif($panel_type == 'contacts')
     <div class="d-flex justify-content-end align-middle">
+
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
                 <button type="button" class="btn ml-1 btn-flat btn-outline-danger" data-trigger="export-contacts">
@@ -17,15 +18,18 @@
                     Export
                 </button>
             </li>
-            <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-flat  btn-outline-primary" data-trigger="modal"  data-modal="{{$xtype}}">
-                    <i class="fa fa-user-plus"></i>
-                    Add Contact
-                </button>
-            </li>
+            
+            @if ($permissions[$panel_type]['edit'])
+                <li class="nav-item">
+                    <button type="button" class="btn ml-1 btn-flat  btn-outline-primary" data-trigger="modal"  data-modal="{{$panel_type}}">
+                        <i class="fa fa-user-plus"></i>
+                        Add Contact
+                    </button>
+                </li>
+            @endauth
         </ul>
     </div>
-@elseif($xtype == 'extensions')
+@elseif($panel_type == 'extensions')
     <div class="d-flex justify-content-end align-middle border-bottom">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
@@ -34,15 +38,17 @@
                     Export
                 </button>
             </li>
-            <li class="nav-item">
-                <button type="button" class="btn ml-1 btn-flat btn-outline-primary" data-trigger="add-extension" data-modal="extension-modal">
-                    <i class="fa fa-user-plus"></i>
-                    Add Extension
-                </button>
-            </li>
+            @if ($permissions[$panel_type]['edit'])
+                <li class="nav-item">
+                    <button type="button" class="btn ml-1 btn-flat btn-outline-primary" data-trigger="add-extension" data-modal="extension-modal">
+                        <i class="fa fa-user-plus"></i>
+                        Add Extension
+                    </button>
+                </li>
+            @endif
         </ul>
     </div>
-@elseif($xtype == 'communications')
+@elseif($panel_type == 'communications')
     <div class="d-flex justify-content-end align-middle border-bottom">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
@@ -56,7 +62,7 @@
             </li>
         </ul>
     </div>
-@elseif($xtype == 'follow_ups')
+@elseif($panel_type == 'follow_ups')
     
     <ul class="nav nav-pills mb-3 justify-content-end align-middle">
         <li class="nav-item">
@@ -73,7 +79,8 @@
         </li>
     </ul>
     
-@elseif($xtype == 'users')
+@elseif($panel_type == 'user_management')
+{{ $panel_type }} 
     <div class="d-flex justify-content-end align-middle border-bottom">
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
@@ -84,7 +91,7 @@
             </li>
         </ul>
     </div>
-@elseif($xtype == 'roles')
+@elseif($panel_type == 'roles')
 <div class="d-flex justify-content-end align-middle border-bottom">
     <ul class="nav nav-pills mb-3 justify-content-end align-middle">
         <li class="nav-item">

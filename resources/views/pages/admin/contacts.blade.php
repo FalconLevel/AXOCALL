@@ -14,7 +14,10 @@
                                     <th>Tags</th>
                                     <th width="20%">Notes</th>
                                     <th width="15%">Date Created</th>
-                                    <th width="5%">Actions</th>
+                                    @if ($permissions['contacts']['delete'])
+                                        <th width="5%">Actions</th>
+                                    @endif
+                                    
                                 </tr>
                             </thead>
                             <tbody></tbody>
@@ -25,7 +28,6 @@
         </div>
     </div>
 </div>
-
 
 @include('components.contact-modal-edit')
 @include('components.contact-modal-add')
