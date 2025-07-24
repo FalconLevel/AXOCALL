@@ -93,6 +93,7 @@ class ModuleController extends Controller
         $this->data['title'] = 'User Maintenance';
         $this->data['description'] = 'Manage your users and their permissions.';
         $this->data['panel_type'] = 'users';
+        $this->data['roles'] = globalHelper()->getRoles();
         return view('pages.admin.maintenance.users', $this->data);
     }
 

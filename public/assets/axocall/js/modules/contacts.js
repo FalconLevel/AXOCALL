@@ -110,31 +110,45 @@ function _editContact(id) {
 }
 
 function _deleteContact(id) {
-    // if (!confirm("Are you sure you want to delete this contact?")) return;
-    $.ajax({
-        url: `/api/contacts/delete/${id}`,
-        method: "POST",
-        headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
-        success: function (res) {
-            if (res.status === "success") {
-                _show_toastr(
-                    "success",
-                    "Contact deleted successfully",
-                    "System Info"
-                );
-                _fetchContacts();
-            } else {
-                _show_toastr(
-                    "error",
-                    res.message || "Failed to delete contact",
-                    "System Error"
-                );
-            }
-        },
-        error: function () {
-            _show_toastr("error", "Failed to delete contact", "System Error");
-        },
-    });
+    _confirm(
+        "Are you sure you want to delete this contact?",
+        "This action cannot be undone. The contact and all associated data will be permanently removed.",
+        "warning",
+        "Yes, delete it",
+        true,
+        function () {
+            $.ajax({
+                url: `/api/contacts/delete/${id}`,
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
+                },
+                success: function (res) {
+                    if (res.status === "success") {
+                        _show_toastr(
+                            "success",
+                            "Contact deleted successfully",
+                            "System Info"
+                        );
+                        _fetchContacts();
+                    } else {
+                        _show_toastr(
+                            "error",
+                            res.message || "Failed to delete contact",
+                            "System Error"
+                        );
+                    }
+                },
+                error: function () {
+                    _show_toastr(
+                        "error",
+                        "Failed to delete contact",
+                        "System Error"
+                    );
+                },
+            });
+        }
+    );
 }
 
 function _populateContactModal(contact) {

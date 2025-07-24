@@ -3,40 +3,13 @@
         <li class="nav-item">
             <input class="form-control form-control-xs input-daterange-datepicker" type="text" name="daterange" value="">
         </li>
-        {{-- <li class="nav-item">
-            <a href="#" class="nav-link active" data-trigger="dashboard-today" data-toggle="tab" aria-expanded="false">
-                Today
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link" data-trigger="dashboard-week" data-toggle="tab" aria-expanded="false">
-                Week
-            </a>
-        </li>
-        <li class="nav-item">
-            <a href="#" class="nav-link" data-trigger="dashboard-all-time" data-toggle="tab" aria-expanded="false">
-                All Time
-            </a>
-        </li>
-        <li class="nav-item">
-            
-            <a href="#" class="nav-link" data-trigger="dashboard-custom" data-toggle="tab" aria-expanded="false">
-                
-                Custom
-            </a>
-            
-        </li> --}}
 
         <li class="nav-item">
-            {{-- <a href="#navpills-3" class="nav-link" data-toggle="tab" aria-expanded="true"> --}}
-                <button type="button" class="btn ml-1 mb-1 btn-flat btn-outline-danger" data-trigger="export-dashboard">Export Report</button>
-                
-            {{-- </a> --}}
+            <button type="button" class="btn ml-1 mb-1 btn-flat btn-outline-danger" data-trigger="export-dashboard">Export Report</button>
         </li>
     </ul>
 @elseif($xtype == 'contacts')
     <div class="d-flex justify-content-end align-middle">
-        {{-- <input type="text" class="form-control form-control-xs w-50" placeholder="Search Contact"> --}}
         <ul class="nav nav-pills mb-3 justify-content-end align-middle">
             <li class="nav-item">
                 <button type="button" class="btn ml-1 btn-flat btn-outline-danger" data-trigger="export-contacts">
@@ -81,25 +54,24 @@
                     Export
                 </button>
             </li>
-            
         </ul>
     </div>
 @elseif($xtype == 'follow_ups')
     
-        <ul class="nav nav-pills mb-3 justify-content-end align-middle">
-            <li class="nav-item">
-                <a href="#active" class="nav-link active text-center" data-toggle="tab" aria-expanded="false">
-                    <i class="fa fa-clock"></i>
-                    Active
-                </a>   
-            </li>
-            <li class="nav-item">
-                <a href="#archived" class="nav-link text-center" data-toggle="tab" aria-expanded="false">
-                    <i class="fa fa-archive"></i>
-                    Archived
-                </a>
-            </li>
-        </ul>
+    <ul class="nav nav-pills mb-3 justify-content-end align-middle">
+        <li class="nav-item">
+            <a href="#active" class="nav-link active text-center" data-toggle="tab" aria-expanded="false">
+                <i class="fa fa-clock"></i>
+                Active
+            </a>   
+        </li>
+        <li class="nav-item">
+            <a href="#archived" class="nav-link text-center" data-toggle="tab" aria-expanded="false">
+                <i class="fa fa-archive"></i>
+                Archived
+            </a>
+        </li>
+    </ul>
     
 @elseif($xtype == 'users')
     <div class="d-flex justify-content-end align-middle border-bottom">
@@ -107,9 +79,26 @@
             <li class="nav-item">
                 <button type="button" class="btn ml-1  btn-flat btn-outline-primary" data-trigger="add-role" data-url="/maintenance/users/roles">
                     <i class="fa fa-user-cog"></i>
-                    Add Role
+                    Roles
                 </button>
             </li>
         </ul>
     </div>
+@elseif($xtype == 'roles')
+<div class="d-flex justify-content-end align-middle border-bottom">
+    <ul class="nav nav-pills mb-3 justify-content-end align-middle">
+        <li class="nav-item">
+            <a href="/maintenance/users" class="btn ml-1 mr-1 btn-flat btn-outline-info">
+                <i class="fa fa-arrow-left"></i>
+                Users
+            </a>
+        </li>
+        <li class="nav-item">
+            <button type="button" class="btn ml-1  btn-flat btn-outline-primary" data-trigger="add-role">
+                <i class="fa fa-plus"></i>
+                Add Role
+            </button>
+        </li>
+    </ul>
+</div>
 @endif

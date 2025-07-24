@@ -87,7 +87,32 @@ class ResponseHelper {
                 break;
             case 'activate-user':
                 $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."'); _fetchUsers();";
-                break;  
+                break;
+            case 'update-user-role':
+                $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."'); _fetchUsers(); $('#user-role-modal').modal('hide');";
+                break;
+            case 'delete-role':
+                $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."'); _fetchRoles();";
+                break;
+            case 'update-role':
+            case 'save-role':
+                $script = "_show_toastr('".$toast_type."', '".$message."', '".$title."'); _fetchRoles(); $('#role-modal-add').modal('hide');";
+                break;
+            case 'roles':
+                $script = "$('.roles-table tbody').html('".preg_replace('/\s+/', ' ', $this->rolesResponse($data))."'); _init_actions();";
+                break;
+            case 'edit-role':
+                $script = "
+                    $('#add_role_name').val('".$data['role']."'); 
+                    $('#add_role_description').val('".$data['description']."');
+                    $('#role-modal-add input[type=\"checkbox\"][name^=\"permissions\"]').prop('checked', false);
+                    ".$this->permissionsResponse($data['permissions'])."
+                    $('#update-role-btn').attr('data-id', '".$data['id']."');
+                    $('#role-modal-add').modal('show');
+                    $('#save-role-btn').hide();
+                    $('#update-role-btn').show();";
+                break;
+            
         }
 
         return ['js' => $script];
@@ -111,11 +136,12 @@ class ResponseHelper {
                 $html .= '<tr>
                     <td>'.ucfirst(strtolower($user['first_name'])).' '.ucfirst(strtolower($user['last_name'])).'</td>
                     <td>'.$user['email'].'</td>
-                    <td>'.($user['role'] ? ucfirst(strtolower($user['role']->role)) : '-').'</td>
+                    <td>'.($user['role'] ? ucfirst(strtolower($user['role']['role'])) : '-').'</td>
                     <td>'.($user['status'] == 'active' ? 'Active' : ($user['status'] == 'blocked' ? 'Blocked' : 'Inactive')).'</td>
                     <td>
-                        <a href="javascript:void(0)" class="text-info mr-2" data-trigger="edit-permissions" data-id="'.$user['id'].'" title="Edit Permissions">
-                            <i class="fa fa-cog fa-action"></i>
+                        
+                        <a href="javascript:void(0)" class="text-success mr-2" data-trigger="edit-user-role" data-id="'.$user['id'].'" title="Edit Role">
+                            <i class="fa fa-user-tag fa-action"></i>
                         </a>
                         <a href="javascript:void(0)" class="text-primary mr-2" data-trigger="reset-password" data-id="'.$user['id'].'" title="Reset Password">
                             <i class="fa fa-key fa-action"></i>
@@ -126,5 +152,47 @@ class ResponseHelper {
             }
         }
         return $html;
+    }
+
+    private function rolesResponse(array $data): string {
+        $html = '';
+        if ($data) {
+            foreach ($data as $role) {
+                $html .= '<tr>
+                    <td>'.ucfirst(strtolower($role['role'])).'</td>
+                    <td>'.$role['description'].'</td>
+                    <td>
+                        <a 
+                            href="javascript:void(0)" 
+                            class="text-warning mr-2" 
+                            data-trigger="edit-role" 
+                            data-id="'.$role['id'].'" 
+                            title="Edit Role"
+                        >
+                            <i class="fa fa-edit fa-action"></i>
+                        </a>
+                        <a href="javascript:void(0)" class="text-danger mr-2" data-trigger="delete-role" data-id="'.$role['id'].'" title="Delete Role">
+                            <i class="fa fa-trash fa-action"></i>
+                        </a>
+                    </td>
+                </tr>';
+            }
+        }
+        return $html;
+    }
+
+    private function permissionsResponse(string $data): string {
+        $permissions = json_decode($data, true);
+        $scripts = '';
+        if ($permissions) {
+            foreach ($permissions as $menu => $permission) {
+                foreach ($permission as $action => $value) { 
+                $scripts .= "$(
+                        `#role-modal-add input[type=\"checkbox\"][name=\"permissions[$menu][$action]\"]`
+                    ).prop(\"checked\", $value == 1);";
+                }
+            }
+        }
+        return $scripts;
     }
 }

@@ -5,6 +5,7 @@ namespace App\Helpers;
 
 class KeysHelper {
     const KEYS = [
+        'ID' => 'id',
         'TagName' => 'tag_name',
         'TagColor' => 'tag_color',
 
@@ -57,6 +58,10 @@ class KeysHelper {
         'SmartCallbackHours' => 'hours',
         'SmartCallbackMinutes' => 'minutes',
         'Theme' => 'theme',
+
+        'Role' => 'role',
+        'Description' => 'description',
+        'Permissions' => 'permissions',
     ];
 
     public function getKey(string $key_index): string {

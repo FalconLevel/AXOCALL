@@ -58,6 +58,13 @@ Route::middleware(['auth', 'token_validator', 'revalidate_back_history'])->group
             Route::post('/reset-password', [AccountController::class, 'resetPassword'])->name('account.reset-password');
             Route::post('/block-user', [AccountController::class, 'blockUser'])->name('account.block-user');    
             Route::post('/activate-user', [AccountController::class, 'activateUser'])->name('account.activate-user');
+            
+            Route::post('/get-roles', [AccountController::class, 'getRoles'])->name('account.get-roles');
+            Route::post('/save-role', [AccountController::class, 'saveRole'])->name('account.save-role');
+            Route::post('/edit-role', [AccountController::class, 'editRole'])->name('account.edit-role');
+            Route::post('/update-role', [AccountController::class, 'updateRole'])->name('account.update-role');
+            Route::post('/delete-role', [AccountController::class, 'deleteRole'])->name('account.delete-role');
+            Route::post('/update-user-role', [AccountController::class, 'updateUserRole'])->name('account.update-user-role'); 
         });
 
         Route::group(['prefix' => 'tags'], function () {

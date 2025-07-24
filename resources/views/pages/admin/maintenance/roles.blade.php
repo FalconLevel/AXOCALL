@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="table-responsive">
-                <table class="table table-hover verticle-middle users-table" cellspacing="0">
+                <table class="table table-hover verticle-middle roles-table" cellspacing="0">
                     <thead>
                         <tr>
                             <th width="">Role</th>
@@ -17,4 +17,9 @@
         </div>       
     </div>
 </div>
+@include('components.role-modal-add')
+
+
 @include('partials.admin.footer')
+
+<script src="{{ asset('assets/axocall/js/modules/roles.js') }}"></script>

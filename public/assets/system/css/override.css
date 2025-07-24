@@ -440,6 +440,15 @@ input:checked + .slider:before {
             display: none !important;
         }
     }
+
+    .sweet-alert {
+        background-color: #27394f !important;
+        color: #ffffff !important;
+
+        .swal-title {
+            color: #ffffff !important;
+        }
+    }
 }
 
 input[type="file"] {

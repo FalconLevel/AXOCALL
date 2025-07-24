@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\AxocallEnum;
 use App\Http\Controllers\Controller;
 use App\Mail\AxoMailer;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
@@ -214,5 +215,153 @@ class AccountController extends Controller
             ], 500);
         }
     }   
+
+    public function saveRole(Request $request) {
+        try {
+            $validated = validatorHelper()->validate('account_save_role', $request);
+
+            if (!$validated['status']) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validated['response'],
+                ], 400);
+            }
+
+            $role = Role::create($validated['validated']);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Role saved successfully',
+                'data' => $role,
+            ], 200);
+            
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function getRoles() {
+        try {
+            $roles = Role::all();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Roles fetched successfully',
+                'data' => $roles,
+            ], 200);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function editRole(Request $request) {
+        try {
+            $role = Role::find($request->id);
+            
+            return response()->json([
+                'status' => true,
+                'message' => 'Role fetched successfully',
+                'data' => $role,
+            ], 200);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function updateRole(Request $request) {
+        try {
+            
+            $validated = validatorHelper()->validate('account_save_role', $request);
+            
+            if (!$validated['status']) {
+                return response()->json([
+                    'status' => false,
+                    'message' => $validated['response'],
+                ], 400);
+            }
+            
+            $role = Role::find($request->ID);
+            $role->update($validated['validated']);
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Role updated successfully',
+                'data' => $role,
+            ], 200);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function deleteRole(Request $request) {
+        try {
+            $role = Role::find($request->ID);
+            $role->delete();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'Role deleted successfully',
+            ], 200);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
+
+    public function updateUserRole(Request $request) {
+        try {
+            $user = User::find($request->user_id);
+            
+            if (!$user) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'User not found',
+                ], 404);
+            }
+
+            $role = Role::find($request->role_id);
+            
+            if (!$role) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Role not found',
+                ], 404);
+            }
+
+            $user->role = $role->role;
+            $user->save();
+
+            return response()->json([
+                'status' => true,
+                'message' => 'User role updated successfully',
+                'data' => $user->load('role'),
+            ], 200);
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return response()->json([
+                'status' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
+    }
 
 }

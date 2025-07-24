@@ -236,4 +236,135 @@ class AccountController extends Controller
             return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
         } 
     }
+
+    public function saveRole(Request $request) {
+        try {
+            $response = apiHelper()->execute($request, '/api/account/save-role');
+            
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse( 
+                'scripts',
+                'success',
+                'save-role',
+                $response['message'],
+                'System Info',
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
+    public function getRoles() {
+        try {
+            $response = apiHelper()->execute(new Request(), '/api/account/get-roles');
+
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse( 
+                'scripts',
+                'success',
+                'roles',
+                $response['message'],
+                'System Info',
+                $response['data']
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
+    public function editRole(Request $request) {
+        try {
+            $response = apiHelper()->execute($request, '/api/account/edit-role');
+            
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse( 
+                'scripts',  
+                'success',
+                'edit-role',
+                $response['message'],
+                'System Info',
+                $response['data']
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());  
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
+    public function updateRole(Request $request) {
+        try {
+            
+            $response = apiHelper()->execute($request, '/api/account/update-role');
+            
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse( 
+                'scripts',
+                'success',
+                'update-role',
+                $response['message'],
+                'System Info',
+                $response['data']
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
+    public function deleteRole(Request $request) {
+        try {
+            $response = apiHelper()->execute($request, '/api/account/delete-role');
+
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse(
+                'scripts',
+                'success',
+                'delete-role',
+                $response['message'],
+                'System Info',
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
+
+    public function updateUserRole(Request $request) {
+        try {
+            $response = apiHelper()->execute($request, '/api/account/update-user-role');
+            
+            if (!$response['status']) {
+                return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+            }
+
+            return globalHelper()->ajaxSuccessResponse( 
+                'scripts',
+                'success',
+                'update-user-role',
+                $response['message'],
+                'System Info',
+                $response['data']
+            );
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return globalHelper()->ajaxErrorResponse($e->getMessage(), '', 'System Error');
+        }
+    }
 }

@@ -176,31 +176,45 @@ function _editExtension(id) {
 }
 
 function _deleteExtension(id) {
-    if (!confirm("Are you sure you want to delete this extension?")) return;
-    $.ajax({
-        url: `/api/extensions/delete/${id}`,
-        method: "POST",
-        headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
-        success: function (res) {
-            if (res.status === "success") {
-                _show_toastr(
-                    "success",
-                    "Extension deleted successfully",
-                    "System Info"
-                );
-                _fetchExtensions();
-            } else {
-                _show_toastr(
-                    "error",
-                    res.message || "Failed to delete extension",
-                    "System Error"
-                );
-            }
-        },
-        error: function () {
-            _show_toastr("error", "Failed to delete extension", "System Error");
-        },
-    });
+    _confirm(
+        "Are you sure you want to delete this extension?",
+        "This action cannot be undone. The extension will be permanently removed.",
+        "warning",
+        "Yes, delete it",
+        true,
+        function () {
+            $.ajax({
+                url: `/api/extensions/delete/${id}`,
+                method: "POST",
+                headers: {
+                    "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content"),
+                },
+                success: function (res) {
+                    if (res.status === "success") {
+                        _show_toastr(
+                            "success",
+                            "Extension deleted successfully",
+                            "System Info"
+                        );
+                        _fetchExtensions();
+                    } else {
+                        _show_toastr(
+                            "error",
+                            res.message || "Failed to delete extension",
+                            "System Error"
+                        );
+                    }
+                },
+                error: function () {
+                    _show_toastr(
+                        "error",
+                        "Failed to delete extension",
+                        "System Error"
+                    );
+                },
+            });
+        }
+    );
 }
 
 function _populateExtensionModal(extension) {

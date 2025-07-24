@@ -24,6 +24,7 @@
     <link href="{{ asset('assets/system/plugins/jquery-asColorPicker-master/css/asColorPicker.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/system/select2/dist/css/select2.min.css') }}" rel="stylesheet">    
     <link href="{{ asset('assets/system/datetime-picker/jquery.datetimepicker.css') }}" rel="stylesheet">
+    <link href="{{ asset('assets/system/plugins/sweetalert/css/sweetalert.css') }}" rel="stylesheet">
     <link href="{{ asset('assets/system/css/style.css') }}" type="text/css" rel="stylesheet">
     <link href="{{ asset('assets/system/css/override.css') }}" type="text/css" rel="stylesheet">
 </head>

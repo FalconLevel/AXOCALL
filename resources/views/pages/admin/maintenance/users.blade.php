@@ -19,6 +19,6 @@
         </div>       
     </div>
 </div>
+@include('components.user-role-modal')
 @include('partials.admin.footer')
-
 <script src="{{ asset('assets/axocall/js/modules/users.js') }}"></script>

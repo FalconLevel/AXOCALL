@@ -153,3 +153,27 @@ function _applyTheme(sTheme) {
         });
     }
 }
+
+function _confirm(
+    title,
+    text,
+    type,
+    confirmButtonText,
+    closeOnConfirm,
+    funcCallback
+) {
+    swal(
+        {
+            title: title,
+            text: text,
+            type: type,
+            showCancelButton: !0,
+            confirmButtonColor: "#DD6B55",
+            confirmButtonText: confirmButtonText,
+            closeOnConfirm: closeOnConfirm,
+        },
+        function () {
+            funcCallback();
+        }
+    );
+}

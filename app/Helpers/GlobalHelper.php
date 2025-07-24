@@ -11,6 +11,7 @@ use App\Models\Keyword;
 use App\Models\Message;
 use App\Models\Otp;
 use App\Models\PhoneNumber;
+use App\Models\Role;
 use App\Models\SettingExtension;
 use App\Models\Tag;
 use App\Models\Theme;
@@ -570,6 +571,16 @@ class GlobalHelper {
         } catch (\Exception $e) {
             logInfo($e->getMessage());
             return '';
+        }
+    }
+
+    public function getRoles() {
+        try {
+            $roles = Role::all();
+            return $roles->toArray();
+        } catch (\Exception $e) {
+            logInfo($e->getMessage());
+            return [];
         }
     }
 }

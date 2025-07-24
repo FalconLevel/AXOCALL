@@ -115,6 +115,12 @@ class ValidatorHelper {
                 return [
                     'theme' => 'required|string',
                 ];
+            case 'account_save_role':
+                return [
+                    'role' => 'required|string|max:255',
+                    'description' => 'nullable|string|max:255',
+                    'permissions' => 'required|string',
+                ];
         }
     }
 }

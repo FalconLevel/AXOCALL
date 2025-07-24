@@ -30,6 +30,12 @@ Route::prefix('account')->group(function () {
         Route::post('/reset-password', [AccountController::class, 'resetPassword']);
         Route::post('/block-user', [AccountController::class, 'blockUser']);
         Route::post('/activate-user', [AccountController::class, 'activateUser']);
+        Route::post('/save-role', [AccountController::class, 'saveRole']);
+        Route::post('/get-roles', [AccountController::class, 'getRoles']);
+        Route::post('/edit-role', [AccountController::class, 'editRole']);
+        Route::post('/update-role', [AccountController::class, 'updateRole']);
+        Route::post('/delete-role', [AccountController::class, 'deleteRole']);
+        Route::post('/update-user-role', [AccountController::class, 'updateUserRole']);
     });
 
     Route::prefix('dashboard')->group(function () {
