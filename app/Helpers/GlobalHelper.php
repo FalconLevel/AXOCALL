@@ -586,7 +586,8 @@ class GlobalHelper {
 
     public function getPermissions() {
         try {
-            return json_decode(User::find(Auth::id())->with('role')->first()->toArray()['role']['permissions'], true);
+            $user = User::find(Auth::id())->with('role')->first();
+            return json_decode(Role::where('role', $user->role)->first()->toArray()['permissions'], true);
         } catch (\Exception $e) {
             logInfo($e->getMessage());
             return [];
