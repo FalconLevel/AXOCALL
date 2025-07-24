@@ -26,8 +26,7 @@ class ContactController extends Controller
             }
             return response()->json([
                 'status' => 'success', 
-                'data' => $contacts,
-                'permissions' => globalHelper()->getPermissions()['contacts'],
+                'data' => $contacts
             ]);
         } catch (\Exception $e) {
             logInfo($e->getMessage());

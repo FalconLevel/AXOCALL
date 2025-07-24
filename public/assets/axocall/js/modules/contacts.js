@@ -5,10 +5,11 @@ $(document).ready(function () {
 
 function _fetchContacts() {
     $.ajax({
-        url: "/api/contacts/all",
+        url: "/executor/contacts/all",
         method: "POST",
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
+            console.log(res);
             if (res.status === "success") {
                 _renderContacts(res.data, res.permissions);
             } else {

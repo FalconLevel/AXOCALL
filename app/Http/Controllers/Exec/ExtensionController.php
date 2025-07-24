@@ -9,13 +9,15 @@ class ExtensionController extends Controller
 {
     public function all(Request $request)
     {
-        // Fetch all extensions, you may want to add pagination or filters as needed
-        $extensions = \App\Models\Extension::orderBy('created_at', 'desc')->get();
+        $response = apiHelper()->execute($request, '/api/extensions/all');
 
-        return response()->json([
-            'status' => 'success',
-            'data' => $extensions
-        ]);
+        if (!$response['status']) {
+            return globalHelper()->ajaxErrorResponse($response['message'], '', 'System Error');
+        }
+
+        $response['permissions'] = globalHelper()->getPermissions()['extensions'];
+
+        return response()->json($response);
     }
 
     public function save(Request $request)

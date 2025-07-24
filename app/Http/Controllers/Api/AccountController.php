@@ -29,10 +29,12 @@ class AccountController extends Controller
 
             $user = User::create($validated['validated']);
             
+            $token = $user->createToken('authToken')->plainTextToken;
             $send_otp = globalHelper()->sendOtp($user);
 
             return response()->json([
                 'status' => true,
+                'access_token' => $token,
                 'token_type' => 'Bearer',
                 'message' => 'Account registered successfully. Please check your email for OTP.',
                 'otp_details' => $send_otp,

@@ -15,7 +15,7 @@ $(document).ready(function () {
 
 function _fetchExtensions() {
     $.ajax({
-        url: "/api/extensions/all",
+        url: "/executor/extensions/all",
         method: "POST",
         headers: { "X-CSRF-TOKEN": $('meta[name="_token"]').attr("content") },
         success: function (res) {
